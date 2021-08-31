@@ -77,28 +77,42 @@ class FailedLogin extends Error {
 // }
 
 
-function brut(minLength = 1, maxLength = 4, arr = arrEn) {
+function brut(minLength = 1, maxLength = 3, arr = arrEn) {
 
 
+    for (let j = minLength; j <= maxLength; j++) {
+        let matrix = setMatrix(j-1);
 
-    console.log("Failed login")
+        for (let i = 0; i < arr.length; i++) {
+            matrix[j] = i
+            if (i === arr.length-1) {
+                matrix[j - 1] = i;
+            }
+            console.log(matrixToString(arr, matrix))
+        }
+
+    }
+
+
 }
 
-const matrix = {
-    0: 0,
-    // 1: 0,
-    // 2: 0,
-    // 3: 2,
-};
+
+function setMatrix(length) {
+    let matrix = {};
+    for (let i = 0; i < length; i++) {
+        matrix[i] = 0
+    }
+    return matrix
+}
 
 function matrixToString(allowedCharacters, matrix) {
     let characters = [];
-    for(let key in matrix) {
+    for (let key in matrix) {
         characters[key] = allowedCharacters[matrix[key]]
     }
 
     return characters.join('');
 }
 
-console.log(matrixToString(arrEn, matrix));
-// console.log(brut())
+// console.log(matrixToString(arrEn, matrix));
+brut()
