@@ -1,15 +1,25 @@
 function login(password) {
-    return password === 'ZZZZZ';
+    return password === 'aZZZZ';
 }
 
 // password: a-zA-Z
+// '**ZZZ+'
 
 const arrEn = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+// brut('**ZZZ+')
+// setMask('**ZZZ+')
 
-function brut(minLength = 1, maxLength = 8, allowedChars = arrEn) {
+function brut(mask = null, minLength = 1, maxLength = 8, allowedChars = arrEn) {
+    if (mask) {
+        mask = setMask(mask);
+        minLength = mask.minLength
+        mask.maxLength ? maxLength = mask.maxLength : maxLength
+    }
     let passwordLength = minLength,
         prevCharPosition = 0;
+
+    console.log(minLength, maxLength)
 
     do {
         let matrix = setMatrix(passwordLength),
@@ -35,6 +45,24 @@ function brut(minLength = 1, maxLength = 8, allowedChars = arrEn) {
     } while (passwordLength <= maxLength);
 
     return null;
+}
+
+function setMask(mask) {
+    let parametrs = {'numberOfUndefinedChar': 0};
+
+    if (mask.indexOf('+') === -1) {
+        parametrs.minLength = mask.length;
+        parametrs.maxLength = mask.length;
+    } else {
+        parametrs.minLength = mask.length - 1;
+    }
+
+    for (let i = 0; i < mask.length; i++) {
+        console.log(mask.split('')[i])
+    }
+
+
+    return parametrs;
 }
 
 function shouldIncrement(matrix, allowedCharsLength) {
@@ -81,8 +109,10 @@ function matrixToString(matrix, allowedCharacters) {
     return characters.join('');
 }
 
-console.time('implementation time');
-console.log(brut('**ZZZ+'));
-console.timeEnd('implementation time');
+
+// console.time('implementation time');
+// console.log(brut());
+// console.timeEnd('implementation time');
+
 
 
