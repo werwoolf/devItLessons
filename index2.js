@@ -1,5 +1,5 @@
 function login(password) {
-    return password === 'asdf';
+    return password === 'zsdW';
 }
 
 // password: a-zA-Z
@@ -11,14 +11,13 @@ const arrEn = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
 
 // console.log(readMask('**ZZZ+'))
 
-function brut(mask = null, minLength = 1, maxLength = 8, allowedChars = arrEn) {
+function brut(mask = null, minLength = 1, maxLength = 5, allowedChars = arrEn) {
     if (mask) {
-        mask = readMask(mask);
-        minLength = mask.minLength;
-        mask.maxLength ? maxLength = mask.maxLength : maxLength;
-        var certainChars = mask.certainChars;
+        const dataMask = readMask(mask);
+        minLength = dataMask.minLength;
+        dataMask.maxLength ? maxLength = dataMask.maxLength : maxLength;
+        var certainChars = dataMask.certainChars;
     }
-
     let passwordLength = minLength,
         prevCharPosition = 0;
 
@@ -26,24 +25,25 @@ function brut(mask = null, minLength = 1, maxLength = 8, allowedChars = arrEn) {
         let matrix = setMatrix(passwordLength, mask, allowedChars),
             password = matrixToString(matrix, allowedChars),
             charPosition;
-
+        console.log(matrix)
         do {
+
             if (login(password)) {
                 return 'Successed login, password :' + password;
             }
 
-            if(mask){
+            if (mask) {
                 charPosition = shouldIncrement(matrix, allowedChars.length, certainChars);
-            }else {
+            } else {
                 charPosition = shouldIncrement(matrix, allowedChars.length);
             }
-
 
             if (charPosition === null) {
                 break;
             }
 
             password = matrixToString(matrix, allowedChars);
+            console.log(password)
             matrix = incrementMatrix(matrix, charPosition, prevCharPosition);
             prevCharPosition = charPosition;
         } while (charPosition != null);
@@ -55,7 +55,7 @@ function brut(mask = null, minLength = 1, maxLength = 8, allowedChars = arrEn) {
 }
 
 function readMask(mask) {
-    let parametrs = {'certainChars':[]};
+    let parametrs = {'certainChars': []};
 
     if (mask.indexOf('+') === -1) {
         parametrs.minLength = mask.length;
@@ -67,7 +67,7 @@ function readMask(mask) {
     for (let i = 0; i < mask.length; i++) {
         if (mask[i] === '*') {
             parametrs.certainChars.push(0)
-        }else if(mask[i] !== '+') {
+        } else if (mask[i] !== '+') {
             parametrs.certainChars.push(1)
         }
     }
@@ -76,11 +76,21 @@ function readMask(mask) {
     return parametrs;
 }
 
-function shouldIncrement(matrix, allowedCharsLength, certainChars=null) {
+function shouldIncrement(matrix, allowedCharsLength, certainChars = null) {
     const keys = Object.keys(matrix);
-    for (let i = keys.length - 1; i >= 0; i--) {
-        if (matrix[i] < allowedCharsLength && certainChars[i] !== 1 ) {
-            return i;
+
+    if (!certainChars) {
+        for (let i = keys.length - 1; i >= 0; i--) {
+            if (matrix[i] < allowedCharsLength) {
+                return i;
+            }
+        }
+    } else {
+        for (let i = keys.length - 1; i >= 0; i--) {
+
+            if (matrix[i] < allowedCharsLength && certainChars[i] !== 1) {
+                return i;
+            }
         }
     }
     return null;
@@ -130,9 +140,15 @@ function matrixToString(matrix, allowedCharacters) {
 
 
 console.time('implementation time');
-console.log(brut());
+console.log(brut('z*d*'));
 console.timeEnd('implementation time');
 
+
+// console.log(setMatrix(3,'z*d+',arrEn))
+// console.log(matrixToString({ '0': 25, '1': 0, '2': 3 },arrEn))
+// console.log(matrixToString({ '0': 25, '1': 0, '2': 3, '3': 0 }
+//     ,arrEn))
+// console.log(matrixToString({ '0': 25, '1': 0, '2': 3, '3': 0, '4': 0 },arrEn))
 
 
 
