@@ -8,11 +8,11 @@ export class Human {
         this.maxAge = maxAge;
     }
 
-    // canPopulate() {
-    //     if(this.age < 18) {
-    //         return false;
-    //     }
-    //
-    //     return this.age % 5 === 0;
-    // }
+    canPopulate() {
+        if(this.age < 18) {
+            return false;
+        }
+
+        return this.age % 5 === 0;
+    }
 }

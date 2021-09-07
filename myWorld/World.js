@@ -25,7 +25,7 @@ class World {
     live() {
         for (let person of this.population) {
             person.age++;
-
+            console.log(person.canPopulate())
             if (person.age > person.maxAge) {
                 this.retirement(person);
                 console.log('death', person.maxAge)

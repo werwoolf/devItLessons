@@ -12,3 +12,12 @@ export function getEyesColor(parentOne, parentTwo) {
 
     return eyesColorList[randomColor];
 }
+
+export function separate(people) {
+    let maleList = [];
+    let femaleList = [];
+
+    for (let person of people) {
+        person.gender === "male" ? maleList.push(person) : femaleList.push(person)
+    }
+}
