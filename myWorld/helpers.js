@@ -8,9 +8,9 @@ export function getEyesColor(parentOne, parentTwo) {
         return parentTwo.eyesColor;
     }
 
-    const randomColor = Math.floor(Math.random() * eyesColorList.length);
+    const randomColorIndex = Math.floor(Math.random() * eyesColorList.length);
 
-    return eyesColorList[randomColor];
+    return eyesColorList[randomColorIndex];
 }
 
 export function separate(people) {
@@ -20,4 +20,26 @@ export function separate(people) {
     for (let person of people) {
         person.gender === "male" ? maleList.push(person) : femaleList.push(person)
     }
+
+    maleList = shuffle(maleList);
+    femaleList = shuffle(femaleList);
+
+    return {maleList,femaleList}
 }
+
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+
