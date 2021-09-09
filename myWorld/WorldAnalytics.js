@@ -9,7 +9,8 @@ export class WorldAnalytics {
     }
 
     calculateAvgAge(population) {
-        return (population.reduce((akkAge, person) => akkAge + person.age, 0) / population.length).toFixed(2);
+        return (population.reduce((akkAge, person) => akkAge + person.age, 0)/
+                population.length).toFixed(2);
     }
 
     getAvgAge() {
@@ -60,3 +61,4 @@ export class WorldAnalytics {
         }
     }
 }
+
