@@ -11,6 +11,7 @@ function connecting() {
 async function getResults(database, count) {
     const connection = await database.connect();
     const results = [];
+
     for (let i = 0; i < count; i++) {
         const result = await connection.getRow(i);
         results.push(result);
