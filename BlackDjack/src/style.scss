@@ -13,6 +13,9 @@ $color: green;
     border-top: 1px solid grey;
     width: 100%;
     height: 200px;
+    h1{
+      padding: 5px;
+    }
   }
 }
 
@@ -62,5 +65,8 @@ $color: green;
   width: 775px;
   height: 376px;
   border: 1px solid red;
+  h2{
+    margin: 5px;
+  }
 }
 
