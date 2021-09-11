@@ -1,5 +1,5 @@
 function login(password) {
-    return password === 'zsdW';
+    return password === 'qsdW';
 }
 
 // password: a-zA-Z
@@ -25,7 +25,7 @@ function brut(mask = null, minLength = 1, maxLength = 5, allowedChars = arrEn) {
         let matrix = setMatrix(passwordLength, mask, allowedChars),
             password = matrixToString(matrix, allowedChars),
             charPosition;
-        console.log(matrix)
+        // console.log(matrix)
         do {
 
             if (login(password)) {
@@ -43,7 +43,6 @@ function brut(mask = null, minLength = 1, maxLength = 5, allowedChars = arrEn) {
             }
 
             password = matrixToString(matrix, allowedChars);
-            console.log(password)
             matrix = incrementMatrix(matrix, charPosition, prevCharPosition);
             prevCharPosition = charPosition;
         } while (charPosition != null);
@@ -103,6 +102,7 @@ function incrementMatrix(matrix, currentIndex, prevIndex) {
     }
     for (let key in matrix) {
         key = parseInt(key, 10);
+        console.log(key)
         if (key === currentIndex) {
             matrix[key] = matrix[currentIndex];
         } else if (key > currentIndex) {
@@ -140,7 +140,7 @@ function matrixToString(matrix, allowedCharacters) {
 
 
 console.time('implementation time');
-console.log(brut('z*d*'));
+console.log(brut('***W'));
 console.timeEnd('implementation time');
 
 
