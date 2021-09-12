@@ -4,10 +4,22 @@ import Game from './scripts/Game.js';
 import Player from './scripts/Player.js';
 
 
-
 const startGameButton = document.querySelector('.startGameButton');
+const takeCardButton = document.querySelector('.takeCardButton');
+const stopGameButton = document.querySelector('.stopGameButton');
 
-startGameButton.addEventListener('click', () => console.log(startGame()))
+let game = null;
+
+startGameButton.addEventListener('click', () => {
+    game = startGame();
+    console.log(game);
+});
+takeCardButton.addEventListener('click', () => {
+    game.activePlayer.getCard(game.cards[0]);
+    console.log(game.activePlayer)
+});
+
+
 
 function startGame() {
 
@@ -18,4 +30,5 @@ function startGame() {
 
     return new Game([playerN1.value, playerN2.value, playerN3.value, playerN4.value]);
 }
+
 

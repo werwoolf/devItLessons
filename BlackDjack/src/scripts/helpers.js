@@ -1,4 +1,6 @@
-export  function setPlayers(players) {
+
+
+export function setPlayers(players) {
     const playerTable1 = document.querySelector('.playerTable.n1');
     const playerTable2 = document.querySelector('.playerTable.n2');
     const playerTable3 = document.querySelector('.playerTable.n3');
@@ -6,12 +8,12 @@ export  function setPlayers(players) {
 
     let playersTable = [playerTable1, playerTable2, playerTable3, playerTable4];
 
-    const playerN1 = document.querySelector('.playerName.n1')
-    const playerN2 = document.querySelector('.playerName.n2')
-    const playerN3 = document.querySelector('.playerName.n3')
-    const playerN4 = document.querySelector('.playerName.n4')
+    const playerName1 = document.querySelector('.playerName.n1')
+    const playerName2 = document.querySelector('.playerName.n2')
+    const playerName3 = document.querySelector('.playerName.n3')
+    const playerName4 = document.querySelector('.playerName.n4')
 
-    let playersList = [playerN1, playerN2, playerN3, playerN4]
+    let playersList = [playerName1, playerName2, playerName3, playerName4]
 
 
     for (let i = 0; i < players.length; i++) {
@@ -34,4 +36,9 @@ export function shuffle(array) {
     }
 
     return array;
+}
+
+export function findMaxRaitingPlayers(players) {
+    const clone = players.map(player=>player)
+    return  clone.sort((a, b) => b.raiting - a.raiting)[0];
 }
