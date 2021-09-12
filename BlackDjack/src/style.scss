@@ -1,0 +1,84 @@
+$color: green;
+
+
+.gameWindow {
+  height: 98vh;
+  background-color: $color;
+  position: relative;
+
+  footer {
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
+    height: 20vh;
+    h1{
+      padding: 5px;
+    }
+  }
+}
+
+.sideBar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20vw;
+  height: 100%;
+
+
+  .buttonContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    right: 5px;
+    top: 200px;
+
+    button {
+      background-color: bisque;
+      height: 35px;
+      margin: 3px;
+    }
+  }
+}
+
+.deckCard {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  img {
+    height: 150px;
+  }
+
+}
+
+.gameTable{
+height: 80vh;
+  width: 78vw;
+}
+
+
+.rowPlayers1, .rowPlayers2 {
+  display: flex;
+}
+
+.playerTable {
+  width: 40vw;
+  height: 376px;
+  border: 1px solid red;
+  display: none;
+  h2{
+    margin: 5px;
+  }
+}
+
+
+.startGameContainer{
+  position: absolute;
+  top:350px;
+  input{
+    margin: 3px;
+  }
+}
