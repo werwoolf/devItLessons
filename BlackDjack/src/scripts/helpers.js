@@ -1,5 +1,3 @@
-
-
 export function setPlayers(players) {
     const playerTable1 = document.querySelector('.playerTable.n1');
     const playerTable2 = document.querySelector('.playerTable.n2');
@@ -39,6 +37,12 @@ export function shuffle(array) {
 }
 
 export function findMaxRaitingPlayers(players) {
-    const clone = players.map(player=>player)
-    return  clone.sort((a, b) => b.raiting - a.raiting)[0];
+    const clone = players.map(player => player)
+    return clone.sort((a, b) => b.raiting - a.raiting)[0];
+}
+
+export function visualCreateCard(cardInfo) {
+    const card = document.createElement('div');
+    card.innerHTML = `${cardInfo.suit} ${cardInfo.name}`
+    return card
 }

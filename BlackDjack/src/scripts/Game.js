@@ -42,6 +42,7 @@ export default class Game {
 
     setCardsCount() {
         this.cardsCount = this.cards.length;
+        cardsCount.innerHTML = "";
         cardsCount.innerHTML = this.cardsCount;
     }
 

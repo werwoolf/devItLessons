@@ -15,7 +15,8 @@ startGameButton.addEventListener('click', () => {
     console.log(game);
 });
 takeCardButton.addEventListener('click', () => {
-    game.activePlayer.getCard(game.cards[0]);
+    game.activePlayer.getCard(game.cards.pop());
+    game.setCardsCount();
     console.log(game.activePlayer)
 });
 
