@@ -22,20 +22,20 @@ export default class Player {
     getCard(cards) {
         this.cards = this.cards.concat(cards);
         this.calculateTotalRaiting();
-        this.writeActualData();
     }
 
     calculateTotalRaiting() {
-        this.raiting = 0;
-        this.cards.forEach(card => this.raiting += card.raiting);
+        this.rating = 0;
+        this.cards.forEach(card => this.rating += card.rating);
         this.writeActualData();
     }
 
     writeActualData() {
-        this.placePlayerRaiting.innerHTML = this.raiting;
+        this.placePlayerRaiting.innerHTML = this.rating;
 
         this.placeStoreCards.innerHTML = '';
-        this.placeStoreCards.innerHTML = this.cards.map(card => visualCreateCard(card).innerHTML);
+
+        this.cards.forEach(card => this.placeStoreCards.appendChild(visualCreateCard(card)));
     }
 
 

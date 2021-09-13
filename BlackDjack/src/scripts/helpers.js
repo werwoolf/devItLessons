@@ -1,26 +1,3 @@
-export function setPlayers(players) {
-    const playerTable1 = document.querySelector('.playerTable.n1');
-    const playerTable2 = document.querySelector('.playerTable.n2');
-    const playerTable3 = document.querySelector('.playerTable.n3');
-    const playerTable4 = document.querySelector('.playerTable.n4');
-
-    let playersTable = [playerTable1, playerTable2, playerTable3, playerTable4];
-
-    const playerName1 = document.querySelector('.playerName.n1')
-    const playerName2 = document.querySelector('.playerName.n2')
-    const playerName3 = document.querySelector('.playerName.n3')
-    const playerName4 = document.querySelector('.playerName.n4')
-
-    let playersList = [playerName1, playerName2, playerName3, playerName4]
-
-
-    for (let i = 0; i < players.length; i++) {
-        playersTable[i].style.display = 'inline';
-        playersList[i].innerHTML = players[i].name;
-    }
-
-}
-
 export function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -37,12 +14,34 @@ export function shuffle(array) {
 }
 
 export function findMaxRaitingPlayers(players) {
-    const clone = players.map(player => player)
-    return clone.sort((a, b) => b.raiting - a.raiting)[0];
+    const clone = players.map(player => player);
+    return clone.sort((a, b) => b.rating - a.rating);
+}
+
+export function separatePlayers(players) {
+    const listRaitingUnder21 = [];
+    const listRaitingUpper21 = [];
+
+    players.forEach(player => player.rating <= 21 ? listRaitingUnder21.push(player) : listRaitingUpper21.push(player));
+
+
+    return {listRaitingUnder21,listRaitingUpper21};
 }
 
 export function visualCreateCard(cardInfo) {
     const card = document.createElement('div');
-    card.innerHTML = `${cardInfo.suit} ${cardInfo.name}`
-    return card
+    const imageSuit = document.createElement('img');
+    imageSuit.src = `./src/images/cardSuits/${cardInfo.suit}.png`;
+
+    card.innerHTML = `${cardInfo.name}`;
+    card.appendChild(imageSuit);
+    card.classList.add('card');
+
+    return card;
+}
+
+export function writeMessage(message) {
+    const messageWindow = document.querySelector('.messageWindow');
+    messageWindow.innerHTML = message;
+
 }

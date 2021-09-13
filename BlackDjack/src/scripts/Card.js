@@ -1,7 +1,7 @@
 export  default class Card {
-    constructor({suit, raiting, name}) {
+    constructor({suit, rating, name}) {
         this.suit = suit;
-        this.raiting = raiting;
+        this.rating = rating;
         this.name = name;
     }
 }

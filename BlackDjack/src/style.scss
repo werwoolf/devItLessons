@@ -12,7 +12,8 @@ $color: green;
 
     width: 100%;
     height: 20vh;
-    h1{
+
+    h1 {
       padding: 5px;
     }
   }
@@ -22,13 +23,13 @@ $color: green;
   position: absolute;
   right: 0;
   top: 0;
-  width: 20vw;
+  width: 20%;
   height: 100%;
 
 
   .buttonContainer {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     width: 100%;
 
@@ -54,8 +55,8 @@ $color: green;
 
 }
 
-.gameTable{
-height: 80vh;
+.gameTable {
+  height: 80vh;
   width: 78vw;
 }
 
@@ -65,20 +66,32 @@ height: 80vh;
 }
 
 .playerTable {
-  width: 40vw;
+  width: 50%;
   height: 376px;
   border: 1px solid red;
   display: none;
-  h2{
+
+  h2 {
     margin: 5px;
   }
 }
 
 
-.startGameContainer{
+.startGameContainer {
   position: absolute;
-  top:350px;
-  input{
+  top: 350px;
+
+  input {
     margin: 3px;
   }
+}
+
+.card {
+  height: 100px;
+  width: 70px;
+  background: white;
+  margin: 5px;
+  border-radius: 2px;
+  display: inline-block;
+
 }
