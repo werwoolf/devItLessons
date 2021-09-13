@@ -1,34 +1,42 @@
 import './style.scss';
 import Game from './scripts/Game.js';
+import {visualCreateCard} from './scripts/helpers.js';
 
 const startGameButton = document.querySelector('.startGameButton');
 const takeCardButton = document.querySelector('.takeCardButton');
 const stopGameButton = document.querySelector('.stopGameButton');
 
+const cardsCount = document.querySelector('.cardsCount');
+const containerButton = document.querySelector('.buttonContainer');
+const startGameContainer = document.querySelector('.startGameContainer');
+const playerTables = document.querySelectorAll('.playerTable');
+
 let game = null;
 
 startGameButton.addEventListener('click', () => {
     game = startGame();
-    console.log(game);
+    actuallyVisual(game)
 });
 
 takeCardButton.addEventListener('click', () => {
-
     if (!game.activePlayer || game.activePlayer.rating > 20) {
+        actuallyVisual(game)
         return game.passPlayer();
     }
 
     game.activePlayer.getCard(game.cards.pop());
 
     if (!game.activePlayer || game.activePlayer.rating > 20) {
+        actuallyVisual(game)
         return game.passPlayer();
     }
-    game.setCardsCount();
-
+    actuallyVisual(game)
 });
 
 stopGameButton.addEventListener('click', () => {
     game.passPlayer();
+    actuallyVisual(game)
+
 });
 
 
@@ -44,8 +52,11 @@ function startGame() {
     return new Game(players);
 }
 
+function actuallyVisual(game) {
+    console.log(game)
+    const playerTables = document.querySelectorAll('.')
+    cardsCount.innerHTML = game.cards.length;
 
 
 
-
-setTimeout(()=> , 100)
+}
