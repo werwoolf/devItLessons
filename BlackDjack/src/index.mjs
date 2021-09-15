@@ -1,6 +1,6 @@
 import './style.scss';
-import Game from './scripts/Game.js';
-import {visualCreateCard, writeMessage} from './scripts/helpers.js';
+import Game from './scripts/Game.mjs';
+import {visualCreateCard, writeMessage} from './scripts/helpers.mjs';
 
 
 const startGameButton = document.querySelector('.startGameButton');

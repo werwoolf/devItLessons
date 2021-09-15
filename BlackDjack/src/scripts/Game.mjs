@@ -1,15 +1,12 @@
-import Card from './Card.js';
-import Player from './Player.js';
-import {shuffle, findMaxRaitingPlayers, separatePlayers} from './helpers.js';
+import Card from './Card.mjs';
+import Player from './Player.mjs';
+import {shuffle, findMaxRaitingPlayers, separatePlayers} from './helpers.mjs';
 
 const listCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Lady', 'King', 'Ace'];
 const listSuits = ['club', 'diamond', 'heart', 'spade'];
 
-const playerTables = document.querySelectorAll('.playerTable');
-
 export default class Game {
     constructor(players) {
-        playerTables.forEach(table => table.style.display = 'none');
         this.activeGame = true;
         this.cards = this.cardGenerate();
         this.players = this.playersGenerate(players);
@@ -75,7 +72,6 @@ export default class Game {
         this.activeGame = false;
 
         if (listHave21.length) {
-            playerTables.forEach(table => table.style.display = 'none')
             winner = listHave21;
             return (`${winner} is Winner`);
         }
