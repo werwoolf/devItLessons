@@ -1,6 +1,7 @@
 import './style.scss';
 import Game from './scripts/Game.js';
-import {visualCreateCard} from './scripts/helpers.js';
+import {visualCreateCard, writeMessage} from './scripts/helpers.js';
+
 
 const startGameButton = document.querySelector('.startGameButton');
 const takeCardButton = document.querySelector('.takeCardButton');
@@ -9,34 +10,37 @@ const stopGameButton = document.querySelector('.stopGameButton');
 const cardsCount = document.querySelector('.cardsCount');
 const containerButton = document.querySelector('.buttonContainer');
 const startGameContainer = document.querySelector('.startGameContainer');
-const playerTables = document.querySelectorAll('.playerTable');
+const playersTables = document.querySelectorAll('.playerTable');
+const placeStoreCards = document.querySelectorAll(`.placeStoreCards`);
+const playersRatings = document.querySelectorAll('.playerRaiting')
+const placesPlayerNames = document.querySelectorAll(`.playerName`);
 
 let game = null;
 
 startGameButton.addEventListener('click', () => {
     game = startGame();
+    writeMessage(`now step ${game.activePlayer.name}`);
     actuallyVisual(game)
 });
 
 takeCardButton.addEventListener('click', () => {
     if (!game.activePlayer || game.activePlayer.rating > 20) {
         actuallyVisual(game)
-        return game.passPlayer();
+        return writeMessage(game.passPlayer());
     }
 
     game.activePlayer.getCard(game.cards.pop());
 
     if (!game.activePlayer || game.activePlayer.rating > 20) {
         actuallyVisual(game)
-        return game.passPlayer();
+        return writeMessage(game.passPlayer());
     }
     actuallyVisual(game)
 });
 
 stopGameButton.addEventListener('click', () => {
-    game.passPlayer();
+    writeMessage(game.passPlayer());
     actuallyVisual(game)
-
 });
 
 
@@ -53,10 +57,21 @@ function startGame() {
 }
 
 function actuallyVisual(game) {
-    console.log(game)
-    const playerTables = document.querySelectorAll('.')
+    if (game.activeGame) {
+        containerButton.style.display = 'flex';
+        startGameContainer.style.display = 'none';
+    } else {
+        containerButton.style.display = 'none';
+        startGameContainer.style.display = 'block';
+    }
+
+    game.players.forEach((player, index) => {
+        playersTables[index].style.display = 'inline-block';
+        placeStoreCards[index].innerHTML = '';
+        player.cards.forEach(card => placeStoreCards[index].appendChild(visualCreateCard(card)));
+        playersRatings[index].innerHTML = player.rating;
+        placesPlayerNames[index].innerHTML = player.name;
+    });
+
     cardsCount.innerHTML = game.cards.length;
-
-
-
 }
