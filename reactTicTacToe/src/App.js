@@ -1,15 +1,10 @@
 import React from "react";
-import Square from "./compoonents/square.js";
+import Square from "./compoonents/Square.js";
 import './styles.scss'
 import {connect} from "react-redux";
 
-import {add0} from "./store/actions.js";
-import {addX} from "./store/actions.js";
-
-
 const App = ({stateGameField}) => {
 
-    console.log(stateGameField)
     return (
         <div className='wrapper'>
             <Square value={stateGameField[0]} id={0}/>
@@ -28,8 +23,5 @@ const App = ({stateGameField}) => {
 };
 
 const mapStateToProps = stateGameField => stateGameField;
-const mapDispatchToProps = dispatch =>{
-        addX()
-    };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

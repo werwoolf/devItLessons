@@ -1,9 +1,10 @@
-export default function todos(state = [], action) {
+export default function todos(state , action) {
     switch (action.type) {
         case 'ADD_0':
-            return state.stateGameField[i] = 0;
+            console.log(stateGameField)
+            return state.stateGameField[action.payload.id] = 0;
         case 'ADD_X':
-            return state.stateGameField[i] = 'X';
+            return state.stateGameField[action.payload.id] = 'X';
 
         default:
             return state
