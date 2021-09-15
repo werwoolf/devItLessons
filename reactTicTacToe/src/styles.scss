@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.square {
+  height: 100px;
+  border: 2px solid black;
+}
+
+.wrapper{
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 3px;
+  width: 300px;
+  height: 100px;
+  position: absolute;
+  left: 35%;
+  top: 15%;
+}
