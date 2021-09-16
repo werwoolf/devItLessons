@@ -3,12 +3,11 @@ import {add} from "../store/actions.js";
 import {connect} from "react-redux";
 
 const Square = ({value, id, add}) => {
-
-    const click = useCallback(()=>{
-        if(value === ''){
+    const click = useCallback(() => {
+        if (value === '') {
             add(id)
         }
-    },[value])
+    }, [value])
 
     return (
         <button className='square' onClick={click}>
@@ -17,9 +16,6 @@ const Square = ({value, id, add}) => {
     );
 };
 
-
-
-
 const mapDispatchToProps = dispatch => {
     return {
         add: (id) => dispatch(add(id)),
@@ -27,7 +23,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-    return{
+    return {
         currentStep: state.currentStep
     }
 }

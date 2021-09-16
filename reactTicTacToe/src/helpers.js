@@ -22,12 +22,17 @@ export function checkWinner(arrGameField) {
                 if (variableWinner[k][i] !== '' && variableWinner[k][i] === arrGameField[i]) {
                     point++;
                     if (point === 3) {
-                        return `WINNER ${player}`;
+                        return player;
                     }
                 }
             }
         }
     }
 
-    return null
+    if (arrGameField.indexOf('') === -1){
+         return 'draw'
+    }
+
+
+        return null
 }

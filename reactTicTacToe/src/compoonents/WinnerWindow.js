@@ -1,25 +1,25 @@
 import React from 'react';
-import '../styles.scss';
 import {connect} from "react-redux";
-import {defaultState} from '../store/actions.js'
+import {resetState} from '../store/actions.js'
+import '../styles.scss';
 
-const WinnerWindow = ({winner, defaultState}) => {
-
+const WinnerWindow = ({winner, resetState}) => {
     return (
         <div className='WinnerWindow'>
             <div>
-                {winner}
+                Winner is <strong>"{winner}"</strong>
             </div>
-            <button onClick={()=>{
-                defaultState()
-            }}> New Game</button>
+            <button onClick={resetState}>
+                New Game
+            </button>
         </div>
     );
 };
 
 const mapDispatchToProps = {
-    defaultState,
+    resetState,
 }
+
 const mapStateToProps = state => {
     return {
         winner: state.winner

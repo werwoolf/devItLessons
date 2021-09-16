@@ -1,9 +1,3 @@
-export const defaultState = {
-    stateGameField: ['', '', '', '', '', '', '', '', ''],
-    currentStep: 'X',
-    winner: null
-};
-
-export const add_char = 'add_char';
-export const add_winner = 'add_winner';
-
+export const ADD_CHAR = 'add_char';
+export const ADD_WINNER = 'add_winner';
+export const RESET_STATE = 'reset_state';

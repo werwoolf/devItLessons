@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 import {checkWinner} from "./helpers.js";
 import {addWinner} from "./store/actions.js";
 
-
 const App = ({stateGameField, currentStep, winner, addWinner}) => {
     const newWinner = useMemo(
         () => checkWinner(stateGameField),
@@ -25,7 +24,6 @@ const App = ({stateGameField, currentStep, winner, addWinner}) => {
         {!winner && <div>
             <div className='currentStep'>current step : {currentStep} </div>
             <div className='wrapper'>
-
                 <Square value={stateGameField[0]} id={0}/>
                 <Square value={stateGameField[1]} id={1}/>
                 <Square value={stateGameField[2]} id={2}/>
@@ -38,14 +36,10 @@ const App = ({stateGameField, currentStep, winner, addWinner}) => {
                 <Square value={stateGameField[7]} id={7}/>
                 <Square value={stateGameField[8]} id={8}/>
             </div>
-
         </div>}
-
         {winner && <WinnerWindow/>}
-
     </>
 }
-
 
 const mapDispatchToProps = {
     addWinner,

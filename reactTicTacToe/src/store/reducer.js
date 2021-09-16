@@ -1,33 +1,39 @@
-import {defaultState,add_char,add_winner} from './constants.js'
+import {ADD_CHAR, ADD_WINNER, RESET_STATE} from './constants.js'
+
+const defaultState = {
+    stateGameField: ['', '', '', '', '', '', '', '', ''],
+    currentStep: 'X',
+    winner: null
+};
 
 export default function todos(state = defaultState, action) {
     switch (action.type) {
-        case add_char:
-            let char, nextStep = null;
+        case ADD_CHAR:
+            let nextStep = null;
 
             if (state.currentStep === "X") {
-                char = 'X';
                 nextStep = '0';
             } else {
-                char = "0";
                 nextStep = 'X';
             }
 
-            let newGameField = state.stateGameField.map(square => square)
-            newGameField.splice([action.payload.id], 1, char)
+            let stateGameField = [...state.stateGameField];
+            stateGameField[action.payload.id] = state.currentStep;
 
             return {
                 ...state,
-                stateGameField: newGameField,
+                stateGameField,
                 currentStep: nextStep
             }
-        case  add_winner:
+
+        case  ADD_WINNER:
             return {
                 ...state,
                 winner: action.payload.winner
             }
-        // case : 'default'
 
+        case  RESET_STATE:
+            return defaultState;
 
         default:
             return state
