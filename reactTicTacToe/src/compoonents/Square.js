@@ -1,23 +1,36 @@
-import React from 'react';
-import {add0, addX} from "../store/actions.js";
+import React, {useCallback} from 'react';
+import {add} from "../store/actions.js";
 import {connect} from "react-redux";
 
-const Square = ({value,id, add0, addX,stateGameField}) => {
+const Square = ({value, id, add}) => {
+
+    const click = useCallback(()=>{
+        if(value === ''){
+            add(id)
+        }
+    },[value])
+
     return (
-        <button className='square' onClick={()=>add0(stateGameField,id)}>
+        <button className='square' onClick={click}>
             {value}
         </button>
     );
 };
 
 
+
+
 const mapDispatchToProps = dispatch => {
     return {
-        add0: (id) => dispatch(add0(id)),
-        addX: (id) => dispatch(addX(id))
+        add: (id) => dispatch(add(id)),
     }
 };
 
-export const mapStateToProps = stateGameField => stateGameField;
+const mapStateToProps = state => {
+    return{
+        currentStep: state.currentStep
+    }
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(Square);
 

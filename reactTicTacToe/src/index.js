@@ -5,8 +5,7 @@ import {Provider} from 'react-redux'
 import {createStore} from "redux";
 import todos from "./store/reducer.js"
 
-const store = createStore(todos,
-    {stateGameField: ['1', '', '', '0', '', '', '', '', ''], currentStep: 'X'})
+const store = createStore(todos)
 
 reactDOM.render(
     <Provider store={store}>
