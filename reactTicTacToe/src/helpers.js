@@ -29,10 +29,9 @@ export function checkWinner(arrGameField) {
         }
     }
 
-    if (arrGameField.indexOf('') === -1){
-         return 'draw'
+    if (arrGameField.indexOf('') === -1) {
+        return 'dead heat';
     }
 
-
-        return null
+    return null;
 }

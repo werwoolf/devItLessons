@@ -1,4 +1,5 @@
-import {ADD_CHAR, ADD_WINNER, RESET_STATE} from './constants.js'
+import {ADD_CHAR, RESET_STATE} from './constants.js'
+import {checkWinner} from "../helpers.js";
 
 const defaultState = {
     stateGameField: ['', '', '', '', '', '', '', '', ''],
@@ -23,13 +24,8 @@ export default function todos(state = defaultState, action) {
             return {
                 ...state,
                 stateGameField,
-                currentStep: nextStep
-            }
-
-        case  ADD_WINNER:
-            return {
-                ...state,
-                winner: action.payload.winner
+                currentStep: nextStep,
+                winner: checkWinner(stateGameField)
             }
 
         case  RESET_STATE:
