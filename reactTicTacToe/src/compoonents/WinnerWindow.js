@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {resetState} from '../store/actions.js'
+import {createStructuredSelector} from "reselect";
+import {winner} from "../store/selectors.js";
 import '../styles.scss';
 
 const WinnerWindow = ({winner, resetState}) => {
@@ -16,14 +18,8 @@ const WinnerWindow = ({winner, resetState}) => {
     );
 };
 
-const mapDispatchToProps = {
-    resetState,
-}
+const mapDispatchToProps = {resetState};
 
-const mapStateToProps = state => {
-    return {
-        winner: state.winner
-    }
-}
+const mapStateToProps = createStructuredSelector({winner});
 
-export default connect(mapStateToProps, mapDispatchToProps)(WinnerWindow)
+export default connect(mapStateToProps, mapDispatchToProps)(WinnerWindow);

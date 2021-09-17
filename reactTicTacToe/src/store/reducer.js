@@ -1,5 +1,6 @@
-import {ADD_CHAR, RESET_STATE} from './constants.js'
 import {checkWinner} from "../helpers.js";
+import {handleActions} from 'redux-actions';
+import {add, resetState} from "./actions.js";
 
 const defaultState = {
     stateGameField: ['', '', '', '', '', '', '', '', ''],
@@ -7,31 +8,24 @@ const defaultState = {
     winner: null
 };
 
-export default function todos(state = defaultState, action) {
-    switch (action.type) {
-        case ADD_CHAR:
-            let nextStep = null;
+const handleAddChar = (state, action) => {
+    let stateGameField = [...state.stateGameField];
+    stateGameField[action.payload.id] = state.currentStep;
 
-            if (state.currentStep === "X") {
-                nextStep = '0';
-            } else {
-                nextStep = 'X';
-            }
-
-            let stateGameField = [...state.stateGameField];
-            stateGameField[action.payload.id] = state.currentStep;
-
-            return {
-                ...state,
-                stateGameField,
-                currentStep: nextStep,
-                winner: checkWinner(stateGameField)
-            }
-
-        case  RESET_STATE:
-            return defaultState;
-
-        default:
-            return state
+    return {
+        ...state,
+        stateGameField,
+        currentStep: state.currentStep === "X" ? '0' : 'X',
+        winner: checkWinner(stateGameField)
     }
 }
+
+const handleReset = () => defaultState;
+
+export const todos = handleActions(
+    {
+        [add]: handleAddChar,
+        [resetState]: handleReset
+    },
+    defaultState
+);

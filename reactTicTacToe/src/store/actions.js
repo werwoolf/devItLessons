@@ -1,9 +1,5 @@
-import {ADD_CHAR, RESET_STATE} from './constants.js'
+import {createAction} from "redux-actions";
 
-export function add(id) {
-    return {type: ADD_CHAR, payload: {id}}
-}
+export const add = createAction('ADD_CHAR', (id) => ({id}));
 
-export function resetState() {
-    return {type: RESET_STATE}
-}
+export const resetState = createAction('RESET_STATE');
