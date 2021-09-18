@@ -8,9 +8,11 @@ const listSuits = ['club', 'diamond', 'heart', 'spade'];
 export default class Game {
     constructor(players) {
         this.activeGame = true;
+        this.winner = null;
         this.cards = this.cardGenerate();
         this.players = this.playersGenerate(players);
         this.firstDealCards();
+
 
         this.canStep = this.players.filter(player => player.rating < 21);
 
@@ -65,24 +67,23 @@ export default class Game {
     }
 
     endGame() {
-        let winner = null;
         let listHave21 = [];
         findMaxRaitingPlayers(this.players);
         this.players.forEach(player => player.rating === 21 ? listHave21.push(player.name) : player);
         this.activeGame = false;
 
         if (listHave21.length) {
-            winner = listHave21;
-            return (`${winner} is Winner`);
+            this.winner = listHave21;
+            return (`${this.winner} is Winner`);
         }
 
         if (separatePlayers(this.players).listRaitingUnder21.length) {
-            winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUnder21[0].name;
-            return `${winner} is Winner`;
+            this.winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUnder21[0].name;
+            return `${this.winner} is Winner`;
         }
 
-        winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUpper21.reverse()[0].name;
+        this.winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUpper21.reverse()[0].name;
 
-        return `${winner} is Winner`;
+        return `${this.winner} is Winner`;
     }
 }

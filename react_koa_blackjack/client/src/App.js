@@ -1,12 +1,14 @@
 import React from 'react';
-import AddPlayersForm from "./components/AddPlayersForm.js";
-import BlockGameActionsButtons from "./components/BlockGameActionsButtons";
+import SideBlock from "./components/SideBlock";
+import Footer from "./components/Footer";
+import GameField from "./components/GameField";
 
 const App = () => {
     return (
-        <div>
-          <AddPlayersForm/>
-            <BlockGameActionsButtons/>
+        <div className='container'>
+            <GameField/>
+            <Footer/>
+            <SideBlock/>
         </div>
     );
 };
