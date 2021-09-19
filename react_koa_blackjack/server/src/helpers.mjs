@@ -40,8 +40,7 @@ export function getWinner(players) {
     }
 
     if (separatePlayers(players).listUnder21.length) {
-
-        listUnder21.push(separatePlayers(players).listUnder21[0])
+        listUnder21.push(findMaxRaitingPlayers(separatePlayers(players).listUnder21)[0]);
 
         separatePlayers(findMaxRaitingPlayers(players)).listUnder21.forEach((player, index) => {
             if (player.rating === listUnder21[0].rating && player !== listUnder21[0]) {
