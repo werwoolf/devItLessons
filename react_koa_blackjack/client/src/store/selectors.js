@@ -13,7 +13,9 @@ export const players = state => {
 export const winner = state =>  state.winner;
 export const activeGame = state =>  state.activeGame;
 export const activePlayer = state =>  state.activePlayer;
-export const message = state =>  state.message;
+export const message = state => state.message;
+export const gameState = state => state;
+
 
 
 

@@ -19,29 +19,46 @@ export function findMaxRaitingPlayers(players) {
 }
 
 export function separatePlayers(players) {
-    const listRaitingUnder21 = [];
-    const listRaitingUpper21 = [];
+    const listUnder21 = [];
+    const listUpper21 = [];
 
-    players.forEach(player => player.rating <= 21 ? listRaitingUnder21.push(player) : listRaitingUpper21.push(player));
+    players.forEach(player => player.rating < 21 ? listUnder21.push(player) : listUpper21.push(player));
 
 
-    return {listRaitingUnder21,listRaitingUpper21};
+    return {listUnder21, listUpper21};
 }
 
-export function visualCreateCard(cardInfo) {
-    const card = document.createElement('div');
-    const imageSuit = document.createElement('img');
-    imageSuit.src = `./src/images/cardSuits/${cardInfo.suit}.png`;
+export function getWinner(players) {
+    const listHave21 = [];
+    const listUnder21 = [];
+    const listUpper21 = [];
 
-    card.innerHTML = `${cardInfo.name}`;
-    card.appendChild(imageSuit);
-    card.classList.add('card');
+    players.forEach(player => player.rating === 21 ? listHave21.push(player) : player);
 
-    return card;
-}
+    if (listHave21.length) {
+        return listHave21;
+    }
 
-export function writeMessage(message) {
-    const messageWindow = document.querySelector('.messageWindow');
-    messageWindow.innerHTML = message;
+    if (separatePlayers(players).listUnder21.length) {
 
+        listUnder21.push(separatePlayers(players).listUnder21[0])
+
+        separatePlayers(findMaxRaitingPlayers(players)).listUnder21.forEach((player, index) => {
+            if (player.rating === listUnder21[0].rating && player !== listUnder21[0]) {
+                listUnder21.push(player)
+            }
+        })
+
+        return listUnder21;
+    }
+
+    listUpper21.push(separatePlayers(players).listUpper21.reverse()[0])
+
+    separatePlayers(findMaxRaitingPlayers(players)).listUpper21.forEach((player, index) => {
+        if (player.rating === listUpper21[0].rating && player !== listUpper21[0]) {
+            listUpper21.push(player)
+        }
+    })
+
+    return listUpper21;
 }

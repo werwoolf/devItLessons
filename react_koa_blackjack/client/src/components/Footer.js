@@ -1,18 +1,20 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
-import {activePlayer} from "../store/selectors";
+import {activePlayer, message} from "../store/selectors";
 
 
-const Footer = ({activePlayer}) => {
+const Footer = ({activePlayer, message}) => {
     return (
         <div className='footer'>
             {activePlayer && <div><h2>Now Step : </h2><h1>{activePlayer.name}</h1></div>}
+            {message && <h1>{message}</h1>}
+            {!activePlayer && !message && <h2>For starting game type names players and click button "START GAME"</h2>}
         </div>
     );
 };
 
 
-const mapStateToProps = createStructuredSelector({activePlayer});
+const mapStateToProps = createStructuredSelector({activePlayer, message});
 
 export default connect(mapStateToProps)(Footer);

@@ -4,18 +4,18 @@ import backCard from '../images/backCard.jpeg'
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
 import {cardsCount} from "../store/selectors";
-import {getGame} from "../store/actions";
+import {setGame} from "../store/actions";
 
-const BlockGameActionsButtons = ({cardsCount, getGame}) => {
+const BlockGameActionsButtons = ({cardsCount, setGame}) => {
 
     async function getCard() {
         const game = (await axios.get('http://localhost:3000/getcard')).data;
-        getGame(game)
+        setGame(game)
     }
 
     async function passStep() {
         let game = (await axios.get('http://localhost:3000/pass')).data
-        getGame(game)
+        setGame(game)
     }
 
     return (
@@ -29,7 +29,6 @@ const BlockGameActionsButtons = ({cardsCount, getGame}) => {
 };
 
 const mapStateToProps = createStructuredSelector({cardsCount})
-const mapDispatchToProps = {getGame}
+const mapDispatchToProps = {setGame}
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlockGameActionsButtons);
-

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {connect} from "react-redux";
-import {getGame, addMessage} from "../store/actions";
+import {setGame, addMessage} from "../store/actions";
 import {createStructuredSelector} from "reselect";
 import {message} from "../store/selectors";
 
-const AddPlayersForm = ({getGame, addMessage,message}) => {
+const AddPlayersForm = ({setGame, addMessage}) => {
     const [players, setPlayers] = useState(['', '', '', '']);
 
     async function startGame(players) {
@@ -13,14 +13,11 @@ const AddPlayersForm = ({getGame, addMessage,message}) => {
             players = players.filter(player => player)
             const game = (await axios.post('http://localhost:3000/start', players)).data;
             if (typeof game === 'string') {
-                console.log(game)
                 throw game
             }
-            getGame(game)
+            setGame(game)
         } catch (e) {
-            console.log(e)
             addMessage(e)
-            console.log(message)
         }
     }
 
@@ -47,7 +44,7 @@ const AddPlayersForm = ({getGame, addMessage,message}) => {
     );
 };
 
-const mapDispatchToProps = {getGame, addMessage};
+const mapDispatchToProps = {setGame, addMessage};
 const mapStateToProps = createStructuredSelector({message})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPlayersForm);

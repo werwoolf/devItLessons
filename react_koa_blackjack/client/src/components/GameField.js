@@ -13,14 +13,12 @@ const GameField = ({players, winner}) => {
         playerTables = players.map((player, index) => <PlayerTable player={player} key={index}/>)
     }
 
-    return (
-        <div className='gameField'>
-            {players && !winner && playerTables}
-            {winner && winner.map(player => <WinnerTable player={player} />)}
-                </div>
-                );
-            };
+    return <div className='gameField'>
+        {players && !winner && playerTables}
+        {winner && winner.map((player, index) => <WinnerTable player={player} key={index}/>)}
+    </div>;
+};
 
-            const mapStateToProps = createStructuredSelector({players, winner})
+const mapStateToProps = createStructuredSelector({players, winner})
 
-            export default connect(mapStateToProps)(GameField);
+export default connect(mapStateToProps)(GameField);

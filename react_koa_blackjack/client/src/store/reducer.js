@@ -1,17 +1,17 @@
-import {getGame, addMessage} from "./actions";
+import {setGame, addMessage} from "./actions";
 import {handleActions} from 'redux-actions';
 
 
-const defaultState={};
+const defaultState = {};
 
 const handleActualGame = (state, action) => {
     return {...action.payload}
 }
 const handleMessage = (state, action) => {
-    return {...state,...action.payload}
+   return  {message:action.payload}
 }
 
 export const reducer = handleActions({
-    [getGame]: handleActualGame,
+    [setGame]: handleActualGame,
     [addMessage]: handleMessage
 }, defaultState)

@@ -1,6 +1,6 @@
 import Card from './Card.mjs';
 import Player from './Player.mjs';
-import {shuffle, findMaxRaitingPlayers, separatePlayers} from './helpers.mjs';
+import {shuffle, findMaxRaitingPlayers, getWinner} from './helpers.mjs';
 
 const listCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Lady', 'King', 'Ace'];
 const listSuits = ['club', 'diamond', 'heart', 'spade'];
@@ -12,7 +12,6 @@ export default class Game {
         this.cards = this.cardGenerate();
         this.players = this.playersGenerate(players);
         this.firstDealCards();
-
 
         this.canStep = this.players.filter(player => player.rating < 21);
 
@@ -62,27 +61,11 @@ export default class Game {
         }
 
         return `now step ${this.activePlayer.name}`;
-
-
     }
 
     endGame() {
-        let listHave21 = [];
-        findMaxRaitingPlayers(this.players);
-        this.players.forEach(player => player.rating === 21 ? listHave21.push(player) : player);
+        this.winner = getWinner(this.players);
         this.activeGame = false;
-
-        if (listHave21.length) {
-            this.winner = listHave21;
-            return (`${this.winner} is Winner`);
-        }
-
-        if (separatePlayers(this.players).listRaitingUnder21.length) {
-            this.winner = [separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUnder21[0]];
-            return `${this.winner} is Winner`;
-        }
-
-        this.winner = [separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUpper21.reverse()[0]];
 
         return `${this.winner} is Winner`;
     }
