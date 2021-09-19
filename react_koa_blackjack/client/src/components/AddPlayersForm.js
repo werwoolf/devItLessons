@@ -1,17 +1,27 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {connect} from "react-redux";
-import {getGame} from "../store/actions";
+import {getGame, addMessage} from "../store/actions";
 import {createStructuredSelector} from "reselect";
-import {cardsCount} from "../store/selectors";
+import {message} from "../store/selectors";
 
-const AddPlayersForm = ({getGame,cardsCount}) => {
+const AddPlayersForm = ({getGame, addMessage,message}) => {
     const [players, setPlayers] = useState(['', '', '', '']);
 
     async function startGame(players) {
-        players = players.filter(player => player)
-        const game  = (await axios.post('http://localhost:3000/start', players)).data;
-        getGame(game)
+        try {
+            players = players.filter(player => player)
+            const game = (await axios.post('http://localhost:3000/start', players)).data;
+            if (typeof game === 'string') {
+                console.log(game)
+                throw game
+            }
+            getGame(game)
+        } catch (e) {
+            console.log(e)
+            addMessage(e)
+            console.log(message)
+        }
     }
 
     return (
@@ -37,8 +47,7 @@ const AddPlayersForm = ({getGame,cardsCount}) => {
     );
 };
 
-const mapStateToProps = createStructuredSelector({cardsCount})
+const mapDispatchToProps = {getGame, addMessage};
+const mapStateToProps = createStructuredSelector({message})
 
-const mapDispatchToProps={getGame}
-
-export default connect(mapStateToProps,mapDispatchToProps) (AddPlayersForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddPlayersForm);

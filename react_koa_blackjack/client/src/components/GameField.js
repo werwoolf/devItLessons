@@ -2,24 +2,25 @@ import React from 'react';
 import PlayerTable from "./PlayerTable";
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
-import {players} from "../store/selectors";
+import {players, winner} from "../store/selectors";
+import WinnerTable from "./WinnerTable";
 
-const GameField = ({players}) => {
+const GameField = ({players, winner}) => {
 
     let playerTables = null;
 
     if (players) {
-        console.log(players)
-        playerTables = players.map((player, index) => <PlayerTable player = {player} key={index}/>)
+        playerTables = players.map((player, index) => <PlayerTable player={player} key={index}/>)
     }
 
     return (
         <div className='gameField'>
-            {players && playerTables}
-        </div>
-    );
-};
+            {players && !winner && playerTables}
+            {winner && winner.map(player => <WinnerTable player={player} />)}
+                </div>
+                );
+            };
 
-const mapStateToProps = createStructuredSelector({players})
+            const mapStateToProps = createStructuredSelector({players, winner})
 
-export default connect(mapStateToProps)(GameField);
+            export default connect(mapStateToProps)(GameField);

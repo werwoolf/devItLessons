@@ -69,7 +69,7 @@ export default class Game {
     endGame() {
         let listHave21 = [];
         findMaxRaitingPlayers(this.players);
-        this.players.forEach(player => player.rating === 21 ? listHave21.push(player.name) : player);
+        this.players.forEach(player => player.rating === 21 ? listHave21.push(player) : player);
         this.activeGame = false;
 
         if (listHave21.length) {
@@ -78,11 +78,11 @@ export default class Game {
         }
 
         if (separatePlayers(this.players).listRaitingUnder21.length) {
-            this.winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUnder21[0].name;
+            this.winner = [separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUnder21[0]];
             return `${this.winner} is Winner`;
         }
 
-        this.winner = separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUpper21.reverse()[0].name;
+        this.winner = [separatePlayers(findMaxRaitingPlayers(this.players)).listRaitingUpper21.reverse()[0]];
 
         return `${this.winner} is Winner`;
     }

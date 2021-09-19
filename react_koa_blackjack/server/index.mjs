@@ -10,13 +10,21 @@ const router = new Router()
 let game = null;
 
 router.post('/start', (ctx, next) => {
-    const players = ctx.request.body;
-    game = new Game(players);
-    ctx.response.body = game;
+    try {
+        const players = ctx.request.body;
+        if(!players.length){
+           throw 'For start game need minimum 1 player';
+        }
+        game = new Game(players);
+        ctx.response.body = game;
+    }catch (e){
+        ctx.response.body = e;
+    }
+
 })
 
 router.get('/getcard', (ctx, next) => {
-
+try {
     if (!game.activeGame) {
         return ctx.response.body = game;
     }
@@ -33,6 +41,10 @@ router.get('/getcard', (ctx, next) => {
         ctx.response.body = game;
     }
     ctx.response.body = game;
+}catch (e){
+    ctx.response.body = e;
+}
+
 })
 
 router.get('/pass', (ctx, next) => {

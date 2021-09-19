@@ -19,6 +19,10 @@ $color: #958223;
 
   .AddPlayersForm {
     text-align: right;
+    width: 350px;
+    position: absolute;
+    top: 310px;
+    right: 1px;
 
     input {
       width: 60%;
@@ -69,12 +73,26 @@ $color: #958223;
   .playerTable {
     width: 45%;
     height: 45%;
-
     margin: 10px;
-
     display: inline-block;
     background-color: rgba(115, 100, 27, 0.83);
-border-radius: 5px;
+    border-radius: 5px;
+    span{
+      font-weight: bold;
+      font-size: 20px;
+      margin: 5px;
+    }
+  }
+
+  .winnerTable {
+    width: 65%;
+    height: 65%;
+    margin: auto;
+    background-color: rgba(185, 252, 0, 0.83);
+    border-radius: 5px;
+    h2{
+      margin: 5px;
+    }
   }
 }
 
@@ -87,4 +105,28 @@ border-radius: 5px;
 
   text-align: center;
 
+}
+
+.card {
+  height: 150px;
+  width: 100px;
+  display: inline-block;
+  position: relative;
+  background-color: aliceblue;
+  border-radius: 5px;
+  margin: 3px;
+  img {
+    width: 35%;
+    padding: 3px;
+  }
+  .bottomImage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  .bottomName{
+    position: absolute;
+    bottom: 0;
+    right: 35px;
+  }
 }

@@ -1,17 +1,23 @@
 import React from "react";
+import {connect} from "react-redux";
+import {createStructuredSelector} from "reselect";
+import {activeGame} from "../store/selectors";
 import AddPlayersForm from "./AddPlayersForm";
 import BlockGameActionsButtons from "./BlockGameActionsButtons";
-
 import '../styles.scss'
 
-const SideBlock = () => {
+
+const SideBlock = ({activeGame}) => {
 
     return (
         <div className='sideBlock'>
-            <BlockGameActionsButtons/>
-            <AddPlayersForm/>
+            {activeGame && <BlockGameActionsButtons/>}
+            {!activeGame && <AddPlayersForm/>}
         </div>
     );
 };
 
-export default SideBlock;
+
+const mapStateToProps = createStructuredSelector({activeGame})
+
+export default connect(mapStateToProps)(SideBlock);
