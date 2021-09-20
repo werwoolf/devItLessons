@@ -13,20 +13,23 @@ const handleMessage = (state, action) => {
     return {...state, message: action.payload}
 }
 
-const handleStartGame = async (state, action) => {
-    let game = null;
-    try {
-        const players = action.payload.filter(player => player)
-        game = (await axios.post('http://localhost:3000/start', players)).data;
-
-        if (typeof game === 'string') {
-            throw game
-        }
-    } catch (e) {
-        addMessage(e)
-    }
-    return game
+const handleStartGame =  async (state, action) => {
+    let game = await action.payload;
+    console.log(game)
+//     try {
+//
+//         const players = action.payload.filter(player => player)
+//         // game = (await axios.post('http://localhost:3000/start', players)).data;
+//         // console.log(game)
+//         if (typeof game === 'string') {
+//             throw game
+//         }
+//     } catch (e) {
+//         addMessage(e)
+//     }
+//     return game
 }
+
 
 const handleGetCard = (state, action) => {
     return {message: action.payload}
