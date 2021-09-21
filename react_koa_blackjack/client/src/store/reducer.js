@@ -20,12 +20,14 @@ const handleStartGame = (state) => {
     return {...state, loading: true};
 }
 
-const handleStartGameSuccess = (state, {payload: {data}}) => {
-    return {...state, game: data, loading: false, message: false};
+const handleStartGameSuccess = (state, {payload}) => {
+    if (payload.headers.token) {
+        localStorage.setItem('token', payload.headers.token)
+    }
+    return {...state, game: payload.data, loading: false, message: false};
 }
 
 const handleStartGameFail = (state, {error: {response: {data}}}) => {
-    console.log(data)
     return {...state, loading: false, message: data};
 }
 

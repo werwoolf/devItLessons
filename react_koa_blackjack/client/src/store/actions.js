@@ -9,13 +9,15 @@ export const startGame = createRequestAction('START_GAME', players => ({
         method: 'post',
         data: {
             players
-        }
+        },
+        headers: {'token': localStorage.getItem('token')},
     }
 }));
 
 export const getCard = createRequestAction('GET_CARD', () => ({
     request: {
         url: '/getcard',
+
     }
 }));
 
