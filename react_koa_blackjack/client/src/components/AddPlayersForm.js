@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {connect} from "react-redux";
 import {startGame} from "../store/actions";
-import {createStructuredSelector} from "reselect";
-import {message} from "../store/selectors";
 
 const AddPlayersForm = ({startGame}) => {
-    const [players, setPlayers] = useState(['', '', '', '']);
+    let [players, setPlayers] = useState(['', '', '', '']);
+
+    const handleStartClick = useCallback(() => {
+        players = players.filter(player => player);
+        startGame(players);
+    }, [players]);
 
     return (
         <div className='AddPlayersForm'>
@@ -19,12 +22,11 @@ const AddPlayersForm = ({startGame}) => {
                 />
             )}
 
-            <button onClick={() => startGame(players)}>Start game</button>
+            <button onClick={handleStartClick}>Start game</button>
         </div>
     );
 };
 
 const mapDispatchToProps = {startGame};
-const mapStateToProps = createStructuredSelector({message})
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddPlayersForm);
+export default connect(null, mapDispatchToProps)(AddPlayersForm);

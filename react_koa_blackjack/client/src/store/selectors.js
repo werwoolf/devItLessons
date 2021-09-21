@@ -1,24 +1,32 @@
-export const cardsCount = state => {
-    if (!state.cards) {
-        return 0;
-    }
-    return state.cards.length;
-}
-export const players = state => {
-    if (!state.players) {
-        return null;
-    }
-    return state.players;
-}
-export const winner = state =>  state.winner;
-export const activeGame = state =>  state.activeGame;
-export const activePlayer = state =>  state.activePlayer;
+import {createSelector} from "reselect";
+
+export const game = state => state.game;
+export const loading = state => state.loading;
 export const message = state => state.message;
-export const gameState = state => state;
 
+export const winner = createSelector(
+    game, (game) => game.winner
+);
 
+export const activeGame = createSelector(
+    game, (game) => game.activeGame
+);
 
+export const activePlayer = createSelector(
+    game, (game) => game.activePlayer
+);
 
+export const cards = createSelector(
+    game, (game) => game.cards
+);
+
+export const cardsCount = createSelector(
+    cards, (cards) => cards.length
+);
+
+export const players = createSelector(
+    game, (game) => game.players
+);
 
 
 

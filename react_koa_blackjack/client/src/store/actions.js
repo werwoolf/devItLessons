@@ -1,21 +1,28 @@
 import {createAction} from "redux-actions";
+import {createRequestAction} from "../helpers/createRequestAction.js";
 
-
-export const setGame = createAction('GET_GAME', state => state);
 export const addMessage = createAction('ADD_MESSAGE', message => message);
-// export const startGame = createAction('START_GAME',players => players);
 
-export const startGame = createAction('test', players => {
-    return {
-        types: ['LOAD', 'AWESOME', 'OH_NO'],
+export const startGame = createRequestAction('START_GAME', players => ({
+    request: {
+        url: '/start',
         method: 'post',
-        payload: {
-            request: {
-                url: '/start',
-            },
+        data: {
+            players
         }
     }
-})
+}));
 
-export const getCard = createAction('GET_CARD');
-export const pass = createAction('PASS');
+export const getCard = createRequestAction('GET_CARD', () => ({
+    request: {
+        url: '/getcard',
+    }
+}));
+
+export const pass = createRequestAction('PASS', () => ({
+    request: {
+        url: '/pass',
+    }
+}));
+
+

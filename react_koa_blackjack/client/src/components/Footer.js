@@ -9,7 +9,6 @@ const Footer = ({activePlayer, message}) => {
         <div className='footer'>
             {activePlayer && <div><h2>Now Step : </h2><h1>{activePlayer.name}</h1></div>}
             {message && <h1>{message}</h1>}
-            {!activePlayer && !message && <h2>For starting game type names players and click button "START GAME"</h2>}
         </div>
     );
 };

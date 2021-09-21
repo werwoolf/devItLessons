@@ -7,13 +7,12 @@ import {reducer} from "./store/reducer.js";
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 
-
 const client = axios.create({
-    baseURL:'http://localhost:3000',
+    baseURL: 'http://localhost:3000',
     responseType: 'json'
 });
 
-const store = createStore(reducer,{},applyMiddleware(
+const store = createStore(reducer, applyMiddleware(
     axiosMiddleware(client)
 ));
 
