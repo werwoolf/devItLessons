@@ -10,11 +10,11 @@ export const startGameController = ctx => {
             if (!players.length) {
                 throw new Error('For start game need minimum 1 player');
             }
-            games[id] = new Game(players)
+            games[id] = new Game(players);
         }
         ctx.response.body = games[id];
     } catch (e) {
-        ctx.throw(422, e.message)
+        ctx.throw(422, e.message);
     }
 }
 

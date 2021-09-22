@@ -10,25 +10,23 @@ export const startGame = createRequestAction('START_GAME', players => ({
         data: {
             players
         },
-        headers: {'token': localStorage.getItem('token')},
+        // headers: {'token': localStorage.getItem('token')},
     }
 }));
 
 export const getCard = createRequestAction('GET_CARD', () => ({
     request: {
         url: '/getcard',
-        headers: {'token': localStorage.getItem('token')},
+        // headers: {'token': localStorage.getItem('token')},
 
     },
-    headers: {'token': localStorage.getItem('token')},
 }));
 
 export const pass = createRequestAction('PASS', () => ({
     request: {
         url: '/pass',
-        headers: {'token': localStorage.getItem('token')},
+        // headers: {'token': localStorage.getItem('token')},
     },
-
 }));
 
 
