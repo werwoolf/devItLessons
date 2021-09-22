@@ -5,8 +5,9 @@ import {router} from "./routers.mjs";
 
 const app = new Koa();
 
-app.use(bodyParser());
+
 app.use(serve('./static'));
+app.use(bodyParser());
 app.use(router.routes());
 
 app.listen(3000);
