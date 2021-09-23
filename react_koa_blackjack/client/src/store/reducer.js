@@ -1,7 +1,8 @@
-import {addMessage, startGame, getCard, pass} from "./actions";
+import {addMessage, startGame, getCard, pass, setGame} from "./actions";
 import {handleActions} from 'redux-actions';
 
 const defaultState = {
+    authorization: localStorage.getItem('authorization'),
     loading: false,
     message: 'For starting game type names players and click button "START GAME"',
     game: {
@@ -16,19 +17,30 @@ const handleMessage = (state, action) => {
     return {...state, message: action.payload}
 }
 
+const handleSetGame = state => {
+    return {...state, loading: true};
+}
+
+const handleSetGameSuccess = (state, {payload: {data}}) => {
+    return {...state, game: data, loading: false, message: false}
+}
+const handleSetGameFail = (state) => {
+    return {...state, loading: false, message: false}
+}
+
 const handleStartGame = (state) => {
     return {...state, loading: true};
 }
 
 const handleStartGameSuccess = (state, {payload}) => {
-    if (payload.headers.token) {
-        localStorage.setItem('token', payload.headers.token)
-    }
-    return {...state, game: payload.data, loading: false, message: false};
+        localStorage.setItem('authorization', payload.headers.authorization)
+
+    return {...state, game: payload.data, authorization: payload.headers.authorization, loading: false, message: false};
 }
 
-const handleStartGameFail = (state, {error: {response: {data}}}) => {
-    return {...state, loading: false, message: data};
+const handleStartGameFail = (state) => {
+
+    return {...state, loading: false};
 }
 
 const handleGetCard = (state) => {
@@ -36,6 +48,7 @@ const handleGetCard = (state) => {
 }
 
 const handleGetCardSuccess = (state, {payload: {data}}) => {
+    console.log(data)
     return {...state, game: data, loading: false}
 }
 
@@ -57,6 +70,9 @@ const handlePassFail = (state) => {
 
 export const reducer = handleActions({
     [addMessage]: handleMessage,
+    [setGame]: handleSetGame,
+    [setGame.success]: handleSetGameSuccess,
+    [setGame.fail]: handleSetGameFail,
     [startGame]: handleStartGame,
     [startGame.success]: handleStartGameSuccess,
     [startGame.fail]: handleStartGameFail,

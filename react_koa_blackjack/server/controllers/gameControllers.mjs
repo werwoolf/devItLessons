@@ -1,17 +1,32 @@
 import Game from "../src/Game.mjs";
+import jwt from "jsonwebtoken";
+import {v4 as createUniq} from "uuid";
 
-const games = {};
+export const games = {};
 
 export const startGameController = ctx => {
-    const id = ctx.state;
+
     try {
-        if (games[id] === undefined || !games[id].activeGame) {
-            const players = ctx.request.body.players;
-            if (!players.length) {
-                throw new Error('For start game need minimum 1 player');
-            }
-            games[id] = new Game(players);
+        const players = ctx.request.body.players;
+        if (!players.length) {
+            throw new Error('For start game need minimum 1 player');
         }
+
+        if (ctx.request.headers.authorization) {
+            const id = jwt.verify(ctx.request.headers.authorization, 'secret');
+
+            games[id] = new Game(players);
+            ctx.response.body = games[id];
+
+            return
+        }
+
+        const id = createUniq();
+        const token = jwt.sign(id, 'secret');
+
+        ctx.set({'authorization': token});
+        games[id] = new Game(players);
+
         ctx.response.body = games[id];
     } catch (e) {
         ctx.throw(422, e.message);
@@ -19,7 +34,7 @@ export const startGameController = ctx => {
 }
 
 export const getCardController = ctx => {
-    const id = ctx.state;
+    const id = ctx.state.id;
     const game = games[id];
     try {
         if (!game || !game.activeGame) {
@@ -44,8 +59,9 @@ export const getCardController = ctx => {
 }
 
 export const passController = ctx => {
-    const id = ctx.state;
+    const id = ctx.state.id;
     const game = games[id];
+
     try {
         if (!game || !game.activeGame) {
             throw new Error('Game not active')
@@ -57,4 +73,6 @@ export const passController = ctx => {
     }
 
 }
+
+
 

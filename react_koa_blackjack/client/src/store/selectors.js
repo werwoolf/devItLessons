@@ -1,6 +1,7 @@
 import {createSelector} from "reselect";
 
 export const game = state => state.game;
+export const authorization = state => state.authorization;
 export const loading = state => state.loading;
 export const message = state => state.message;
 
@@ -27,6 +28,4 @@ export const cardsCount = createSelector(
 export const players = createSelector(
     game, (game) => game.players
 );
-
-
 

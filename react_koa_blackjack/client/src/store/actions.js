@@ -3,6 +3,12 @@ import {createRequestAction} from "../helpers/createRequestAction.js";
 
 export const addMessage = createAction('ADD_MESSAGE', message => message);
 
+export const setGame = createRequestAction('SET_GAME', () => ({
+    request: {
+        url: '/state',
+    },
+}));
+
 export const startGame = createRequestAction('START_GAME', players => ({
     request: {
         url: '/start',
@@ -10,22 +16,18 @@ export const startGame = createRequestAction('START_GAME', players => ({
         data: {
             players
         },
-        // headers: {'token': localStorage.getItem('token')},
     }
 }));
 
 export const getCard = createRequestAction('GET_CARD', () => ({
     request: {
         url: '/getcard',
-        // headers: {'token': localStorage.getItem('token')},
-
     },
 }));
 
 export const pass = createRequestAction('PASS', () => ({
     request: {
         url: '/pass',
-        // headers: {'token': localStorage.getItem('token')},
     },
 }));
 

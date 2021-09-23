@@ -5,7 +5,6 @@ import {router} from "./routers.mjs";
 
 const app = new Koa();
 
-
 app.use(serve('./static'));
 app.use(bodyParser());
 app.use(router.routes());
