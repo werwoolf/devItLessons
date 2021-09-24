@@ -1,4 +1,4 @@
-import {addMessage, startGame, getCard, pass, setGame} from "./actions";
+import {addMessage, startGame, getCard, pass, setGame, abortGame} from "./actions";
 import {handleActions} from 'redux-actions';
 
 const defaultState = {
@@ -17,6 +17,10 @@ const handleMessage = (state, action) => {
     return {...state, message: action.payload}
 }
 
+const handleAbortGame = () =>{
+    return defaultState
+}
+
 const handleSetGame = state => {
     return {...state, loading: true};
 }
@@ -33,13 +37,11 @@ const handleStartGame = (state) => {
 }
 
 const handleStartGameSuccess = (state, {payload: {data}}) => {
-    console.log(data)
     localStorage.setItem('authorization', data.authorization)
     return {...state, game: data.Game, authorization: data.authorization, loading: false, message: false};
 }
 
 const handleStartGameFail = (state, {error: {response:{data}}}) => {
-
     return {...state,message:data, loading: false};
 }
 
@@ -70,6 +72,7 @@ const handlePassFail = (state) => {
 
 export const reducer = handleActions({
     [addMessage]: handleMessage,
+    [abortGame]: handleAbortGame,
     [setGame]: handleSetGame,
     [setGame.success]: handleSetGameSuccess,
     [setGame.fail]: handleSetGameFail,

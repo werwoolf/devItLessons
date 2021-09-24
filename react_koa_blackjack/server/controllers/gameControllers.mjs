@@ -25,7 +25,7 @@ export const startGameController = ctx => {
 
         games[id] = new Game(players);
 
-        ctx.response.body =  {'Game': games[id], 'authorization': token};
+        ctx.response.body = {'Game': games[id], 'authorization': token};
     } catch (e) {
         ctx.throw(422, e.message);
     }
@@ -53,6 +53,7 @@ export const getCardController = ctx => {
         }
         ctx.response.body = game;
     } catch (e) {
+        ctx.body = 'Internal server error'
         ctx.throw(500, 'Internal server error');
     }
 }

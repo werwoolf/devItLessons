@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
 import {loading, players, winner} from "../store/selectors";
 import WinnerTable from "./WinnerTable";
-import RestartButtons from "./RestartButtons.js";
 
 const GameField = ({players, winner}) => {
     let playerTables = null;
@@ -14,7 +13,6 @@ const GameField = ({players, winner}) => {
     }
 
     return <div className='gameField'>
-        {winner && <div><RestartButtons/></div>}
         {players && !winner && playerTables}
         {winner && winner.map((player, index) => <WinnerTable player={player} key={index}/>)}
     </div>;

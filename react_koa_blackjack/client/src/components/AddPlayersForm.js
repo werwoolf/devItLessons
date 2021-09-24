@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {addMessage, startGame} from "../store/actions";
 import PlayerListItem from "./PlayerListItem.js";
@@ -17,19 +17,21 @@ const AddPlayersForm = ({startGame, addMessage, loading}) => {
     }, [players]);
 
     const handleAddPlayer = () => {
-        if (player.length < 2) {
-            addMessage('length name mast be minimum 2 chars')
-            return
-        }
         addMessage('')
         setPlayers(prevState => {
             const newState = [...prevState]
             newState.push(player)
             setPlayer('')
-
             return newState
         })
     }
+
+    useEffect(() => {
+        player.length > 0 && player.length < 3 ?
+        addMessage('Player name must by minimum 3 chars'):
+        addMessage('')
+    }, [player])
+
 
     const handleDeletePlayer = (playerIndex) => {
         setPlayers(prevState => {
@@ -40,27 +42,29 @@ const AddPlayersForm = ({startGame, addMessage, loading}) => {
         })
     }
 
+    return (
+        <div className='AddPlayersForm'>
+            <button disabled={loading} onClick={handleStartClick}>Start game</button>
+            {players.length < 4 && player.length > 2 &&
+            <button disabled={loading} onClick={handleAddPlayer}>Add player</button>}
+            {players.length < 4 && <input
+                onChange={e => setPlayer(e.target.value)}
+                value={player}
+            />}
+            {players.map((player, index) => {
+                return <PlayerListItem
+                    player={player}
+                    handleDeletePlayer={handleDeletePlayer}
+                    index={index}
+                    key={index}/>
+            })}
 
 
-        return (
-            <div className='AddPlayersForm'>
-                <button disabled={loading} onClick={handleStartClick}>Start game</button>
-                {players.length < 4 && player.length > 2 && <button disabled={loading} onClick={handleAddPlayer}>Add player</button>}
-                {players.length < 4 && <input onChange={e => setPlayer(e.target.value)} value={player}/>}
-                {players.map((player, index) => {
-                    return <PlayerListItem
-                        player={player}
-                        handleDeletePlayer={handleDeletePlayer}
-                        index={index}
-                        key={index}/>
-                })}
-
-
-            </div>
-        );
+        </div>
+    );
 };
 
 const mapDispatchToProps = {startGame, addMessage};
 const mapStateToProps = createStructuredSelector({loading})
 
-export default connect(null, mapDispatchToProps)(AddPlayersForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddPlayersForm);

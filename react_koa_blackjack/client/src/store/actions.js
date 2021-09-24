@@ -3,6 +3,8 @@ import {createRequestAction} from "../helpers/createRequestAction.js";
 
 export const addMessage = createAction('ADD_MESSAGE', message => message);
 
+export const abortGame = createAction('ABORT_GAME')
+
 export const setGame = createRequestAction('SET_GAME', () => ({
     request: {
         url: '/state',
