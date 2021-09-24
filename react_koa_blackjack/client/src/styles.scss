@@ -1,28 +1,37 @@
-* {
-  margin: 0;
-}
-
 $color: #958223;
 
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#app{
+  min-height: 100vh;
+}
+
+body{
+  //width: 100%;
+  //height: 100%;
+  background-color: $color;
+}
+
 .container {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
+  background-color: $color;
+  width: 100%;
+  height: 100%;
 }
 
 .sideBlock {
-  width: 20%;
-  height: 80%;
-  position: absolute;
+  width: 200px;
+  height: 100%;
+  position: fixed;
   right: 0;
   background-color: $color;
-display: flex;
-  justify-content: right;
-
 
   .AddPlayersForm {
     text-align: right;
-    position: absolute;
+    position: fixed;
     top: 310px;
     right: 1px;
     display: flex;
@@ -65,28 +74,12 @@ display: flex;
 }
 
 .gameField {
-  width: 80%;
-  height: 80%;
-
+  width: calc(100% - 200px);
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
   position: absolute;
-  left: 0;
-  top: 0;
   background-color: $color;
-
-  .playerTable {
-    width: 45%;
-    height: 45%;
-    margin: 10px;
-    display: inline-block;
-    background-color: rgba(115, 100, 27, 0.83);
-    border-radius: 5px;
-
-    span {
-      font-weight: bold;
-      font-size: 20px;
-      margin: 5px;
-    }
-  }
 
   .winnerTable {
     width: 65%;
@@ -101,15 +94,33 @@ display: flex;
   }
 }
 
+.playerTable {
+  margin: 10px;
+  padding: 15px;
+  width: 100%;
+  display: inline-block;
+  background-color: rgba(115, 100, 27, 0.83);
+  border-radius: 5px;
+
+  span {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .winnerCardsContainer{
+    height: 100%;
+  }
+
+
+}
+
 .footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
   height: 20%;
   background-color: $color;
-
   text-align: center;
-
 }
 
 .card {
@@ -152,11 +163,18 @@ display: flex;
     width: 25px;
   }
 
-  div{
+  div {
     padding: 3px;
     height: 25px;
     border-radius: 5px;
     margin: 3px;
+  }
+}
+
+@media screen  and(min-width: 1150px){
+  .playerTable {
+    width: 45%;
+    height: 45%;
   }
 }
 
@@ -203,3 +221,4 @@ display: flex;
     width: 100%;
   }
 }
+

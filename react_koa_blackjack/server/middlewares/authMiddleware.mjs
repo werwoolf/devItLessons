@@ -1,15 +1,17 @@
 import jwt from "jsonwebtoken";
 
+const report = (e) => {
+    console.log(e.message);
+};
+
 export const authMiddleware = (ctx, next) => {
     try {
-        const playerToken = ctx.request.headers.authorization;
-        const id = jwt.verify(playerToken, 'secret');
-        if (!id) {
-            throw new Error('unauthorized')
-        }
-        ctx.state = {...ctx.state, id}
-        next()
+        ctx.state.id = jwt.verify(ctx.request.headers.authorization, 'secret');
     } catch (e) {
-        ctx.throw(401, e.message)
+        report(e);
+        ctx.throw(401, "Unauthorized")
+        return;
     }
+
+    next()
 }

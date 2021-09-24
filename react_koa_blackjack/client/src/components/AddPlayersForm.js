@@ -2,7 +2,10 @@ import React, {useCallback, useState} from 'react';
 import {connect} from "react-redux";
 import {addMessage, startGame} from "../store/actions";
 import PlayerListItem from "./PlayerListItem.js";
-const AddPlayersForm = ({startGame, addMessage}) => {
+import {createStructuredSelector} from "reselect";
+import {loading} from "../store/selectors.js";
+
+const AddPlayersForm = ({startGame, addMessage, loading}) => {
 
     let [player, setPlayer] = useState('')
     let [players, setPlayers] = useState([]);
@@ -37,20 +40,27 @@ const AddPlayersForm = ({startGame, addMessage}) => {
         })
     }
 
-    return (
-        <div className='AddPlayersForm'>
 
-            {players.length < 4 && player.length > 2 && <button onClick={handleAddPlayer}>Add player</button>}
-            {players.length < 4 && <input onChange={e => setPlayer(e.target.value)} value={player}/>}
-            {players.map((player, index) => {
-                return <PlayerListItem player={player} handleDeletePlayer={handleDeletePlayer} index={index} />
-            })}
 
-            <button onClick={handleStartClick}>Start game</button>
-        </div>
-    );
+        return (
+            <div className='AddPlayersForm'>
+                <button disabled={loading} onClick={handleStartClick}>Start game</button>
+                {players.length < 4 && player.length > 2 && <button disabled={loading} onClick={handleAddPlayer}>Add player</button>}
+                {players.length < 4 && <input onChange={e => setPlayer(e.target.value)} value={player}/>}
+                {players.map((player, index) => {
+                    return <PlayerListItem
+                        player={player}
+                        handleDeletePlayer={handleDeletePlayer}
+                        index={index}
+                        key={index}/>
+                })}
+
+
+            </div>
+        );
 };
 
 const mapDispatchToProps = {startGame, addMessage};
+const mapStateToProps = createStructuredSelector({loading})
 
 export default connect(null, mapDispatchToProps)(AddPlayersForm);

@@ -28,4 +28,9 @@ export const cardsCount = createSelector(
 export const players = createSelector(
     game, (game) => game.players
 );
+export const playersName = createSelector(
+    game, (game) => {
+       return  game.players.map( player => player.name)
+    }
+);
 

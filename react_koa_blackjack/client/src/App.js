@@ -21,8 +21,9 @@ const App = ({setGame, loading, authorization}) => {
         <div className='container'>
             {loading && <Loader/>}
             <GameField/>
-            <Footer/>
+
             <SideBlock/>
+            <Footer/>
         </div>
     );
 };

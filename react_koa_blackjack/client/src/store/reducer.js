@@ -32,15 +32,15 @@ const handleStartGame = (state) => {
     return {...state, loading: true};
 }
 
-const handleStartGameSuccess = (state, {payload}) => {
-        localStorage.setItem('authorization', payload.headers.authorization)
-
-    return {...state, game: payload.data, authorization: payload.headers.authorization, loading: false, message: false};
+const handleStartGameSuccess = (state, {payload: {data}}) => {
+    console.log(data)
+    localStorage.setItem('authorization', data.authorization)
+    return {...state, game: data.Game, authorization: data.authorization, loading: false, message: false};
 }
 
-const handleStartGameFail = (state) => {
+const handleStartGameFail = (state, {error: {response:{data}}}) => {
 
-    return {...state, loading: false};
+    return {...state,message:data, loading: false};
 }
 
 const handleGetCard = (state) => {
@@ -48,7 +48,7 @@ const handleGetCard = (state) => {
 }
 
 const handleGetCardSuccess = (state, {payload: {data}}) => {
-    console.log(data)
+
     return {...state, game: data, loading: false}
 }
 
