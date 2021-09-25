@@ -1,6 +1,7 @@
 import Game from "../src/Game.mjs";
 import jwt from "jsonwebtoken";
 import {v4 as createUniq} from "uuid";
+import GameModel from "../Models/GameModel.mjs";
 
 export const games = {};
 
@@ -74,5 +75,33 @@ export const passController = ctx => {
 
 }
 
+export const saveGameController = async ctx => {
+    const clientId = ctx.state.id;
+    const {winner, players} = ctx.request.body.game;
+    const gameData = {winner, players, clientId};
+    await GameModel.create(gameData, (error, qwerty) => {
+        console.log(qwerty)
+        if (error) {
+            console.log(error)
+        }
+    })
 
+    ctx.body = gameData;
+}
+
+
+export const findGameController = async (ctx, next) => {
+    try {
+        const clientId = ctx.state.id;
+        const listGames = await GameModel.find({clientId})
+        ctx.body = listGames
+
+        console.log(ctx.body)
+    } catch (e) {
+
+        console.log(e)
+        throw (422, 'not have game')
+    }
+    next()
+}
 

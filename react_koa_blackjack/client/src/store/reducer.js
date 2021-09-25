@@ -1,10 +1,11 @@
-import {addMessage, startGame, getCard, pass, setGame, abortGame} from "./actions";
+import {addMessage, startGame, getCard, pass, setGame, abortGame, saveGame, findGames} from "./actions";
 import {handleActions} from 'redux-actions';
 
 const defaultState = {
     authorization: localStorage.getItem('authorization'),
     loading: false,
     message: 'For starting game type names players and click button "START GAME"',
+    listClientGames: null,
     game: {
         cards: [],
         players: [],
@@ -17,7 +18,7 @@ const handleMessage = (state, action) => {
     return {...state, message: action.payload}
 }
 
-const handleAbortGame = () =>{
+const handleAbortGame = () => {
     return defaultState
 }
 
@@ -28,8 +29,35 @@ const handleSetGame = state => {
 const handleSetGameSuccess = (state, {payload: {data}}) => {
     return {...state, game: data, loading: false, message: false}
 }
+
 const handleSetGameFail = (state) => {
     return {...state, loading: false, message: false}
+}
+
+const handleSaveGame = state => {
+    return {...state, loading: true, message: false}
+}
+
+const handleSaveGameSuccess = state => {
+    return {...state, loading: false, message: 'game saved in my perfect server'}
+}
+
+const handleSaveGameFail = state => {
+    return {...state, loading: false, message: false}
+}
+
+const handleFindGames = state => {
+    return {...state, loading: true, message: 'search your games'}
+}
+
+const handleFindGamesSuccess = (state, {payload}) => {
+    console.log(payload)
+    return {...state, loading: false}
+}
+
+const handleFindGamesFail = (state , payload)=>{
+    console.log(payload)
+    return {...state, loading: false}
 }
 
 const handleStartGame = (state) => {
@@ -41,8 +69,8 @@ const handleStartGameSuccess = (state, {payload: {data}}) => {
     return {...state, game: data.Game, authorization: data.authorization, loading: false, message: false};
 }
 
-const handleStartGameFail = (state, {error: {response:{data}}}) => {
-    return {...state,message:data, loading: false};
+const handleStartGameFail = (state, {error: {response: {data}}}) => {
+    return {...state, message: data, loading: false};
 }
 
 const handleGetCard = (state) => {
@@ -73,16 +101,29 @@ const handlePassFail = (state) => {
 export const reducer = handleActions({
     [addMessage]: handleMessage,
     [abortGame]: handleAbortGame,
+
     [setGame]: handleSetGame,
     [setGame.success]: handleSetGameSuccess,
     [setGame.fail]: handleSetGameFail,
+
+    [saveGame]: handleSaveGame,
+    [saveGame.success]: handleSaveGameSuccess,
+    [saveGame.fail]: handleSaveGameFail,
+
+    [findGames]: handleFindGames,
+    [findGames.success]: handleFindGamesSuccess,
+    [findGames.fail]: handleFindGamesFail,
+
     [startGame]: handleStartGame,
     [startGame.success]: handleStartGameSuccess,
     [startGame.fail]: handleStartGameFail,
+
     [getCard]: handleGetCard,
     [getCard.success]: handleGetCardSuccess,
     [getCard.fail]: handleGetCardFail,
+
     [pass]: handlePass,
     [pass.success]: handlePassSuccess,
     [pass.fail]: handlePassFail,
+
 }, defaultState)

@@ -11,6 +11,23 @@ export const setGame = createRequestAction('SET_GAME', () => ({
     },
 }));
 
+export const saveGame = createRequestAction('SAVE_GAME', game => ({
+    request: {
+        url: '/savegame',
+        method: 'post',
+        data: {
+            game
+        }
+    }
+}))
+
+export const findGames = createRequestAction('FIND_GAMES', () => ({
+        request: {
+            url: '/findgame',
+        },
+    }));
+
+
 export const startGame = createRequestAction('START_GAME', players => ({
     request: {
         url: '/start',

@@ -4,6 +4,8 @@ export const game = state => state.game;
 export const authorization = state => state.authorization;
 export const loading = state => state.loading;
 export const message = state => state.message;
+export const listClientGames = state => state.listClientGames;
+
 
 export const winner = createSelector(
     game, (game) => game.winner
@@ -30,7 +32,7 @@ export const players = createSelector(
 );
 export const playersName = createSelector(
     game, (game) => {
-       return  game.players.map( player => player.name)
+        return game.players.map(player => player.name)
     }
 );
 

@@ -10,8 +10,8 @@ export const authMiddleware = (ctx, next) => {
     } catch (e) {
         report(e);
         ctx.throw(401, "Unauthorized")
-        return;
     }
-
     next()
+    return ctx;
+
 }
