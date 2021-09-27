@@ -8,8 +8,8 @@ const GameSchema = new Schema({
     },
     players: Array,
     winner: Array
-})
+});
 
-const  GameModel = mongoose.model('games', GameSchema)
+const GameModel = mongoose.model('games', GameSchema)
 
 export default GameModel;

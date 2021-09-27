@@ -1,4 +1,13 @@
-import {addMessage, startGame, getCard, pass, setGame, abortGame, saveGame, findGames} from "./actions";
+import {
+    addMessage,
+    startGame,
+    getCard,
+    pass,
+    setGame,
+    abortGame,
+    findGames,
+    deleteGamesList
+} from "./actions";
 import {handleActions} from 'redux-actions';
 
 const defaultState = {
@@ -15,11 +24,15 @@ const defaultState = {
 };
 
 const handleMessage = (state, action) => {
-    return {...state, message: action.payload}
+    return {...state, message: action.payload};
 }
 
 const handleAbortGame = () => {
-    return defaultState
+    return defaultState;
+}
+
+const handleDeleteGamesList = state => {
+    return {...state, listClientGames: null};
 }
 
 const handleSetGame = state => {
@@ -27,37 +40,23 @@ const handleSetGame = state => {
 }
 
 const handleSetGameSuccess = (state, {payload: {data}}) => {
-    return {...state, game: data, loading: false, message: false}
+    return {...state, game: data, loading: false, message: false};
 }
 
 const handleSetGameFail = (state) => {
-    return {...state, loading: false, message: false}
-}
-
-const handleSaveGame = state => {
-    return {...state, loading: true, message: false}
-}
-
-const handleSaveGameSuccess = state => {
-    return {...state, loading: false, message: 'game saved in my perfect server'}
-}
-
-const handleSaveGameFail = state => {
-    return {...state, loading: false, message: false}
+    return {...state, loading: false, message: false};
 }
 
 const handleFindGames = state => {
-    return {...state, loading: true, message: 'search your games'}
+    return {...state, loading: true, message: 'search your games'};
 }
 
-const handleFindGamesSuccess = (state, payload) => {
-    console.log(payload)
-    return {...state, loading: false}
+const handleFindGamesSuccess = (state, {payload: {data}}) => {
+    return {...state, listClientGames: data, loading: false, message: false};
 }
 
-const handleFindGamesFail = (state , payload)=>{
-    console.log(payload)
-    return {...state, loading: false}
+const handleFindGamesFail = state => {
+    return {...state, loading: false, message: 'cant find your games'};
 }
 
 const handleStartGame = (state) => {
@@ -65,7 +64,7 @@ const handleStartGame = (state) => {
 }
 
 const handleStartGameSuccess = (state, {payload: {data}}) => {
-    localStorage.setItem('authorization', data.authorization)
+    localStorage.setItem('authorization', data.authorization);
     return {...state, game: data.Game, authorization: data.authorization, loading: false, message: false};
 }
 
@@ -74,41 +73,37 @@ const handleStartGameFail = (state, {error: {response: {data}}}) => {
 }
 
 const handleGetCard = (state) => {
-    return {...state, loading: true}
+    return {...state, loading: true};
 }
 
 const handleGetCardSuccess = (state, {payload: {data}}) => {
-
-    return {...state, game: data, loading: false}
+    return {...state, game: data, loading: false};
 }
 
 const handleGetCardFail = (state) => {
-    return {...state, loading: false}
+    return {...state, loading: false};
 }
 
 const handlePass = (state) => {
-    return {...state, loading: true}
+    return {...state, loading: true};
 }
 
 const handlePassSuccess = (state, {payload: {data}}) => {
-    return {...state, game: data, loading: false}
+    return {...state, game: data, loading: false};
 }
 
 const handlePassFail = (state) => {
-    return {...state, loading: false}
+    return {...state, loading: false};
 }
 
 export const reducer = handleActions({
     [addMessage]: handleMessage,
     [abortGame]: handleAbortGame,
+    [deleteGamesList]: handleDeleteGamesList,
 
     [setGame]: handleSetGame,
     [setGame.success]: handleSetGameSuccess,
     [setGame.fail]: handleSetGameFail,
-
-    [saveGame]: handleSaveGame,
-    [saveGame.success]: handleSaveGameSuccess,
-    [saveGame.fail]: handleSaveGameFail,
 
     [findGames]: handleFindGames,
     [findGames.success]: handleFindGamesSuccess,
@@ -126,4 +121,4 @@ export const reducer = handleActions({
     [pass.success]: handlePassSuccess,
     [pass.fail]: handlePassFail,
 
-}, defaultState)
+}, defaultState);

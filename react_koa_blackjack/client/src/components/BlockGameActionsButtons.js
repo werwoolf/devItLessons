@@ -3,10 +3,9 @@ import backCard from '../images/backCard.jpeg'
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
 import {cardsCount, loading} from "../store/selectors";
-import { getCard, pass} from "../store/actions";
+import {getCard, pass} from "../store/actions";
 
-const BlockGameActionsButtons = ({cardsCount,getCard, pass, loading}) => {
-
+const BlockGameActionsButtons = ({cardsCount, getCard, pass, loading}) => {
     return (
         <div className='blockButtonContainer'>
             <span className='cardsCount'> Card count: {cardsCount}</span>
@@ -17,7 +16,7 @@ const BlockGameActionsButtons = ({cardsCount,getCard, pass, loading}) => {
     );
 };
 
-const mapStateToProps = createStructuredSelector({cardsCount, loading})
-const mapDispatchToProps = { getCard, pass}
+const mapStateToProps = createStructuredSelector({cardsCount, loading});
+const mapDispatchToProps = {getCard, pass};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlockGameActionsButtons);

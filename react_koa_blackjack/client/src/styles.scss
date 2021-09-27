@@ -1,6 +1,5 @@
 $color: #958223;
 
-
 * {
   margin: 0;
   box-sizing: border-box;
@@ -29,20 +28,21 @@ body {
 
   .AddPlayersForm {
     text-align: right;
-    position: fixed;
+    position: absolute;
     top: 310px;
     right: 1px;
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     input {
-      height: 25px;
+      height: 35px;
       border-radius: 5px;
       margin: 3px;
     }
 
     button {
-      height: 25px;
+      height: 35px;
       border-radius: 5px;
       margin: 3px;
     }
@@ -129,7 +129,7 @@ body {
 .footer {
   bottom: 0;
   position: fixed;
-  z-index: 3;
+  z-index: 1;
   width: 100%;
   height: 100px;
   background-color: $color;
@@ -163,6 +163,34 @@ body {
   }
 }
 
+.cardLittle {
+  height: 70px;
+  width: 50px;
+  font-size: small;
+  display: inline-block;
+  position: relative;
+  background-color: aliceblue;
+  border-radius: 5px;
+  margin: 3px;
+
+  img {
+    width: 35%;
+    padding: 3px;
+  }
+
+  .bottomImage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .bottomName {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+  }
+}
+
 .playerListItem {
   display: flex;
   justify-content: space-between;
@@ -181,6 +209,70 @@ body {
     height: 25px;
     border-radius: 5px;
     margin: 3px;
+  }
+}
+
+.findGamesBlock {
+  position: absolute;
+  top: 550px;
+  right: 1px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+
+  button {
+    height: 35px;
+    border-radius: 5px;
+    margin: 3px;
+  }
+}
+
+.listHistoryGames {
+  width: 98%;
+  height: 97%;
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+
+  border: 3px solid darkred;
+  border-radius: 5px;
+  margin: 1%;
+  background-color: #3C4F65;
+  z-index: 2;
+
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+
+  .listHistoryItem {
+    width: 380px;
+    height: 270px;
+    border: 3px solid rgba(139, 0, 0, 0.56);
+    margin: 5px auto;
+    background-color: #bdd4e7;
+    display: flex;
+    flex-wrap: wrap;
+
+    .winner {
+      border: 5px solid #834C69;
+      height: 45%;
+      margin: 3px;
+      background-color: #458171;
+      border-radius: 5px;
+
+    }
+
+    .player {
+      margin: 3px;
+      background-color: #458171;
+      height: 45%;
+      border-radius: 5px;
+    }
+
+    .playerName {
+      color: orange;
+    }
   }
 }
 
@@ -234,4 +326,3 @@ body {
     width: 100%;
   }
 }
-

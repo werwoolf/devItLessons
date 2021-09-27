@@ -4,18 +4,15 @@ import {createStructuredSelector} from "reselect";
 import {listClientGames} from "../store/selectors";
 import {findGames} from "../store/actions";
 
-const FindGamesBlock = ({listClientGames, findGames}) => {
+import '../styles.scss';
 
-    return (
-        <div className='findGamesBlock'>
-            <button onClick={() => findGames()}>Find my games</button>
-            {listClientGames && <div>{listClientGames}</div>}
-        </div>
-    );
-};
+const FindGamesBlock = ({findGames}) => (
+    <div className='findGamesBlock'>
+        <button onClick={findGames}>Find my games</button>
+    </div>
+);
 
-
-const mapStateToProps = createStructuredSelector({listClientGames})
-const mapDispatchToProps = {findGames}
+const mapStateToProps = createStructuredSelector({listClientGames});
+const mapDispatchToProps = {findGames};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FindGamesBlock);

@@ -3,7 +3,9 @@ import {createRequestAction} from "../helpers/createRequestAction.js";
 
 export const addMessage = createAction('ADD_MESSAGE', message => message);
 
-export const abortGame = createAction('ABORT_GAME')
+export const abortGame = createAction('ABORT_GAME');
+
+export const deleteGamesList = createAction('DELETE_GAMES_LIST');
 
 export const setGame = createRequestAction('SET_GAME', () => ({
     request: {
@@ -11,22 +13,11 @@ export const setGame = createRequestAction('SET_GAME', () => ({
     },
 }));
 
-export const saveGame = createRequestAction('SAVE_GAME', game => ({
-    request: {
-        url: '/savegame',
-        method: 'post',
-        data: {
-            game
-        }
-    }
-}))
-
 export const findGames = createRequestAction('FIND_GAMES', () => ({
-        request: {
-            url: '/findgame',
-        },
-    }));
-
+    request: {
+        url: '/findgame',
+    },
+}));
 
 export const startGame = createRequestAction('START_GAME', players => ({
     request: {

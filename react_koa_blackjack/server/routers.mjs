@@ -1,10 +1,9 @@
-import Router from '@koa/router'
+import Router from '@koa/router';
 import {authMiddleware} from "./middlewares/authMiddleware.mjs";
 import {
     getCardController,
     passController,
     startGameController,
-    saveGameController,
     findGameController
 } from "./controllers/gameControllers.mjs";
 import {games} from "./controllers/gameControllers.mjs";
@@ -21,7 +20,5 @@ router.get('/state', authMiddleware, (ctx) => {
 router.get('/getcard', authMiddleware, getCardController);
 
 router.get('/pass', authMiddleware, passController);
-
-router.post('/savegame', authMiddleware, saveGameController);
 
 router.get('/findgame', authMiddleware, findGameController);

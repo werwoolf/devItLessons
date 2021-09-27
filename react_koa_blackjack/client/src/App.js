@@ -3,12 +3,13 @@ import SideBlock from "./components/SideBlock";
 import Footer from "./components/Footer";
 import GameField from "./components/GameField";
 import {connect} from "react-redux";
-import {authorization, game, loading, winner, players} from "./store/selectors.js";
+import {authorization, game, loading, winner, players, listClientGames} from "./store/selectors.js";
 import {createStructuredSelector} from "reselect";
-import {setGame, saveGame} from './store/actions.js';
+import {setGame} from './store/actions.js';
 import Loader from "./components/Loader.js";
+import ListHistoryItem from "./components/ListHistoryItem.js";
 
-const App = ({setGame, loading, authorization, saveGame, winner, players}) => {
+const App = ({setGame, loading, authorization, listClientGames}) => {
     useEffect(() => {
         if (!authorization) {
             return;
@@ -16,27 +17,27 @@ const App = ({setGame, loading, authorization, saveGame, winner, players}) => {
         setGame();
     }, [authorization]);
 
-
-    useEffect(() => {
-        if (!winner) {
-            return;
-        }
-        const savedGame = {winner, players}
-
-        saveGame(savedGame);
-    }, [winner]);
-
-
     return (
         <div className='container'>
             {loading && <Loader/>}
             <GameField/>
             <SideBlock/>
             <Footer/>
+            {listClientGames && listClientGames.length &&
+            <div className='listHistoryGames'>
+                {listClientGames.map(
+                    (gameInfo, index) => <ListHistoryItem key={index} game={gameInfo}/>
+                )}
+            </div>
+            }
         </div>
     );
 };
 
-const mapStateToProps = createStructuredSelector({game, loading, authorization, winner, players})
-const mapDispatchToProps = ({setGame, saveGame})
+const mapStateToProps = createStructuredSelector({
+    game, loading, authorization, winner, players, listClientGames
+});
+
+const mapDispatchToProps = ({setGame});
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);

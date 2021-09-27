@@ -35,9 +35,9 @@ const store = createStore(reducer, applyMiddleware(
     axiosMiddleware(client, middlewareConfig)
 ));
 
-reactDOM.render(<Provider store={store}>
+reactDOM.render(
+    <Provider store={store}>
         <App/>
-    </Provider>
-    ,
+    </Provider>,
     document.getElementById('app')
 )

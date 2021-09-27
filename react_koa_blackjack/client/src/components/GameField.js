@@ -18,6 +18,6 @@ const GameField = ({players, winner}) => {
     </div>;
 };
 
-const mapStateToProps = createStructuredSelector({players, winner, loading})
+const mapStateToProps = createStructuredSelector({players, winner, loading});
 
 export default connect(mapStateToProps)(GameField);

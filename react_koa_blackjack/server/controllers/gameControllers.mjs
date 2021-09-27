@@ -14,11 +14,11 @@ export const startGameController = ctx => {
 
         if (ctx.request.headers.authorization) {
             const id = jwt.verify(ctx.request.headers.authorization, 'secret');
-            console.log(ctx.request.headers.authorization)
+
             games[id] = new Game(players);
             ctx.response.body = {'Game': games[id], 'authorization': ctx.request.headers.authorization};
 
-            return
+            return;
         }
 
         const id = createUniq();
@@ -32,9 +32,10 @@ export const startGameController = ctx => {
     }
 }
 
-export const getCardController = ctx => {
+export const getCardController = async ctx => {
     const id = ctx.state.id;
     const game = games[id];
+
     try {
         if (!game || !game.activeGame) {
             ctx.throw(422, 'Game not active');
@@ -43,23 +44,27 @@ export const getCardController = ctx => {
 
         if (!game.activePlayer || game.activePlayer.rating > 20) {
             game.passPlayer();
-            ctx.response.body = game;
         }
 
         game.activePlayer.getCard(game.cards.pop());
 
         if (!game.activePlayer || game.activePlayer.rating > 20) {
             game.passPlayer();
-            ctx.response.body = game;
         }
-        ctx.response.body = game;
+
+        if(game.winner){
+            const {winner, players} = game;
+            const gameData = {winner, players, clientId: id};
+            await GameModel.create(gameData);
+        }
+
+        ctx.body = game;
     } catch (e) {
-        ctx.body = 'Internal server error'
         ctx.throw(500, 'Internal server error');
     }
 }
 
-export const passController = ctx => {
+export const passController = async ctx => {
     const id = ctx.state.id;
     const game = games[id];
 
@@ -68,26 +73,24 @@ export const passController = ctx => {
             throw new Error('Game not active')
         }
         game.passPlayer();
-        ctx.response.body = game;
+
+        if(game.winner){
+            const {winner, players} = game;
+            const gameData = {winner, players, clientId: id};
+            await GameModel.create(gameData);
+        }
+
+        ctx.body = game;
     } catch (e) {
-        ctx.response.body = e.message;
+        ctx.throw(422, 'Game not active');
     }
-
-}
-
-export const saveGameController = async ctx => {
-    const clientId = ctx.state.id;
-    const {winner, players} = ctx.request.body.game;
-    const gameData = {winner, players, clientId};
-
-    ctx.body =  await GameModel.create(gameData);
 }
 
 export const findGameController = async ctx => {
     try {
-        ctx.body = await GameModel.find({clientId:ctx.state.id});
+        ctx.body = (await GameModel.find({clientId:ctx.state.id})).reverse();
     } catch (e) {
-        throw (422, 'not have game')
+        ctx.throw (422, 'not have game')
     }
 }
 

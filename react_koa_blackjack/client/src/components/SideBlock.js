@@ -8,20 +8,16 @@ import '../styles.scss'
 import RestartButtons from "./RestartButtons.js";
 import FindGamesBlock from "./FindGamesBlock";
 
-
-const SideBlock = ({activeGame, winner, authorization}) => {
-
-    return (
-        <div className='sideBlock'>
-            {activeGame && <BlockGameActionsButtons/>}
-            {winner && <RestartButtons/>}
-            {!activeGame && !winner && <AddPlayersForm/>}
-            {authorization && <FindGamesBlock/>}
-        </div>
-    );
-};
+const SideBlock = ({activeGame, winner, authorization}) => (
+    <div className='sideBlock'>
+        {activeGame && <BlockGameActionsButtons/>}
+        {winner && <RestartButtons/>}
+        {!activeGame && !winner && <AddPlayersForm/>}
+        {authorization && <FindGamesBlock/>}
+    </div>
+);
 
 
-const mapStateToProps = createStructuredSelector({activeGame, winner, authorization})
+const mapStateToProps = createStructuredSelector({activeGame, winner, authorization});
 
 export default connect(mapStateToProps)(SideBlock);
