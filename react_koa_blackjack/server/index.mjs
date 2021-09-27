@@ -8,10 +8,10 @@ const PORT = 3000
 const app = new Koa();
 
 
-app.use(bodyParser());
+
 
 app.use(serve('./static'));
-
+app.use(bodyParser());
 app.use(router.routes());
 
 mongoose.connect('mongodb://localhost:27017', () => console.log('connect'));

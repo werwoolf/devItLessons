@@ -9,7 +9,6 @@ import {
 } from "./controllers/gameControllers.mjs";
 import {games} from "./controllers/gameControllers.mjs";
 
-
 export const router = new Router();
 
 router.post('/start', startGameController);

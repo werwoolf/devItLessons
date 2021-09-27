@@ -50,7 +50,7 @@ const handleFindGames = state => {
     return {...state, loading: true, message: 'search your games'}
 }
 
-const handleFindGamesSuccess = (state, {payload}) => {
+const handleFindGamesSuccess = (state, payload) => {
     console.log(payload)
     return {...state, loading: false}
 }

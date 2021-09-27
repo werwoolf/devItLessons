@@ -79,29 +79,15 @@ export const saveGameController = async ctx => {
     const clientId = ctx.state.id;
     const {winner, players} = ctx.request.body.game;
     const gameData = {winner, players, clientId};
-    await GameModel.create(gameData, (error, qwerty) => {
-        console.log(qwerty)
-        if (error) {
-            console.log(error)
-        }
-    })
 
-    ctx.body = gameData;
+    ctx.body =  await GameModel.create(gameData);
 }
 
-
-export const findGameController = async (ctx, next) => {
+export const findGameController = async ctx => {
     try {
-        const clientId = ctx.state.id;
-        const listGames = await GameModel.find({clientId})
-        ctx.body = listGames
-
-        console.log(ctx.body)
+        ctx.body = await GameModel.find({clientId:ctx.state.id});
     } catch (e) {
-
-        console.log(e)
         throw (422, 'not have game')
     }
-    next()
 }
 
