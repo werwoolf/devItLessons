@@ -1,0 +1,71 @@
+.container {
+  margin-left: 107px;
+  position: relative;
+  height: 746px;
+}
+
+.mainTextBlock {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #FFFFFF;
+
+  position: absolute;
+  left: 0;
+  top: 144px;
+
+  z-index: 2;
+}
+
+.textBlock {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 128.19%;
+
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #FFFFFF;
+
+  position: absolute;
+  left: 0;
+  top: 365px;
+}
+
+.mainImage {
+  background-image: url('../../public/images/HelpCommerceBlock/We help e-commerce.png');
+  width: 1098px;
+  height: 746px;
+  position: absolute;
+  right: 0;
+}
+
+.connectTypeBlock {
+  display: flex;
+  position: absolute;
+  top: 507px;
+
+  pre{
+    margin-right: 75px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
+
+    color: #FFFFFF;
+    div {
+      img {
+        width: 28px;
+        height: 54px;
+      }
+    }
+  }
+}

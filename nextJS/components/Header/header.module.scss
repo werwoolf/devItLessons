@@ -1,0 +1,87 @@
+.container {
+  position: relative;
+  height: 300px;
+  margin: 92px 127px 0 178px;
+
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.navigation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #eaeaea;
+  display: flex;
+
+  a {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: capitalize;
+  }
+
+}
+
+.shopifyApps {
+  width: 139px;
+  height: 24px;
+  margin-right: 107px;
+}
+
+.GetAppNow {
+  border: 2px solid #FFC20A;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px 23px 10px 30px;
+}
+
+.homeLink {
+  width: 100px;
+  height: 24px;
+  color: #FFC20A;
+  margin-right: 65px;
+}
+
+.dropDown {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+
+  width: 215px;
+  padding: 22px 21px 21px 21px;
+  margin-top: 22px;
+  margin-right: 245px;
+
+  a {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+    color: #232946;
+    padding: 9px 39px 9px 14px;
+  }
+
+  .selectLink {
+    border: 2px solid #FFC20A;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+}
+
+//.arrow{
+//  width: 17px;
+//  height: 12px;
+//}
+
+
+
+

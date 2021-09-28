@@ -1,0 +1,45 @@
+.mainContainer {
+  position: relative;
+  margin-top: 140px;
+}
+
+
+.container1 {
+  display: flex;
+
+  .descript {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 42px;
+    line-height: 49px;
+    letter-spacing: 0.1em;
+    text-transform: capitalize;
+    color: #FFFFFF;
+    text-align: center;
+    height: 50%;
+    width: 100%;
+  }
+
+  .gadjetImage {
+    background-image: url("../../public/images/WeHelp/image.png");
+    background-color: #2D3154;
+    width: 1131px;
+
+    height: 781px;
+    position: absolute;
+    right: 0;
+  }
+
+  .section1 {
+    width: 50%;
+    height: 50%;
+    background-color: #2D315420;
+  }
+
+  .section2 {
+    width: 50%;
+    height: 50%;
+    background-color: #2D315480;
+  }
+}
