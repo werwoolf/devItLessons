@@ -1,0 +1,106 @@
+
+.mainContainer {
+  display: flex;
+  position: relative;
+}
+
+.imagePeople {
+  background-image: url("../../public/images/Review/Review.png");
+  width: 1024px;
+  height: 747px;
+  margin-top: 66px;
+}
+
+
+.rightBlock {
+  width: 50%;
+  height: 830px;
+
+  .contentBlock {
+    width: 672px;
+    height: 413px;
+    margin: 299px 79px auto auto;
+
+    position: relative;
+
+    .quote {
+      font-family: ABeeZee;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 120px;
+      line-height: 142px;
+      text-align: center;
+      letter-spacing: 0.1em;
+      text-transform: lowercase;
+      color: #FFFFFF;
+      display: inline;
+      margin: 0 auto auto 0;
+
+    }
+
+    .descript1 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 128.19%;
+      letter-spacing: 0.1em;
+      text-transform: capitalize;
+      color: #FFFFFF;
+    }
+
+    .descript2 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 22px;
+      line-height: 171.69%;
+      letter-spacing: 0.1em;
+      text-transform: capitalize;
+      margin-top: 25px;
+      color: #E5E5E5;
+    }
+
+    .reviewStar {
+
+      display: flex;
+
+      margin-top: 32px;
+
+      .stars {
+        width: 215px;
+        height: 38px;
+        margin-left: 43px;
+      }
+
+      div {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 128.19%;
+        letter-spacing: 0.1em;
+        text-transform: capitalize;
+        color: #FFFFFF;
+      }
+
+
+    }
+
+    .arrows {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+
+        img{
+          margin: 0 55px;
+        }
+
+    }
+
+  }
+
+}
+
+

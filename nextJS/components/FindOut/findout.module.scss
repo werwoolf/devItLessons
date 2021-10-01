@@ -1,0 +1,72 @@
+.container {
+  width: 85%;
+  margin-left: 175px;
+  margin-top: 98px;
+  display: flex;
+
+  .leftBlock {
+    .descript1 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 42px;
+      line-height: 49px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      max-width: 698px;
+      margin-top: 151px;
+    }
+
+    .descript2 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 128.19%;
+      letter-spacing: 0.1em;
+      text-transform: capitalize;
+      color: #FFFFFF;
+      max-width: 730px;
+      margin-top: 33px;
+    }
+  }
+
+
+  .rightBlock {
+    background-image: url("../../public/images/FindOut/Findout.png");
+    width: 749px;
+    height: 481px;
+    margin-left: 180px;
+    position: relative;
+
+    .click {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 200px;
+      left: 110px;
+
+      div{
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 34px;
+        letter-spacing: 0.03em;
+        text-transform: capitalize;
+
+        color: #FFFFFF;
+
+        margin: 20px;
+      }
+
+
+      img {
+        width: 37px;
+        height: 70px;
+      }
+    }
+
+  }
+}
