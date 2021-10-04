@@ -11,9 +11,10 @@ const Header = () => {
             <div className={styles.navigation}>
                 <a href='#' className={styles.homeLink}>Home</a>
                 <a href='#' className={styles.shopifyApps}>
-                   <div className={styles.nameLink}>Shopify Apps
-                       <Image src={arrow.src} width={17} height={12} className={styles.arrow}/>
-                   </div>
+                    <div className={styles.nameLink}>
+                        <div className={styles.descript}> Shopify Apps</div>
+                        <Image src={arrow.src} width={17} height={12} className={styles.arrow}/>
+                    </div>
 
                     <div className={styles.dropDown}>
                         <a href='#' className={styles.selectLink}>React flow</a>
