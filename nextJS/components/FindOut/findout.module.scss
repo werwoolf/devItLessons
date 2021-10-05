@@ -1,28 +1,27 @@
 .container {
-  width: 85%;
-  margin-left: 175px;
-  margin-top: 98px;
   display: flex;
+  position: relative;
 
   .leftBlock {
+    padding: 128px 0 0 113px;
+
     .descript1 {
       font-family: Roboto;
       font-style: normal;
       font-weight: normal;
-      font-size: 42px;
+      font-size: 2.625rem;
       line-height: 49px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #FFFFFF;
       max-width: 698px;
-      margin-top: 151px;
     }
 
     .descript2 {
       font-family: Roboto;
       font-style: normal;
       font-weight: 300;
-      font-size: 24px;
+      font-size: 1.5rem;
       line-height: 128.19%;
       letter-spacing: 0.1em;
       text-transform: capitalize;
@@ -32,41 +31,51 @@
     }
   }
 
-
   .rightBlock {
-    background-image: url("../../public/images/FindOut/Findout.png");
-    width: 749px;
-    height: 481px;
-    margin-left: 180px;
+    width: 50%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+
+    .circuits {
+      margin: auto 0 auto auto;
+    }
+
+    .mainCircuit {
+      width: 300px;
+      height: 300px;
+      background: rgba(41, 39, 76, 0.7);
+      box-shadow: 11px 12px 20px rgba(0, 0, 0, 0.1);
+      clip-path: circle(50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      z-index: 1;
+      left: 0;
+    }
 
     .click {
       display: flex;
       align-items: center;
-      position: absolute;
-      top: 200px;
-      left: 110px;
 
-      div{
+      div {
         font-family: Montserrat;
         font-style: normal;
         font-weight: 600;
-        font-size: 28px;
+        font-size: 1.75rem;
         line-height: 34px;
         letter-spacing: 0.03em;
         text-transform: capitalize;
-
         color: #FFFFFF;
 
-        margin: 20px;
       }
 
-
-      img {
-        width: 37px;
-        height: 70px;
+      .mouse {
+        margin: 10px;
       }
     }
-
   }
 }

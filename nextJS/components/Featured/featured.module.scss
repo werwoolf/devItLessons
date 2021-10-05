@@ -4,50 +4,24 @@
   flex-direction: column;
   justify-content: space-evenly;
   text-align: center;
+  //max-width: 1221px;
 }
 
 .container {
   margin: 41px auto;
   display: flex;
-
-  .brand1 {
-    background-image: url("../../public/images/Featured/anna_ij_logo 1.png");
-    width: 260px;
-    height: 100px;
-  }
-
-  .brand2 {
-    background-image: url("../../public/images/Featured/lala logo.png");
-    width: 260px;
-    height: 101px;
-  }
-
-  .brand3 {
-    background-image: url("../../public/images/Featured/Sneaker world.png");
-    width: 250px;
-    height: 80px;
-  }
-
-  .brand4 {
-    background-image: url("../../public/images/Featured/Cosyspeed.png");
-    width: 230px;
-    height: 115px;
-  }
-
-
 }
 
 .featuredBy{
   font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 128.19%;
-  /* identical to box height, or 31px */
-
   letter-spacing: 0.1em;
   text-transform: capitalize;
 
   color: #FFC20A;
 }
+
 

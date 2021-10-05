@@ -1,14 +1,16 @@
 import React from 'react';
-import styles from './review.module.scss'
+import styles from './review.module.scss';
 import Image from "next/image.js";
-import stars from '../../public/images/Review/Star.png'
-import arrow1 from '../../public/images/Review/Arrow1.png'
-import arrow2 from '../../public/images/Review/Arrow2.png'
+import stars from '../../public/images/Review/Star.png';
+import arrow1 from '../../public/images/Review/Arrow1.png';
+import arrow2 from '../../public/images/Review/Arrow2.png';
+import review from "../../public/images/Review/Review.png";
+
 
 const Review = () => {
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.imagePeople}></div>
+            <div className={styles.imagePeople}><Image src={review}/></div>
 
             <div className={styles.rightBlock}>
                 <div className={styles.contentBlock}>
@@ -19,13 +21,14 @@ const Review = () => {
                     </div>
                     <div className={styles.reviewStar}>
                         <div>Reviews</div>
-                        <img src={stars.src} alt={''} height={38} width={290} className={styles.stars}/>
+                        <div style={{ height:38 ,width:290}} className={styles.stars}> <Image src={stars}/></div>
+                        <div className={styles.arrows}>
+                            <div style={{ height:18 ,width:50}}> <Image src={arrow2}/></div>
+                            <div style={{ height:18 ,width:50}}> <Image src={arrow1}/></div>
+                        </div>
                     </div>
 
-                    <div className={styles.arrows}>
-                        <img src={arrow2.src} height={18} width={50} className={styles.stars}/>
-                        <img src={arrow1.src} alt={''} height={18} width={50} className={styles.stars}/>
-                    </div>
+
                 </div>
             </div>
         </div>)

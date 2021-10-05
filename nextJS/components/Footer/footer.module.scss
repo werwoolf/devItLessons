@@ -1,28 +1,28 @@
 .container {
-  margin-top: 144px;
+  margin-top: 36px;
   width: 100%;
   height: 368px;
   background: black;
   position: relative;
-  display: flex;
+  padding-top: 29px;
 
   .primary {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 128.19%;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #FFC20A;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
   }
 
   .normal {
     font-family: Roboto;
     font-style: normal;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 128.19%;
     letter-spacing: 0.1em;
     text-transform: capitalize;
@@ -30,59 +30,36 @@
     margin-bottom: 22px;
   }
 
-  .section1 {
-    margin-left: 175px;
-    max-width: 420px;
-    height: fit-content;
-    position: absolute;
+  .sectionContainer {
+    display: flex;
 
-    .logo {
-      margin-top: 45px;
+    .section2 {
+      margin-left: 113px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .descript {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 300;
-      font-size: 20px;
-      line-height: 128.19%;
-      letter-spacing: 0.1em;
-      text-transform: capitalize;
-      color: #FFFFFF;
-
-      margin-top: 38px;
+    .section3 {
+      margin-left: 89px;
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  .section2 {
-    display: flex;
-    flex-direction: column;
-    margin-top: 64px;
-    margin-right: 533px;
-    position: absolute;
-    right: 0;
-  }
-
-  .section3 {
-    display: flex;
-    flex-direction: column;
-    margin-top: 64px;
-    margin-right: 273px;
-    position: absolute;
-    right: 0;
+    .socialMedia {
+      margin: 0 120px auto auto;
+    }
   }
 
   .rights {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 19px;
     text-transform: capitalize;
     color: #F9F9F9;
-    //height: fit-content;
-    margin: auto auto 10px auto;
-    //text-align: center;
+    margin-top: 120px;
+    text-align: center;
   }
 }
 

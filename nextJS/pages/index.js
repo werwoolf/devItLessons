@@ -6,11 +6,9 @@ import Review from "../components/Review/Review";
 import FindOut from "../components/FindOut/FindOut";
 import Footer from "../components/Footer/Footer";
 
-import styles from '../styles/Home.module.css'
-
 export default function Home() {
     return (
-        <div className={styles.mainContainer}>
+        <div >
             <Header/>
             <HelpCommerceBlock/>
             <Featured/>

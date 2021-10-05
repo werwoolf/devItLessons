@@ -1,23 +1,19 @@
 .container {
   margin-left: 107px;
+  z-index: 2;
   position: relative;
-  height: 746px;
 }
 
 .mainTextBlock {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 48px;
-  line-height: 56px;
+  font-size: 3rem;
+  line-height: 3rem;
   letter-spacing: 0.1em;
   text-transform: capitalize;
   color: #FFFFFF;
-
-  position: absolute;
-  left: 0;
-  top: 144px;
-
+  max-width: 50%;
   z-index: 2;
 }
 
@@ -25,47 +21,37 @@
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 128.19%;
 
   letter-spacing: 0.1em;
   text-transform: capitalize;
   color: #FFFFFF;
-
-  position: absolute;
-  left: 0;
-  top: 365px;
-}
-
-.mainImage {
-  background-image: url('../../public/images/HelpCommerceBlock/We help e-commerce.png');
-  width: 1098px;
-  height: 746px;
-  position: absolute;
-  right: 0;
+  z-index: auto;
+  max-width: 50%;
 }
 
 .connectTypeBlock {
   display: flex;
-  position: absolute;
-  top: 507px;
 
-  pre{
+  pre {
     margin-right: 75px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 29px;
     letter-spacing: 0.03em;
     text-transform: capitalize;
-
     color: #FFFFFF;
-    div {
-      img {
-        width: 28px;
-        height: 54px;
-      }
-    }
+    display: flex;
   }
+}
+
+.mainImage {
+  position: absolute;
+  width: 70%;
+  z-index: -1;
+  top: 0;
+  right: 0;
 }

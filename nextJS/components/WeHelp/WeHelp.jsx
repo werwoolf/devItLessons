@@ -1,5 +1,10 @@
 import React from 'react';
 import styles from './weHelp.module.scss';
+import Image from "next/image.js";
+import gadjet from '../../public/images/WeHelp/image.png';
+import man from '../../public/images/WeHelp/image2.png';
+import people from "../../public/images/WeHelp/peopleImage.png";
+import rocket from "../../public/images/WeHelp/rocketImage.png";
 
 const WeHelp = () => {
     return (
@@ -8,33 +13,29 @@ const WeHelp = () => {
 
                 <div className={styles.leftBlock}>
                     <div className={styles.descript}>
-                        We help clients take their<br/>
-                        online business to the next<br/>
+                        We help clients take their
+                        online business to the next
                         level
                     </div>
-
                     <div className={styles.sectionContainer}>
-
                         <div className={styles.section1}>
                             <span className={styles.countYears}>7</span>
                             <div>Years expertise</div>
                         </div>
-
                         <div className={styles.section2}>
                             <div className={styles.descript1}>Great applications with striking features</div>
                             <div className={styles.descript2}>Solving customers everyday challenges and help them grow
                                 their business
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-                <div className={styles.gadjetImage}></div>
+                <div className={styles.gadjetImage}><Image src={gadjet}/></div>
             </div>
 
             <div className={styles.container2}>
-                <div className={styles.manImage}></div>
+
+                <div className={styles.manImage}><Image src={man}/></div>
                 <div className={styles.rightBlock}>
 
                     <div className={styles.section1}>
@@ -50,11 +51,10 @@ const WeHelp = () => {
                             online stores
                         </div>
 
-
                     </div>
 
                     <div className={styles.section3}>
-                        <div></div>
+                        <div><Image src={rocket}/></div>
                     </div>
 
                 </div>
@@ -79,7 +79,7 @@ const WeHelp = () => {
 
                 </div>
                 <div className={styles.peopleImage}>
-
+                    <Image src={people}/>
                 </div>
             </div>
 

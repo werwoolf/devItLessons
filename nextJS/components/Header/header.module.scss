@@ -19,13 +19,17 @@ $marginContainer: 3%;
   color: #eaeaea;
   display: flex;
 
+
   a {
     font-family: Montserrat;
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 24px;
     text-transform: capitalize;
+  }
+  :hover {
+    color: #FFC20A;
   }
 
 }
@@ -33,7 +37,7 @@ $marginContainer: 3%;
 .shopifyApps {
   width: 139px;
   height: 24px;
-  margin-right:  107px;
+  margin-right: 107px;
 }
 
 .GetAppNow {
@@ -46,7 +50,6 @@ $marginContainer: 3%;
 .homeLink {
   width: 100px;
   height: 24px;
-  color: #FFC20A;
   margin-right: 65px;
 }
 
@@ -64,7 +67,7 @@ $marginContainer: 3%;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 24px;
     letter-spacing: 0.03em;
     color: #232946;
