@@ -1,37 +1,93 @@
 html,
 body {
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #232946 ;
-  font-size: 100% ;
-  max-width: 1440px;
-  margin: auto;
+    background-color: #232946;
+    font-size: 100%;
+    max-width: 1440px;
+    margin: auto;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
+.swiper-button-prev {
+    top: auto;
+    left: auto;
+    bottom: 40px;
+    right: 170px;
+
+    width: 70px;
+}
+
+.swiper-button-prev::before {
+    bottom: 0;
+    left: 0;
+    content: '';
+    border-style: solid;
+    border-width: 9px 18px 9px 0;
+    border-color: transparent #ffdd00 transparent transparent;
+}
+
+.swiper-button-prev::after {
+    bottom: 7px;
+    left: 15px;
+    content: '';
+    width: 35px;
+    height: 5px;
+    background-color: #ffdd00;
+}
+
+.swiper-button-next {
+    top: auto;
+    left: auto;
+    bottom: 40px;
+    right: 100px;
+    width: 70px;
+}
+
+.swiper-button-next::before {
+    bottom: 7px;
+    left: 15px;
+    content: '';
+    width: 35px;
+    height: 5px;
+    background-color: #ffdd00;
+}
+
+.swiper-button-next::after {
+    bottom: 0;
+    left: 0;
+    content: '';
+    border-style: solid;
+    border-width: 9px 0 9px 18px;
+    border-color: transparent transparent transparent #ffdd00
+}
+
+
+
+
 @media (max-width: 1500px) {
-  html{
-    font-size: 95%;
-  }
+    html {
+        font-size: 95%;
+    }
 }
 
 @media (max-width: 1150px) {
-  html{
-    font-size: 85%;
-  }
+    html {
+        font-size: 85%;
+    }
 }
 
 @media (max-width: 850px) {
-  html{
-    font-size: 75%;
-  }
+    html {
+        font-size: 75%;
+    }
 }

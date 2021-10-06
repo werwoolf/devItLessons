@@ -5,7 +5,7 @@
 
 .imagePeople {
   width: 50%;
-  margin-top: 66px;
+  margin: auto auto 0;
 }
 
 .rightBlock {
@@ -79,14 +79,6 @@
       }
 
 
-    }
-
-    .arrows {
-      display: flex;
-      width: 120px;
-      //min-width: 100px;
-      justify-content: space-between;
-      margin: auto 0 auto auto;
     }
 
   }

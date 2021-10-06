@@ -28,6 +28,7 @@ $marginContainer: 3%;
     line-height: 24px;
     text-transform: capitalize;
   }
+
   :hover {
     color: #FFC20A;
   }
@@ -39,6 +40,13 @@ $marginContainer: 3%;
   height: 24px;
   margin-right: 107px;
 }
+
+.shopifyApps:hover {
+  .dropDown {
+    display: flex;
+  }
+}
+
 
 .GetAppNow {
   border: 2px solid #FFC20A;
@@ -54,7 +62,7 @@ $marginContainer: 3%;
 }
 
 .dropDown {
-  display: flex;
+  display: none;
   flex-direction: column;
   background-color: #FFFFFF;
 

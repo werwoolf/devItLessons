@@ -7,6 +7,7 @@ import people from "../../public/images/WeHelp/peopleImage.png";
 import rocket from "../../public/images/WeHelp/rocketImage.png";
 
 const WeHelp = () => {
+    console.log(rocket)
     return (
         <div className={styles.mainContainer}>
             <div className={styles.container1}>
