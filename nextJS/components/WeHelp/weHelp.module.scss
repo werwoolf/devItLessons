@@ -1,6 +1,5 @@
 .mainContainer {
-  position: relative;
-  margin-top: 140px;
+  margin-top: 40px;
 }
 
 .container1 {
@@ -106,22 +105,20 @@
 .container2 {
   margin-top: 2px;
   display: flex;
-  height: 750px;
+  width: 100%;
   background-color: #2D315420;
 
   .manImage {
     width: 50%;
-    margin: auto auto 0 auto;
   }
 
   .rightBlock {
     height: 100%;
     width: 50%;
-    position: relative;
 
     .section1 {
       width: 100%;
-      height: 344px;
+      height: 50%;
       display: flex;
       flex-direction: column;
 
@@ -134,10 +131,7 @@
         text-align: center;
         letter-spacing: 0.1em;
         text-transform: capitalize;
-
         color: #FFC20A;
-
-        margin-top: 112px;
       }
 
 
@@ -156,57 +150,51 @@
       }
     }
 
-    .section2 {
-      height: 408px;
-      width: 50%;
-      background-color: #2D315430;
-      position: absolute;
-      bottom: 0;
-      left: 0;
+    .sectionContainer{
+      display: flex;
+      height: 50%;
+      .section2 {
+        width: 50%;
+        height: 100%;
+        background-color: #2D315430;
 
-      .descript1 {
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 1.75rem;
-        line-height: 33px;
-        letter-spacing: 0.1em;
-        text-transform: capitalize;
+        .descript1 {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 1.75rem;
+          line-height: 33px;
+          letter-spacing: 0.1em;
+          text-transform: capitalize;
+          color: #FFFFFF;
+          margin-top: 50px;
+          padding-left: 71px;
+        }
 
-        color: #FFFFFF;
+        .descript2 {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 300;
+          font-size:1.5rem;
+          line-height: 128.19%;
+          letter-spacing: 0.1em;
+          text-transform: capitalize;
 
-        margin-top: 50px;
-        padding-left: 71px;
+          color: #FFFFFF;
+          margin-top: 21px;
+          padding-left: 71px;
+        }
+
       }
-
-      .descript2 {
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: 300;
-        font-size:1.5rem;
-        line-height: 128.19%;
-        letter-spacing: 0.1em;
-        text-transform: capitalize;
-
-        color: #FFFFFF;
-        margin-top: 21px;
-        padding-left: 71px;
+      .section3 {
+        height: 100%;
+        width: 50%;
+        background-color: #2D315420;
       }
-
     }
 
-    .section3 {
-      height: 408px;
-      width: 50%;
-      background-color: #2D315420;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-
-    }
 
   }
-
 }
 
 .container3 {

@@ -12,13 +12,15 @@ const Review = ({image, description, text}) => {
 
             <div className={styles.rightBlock}>
                 <div className={styles.contentBlock}>
-                    <div className={styles.quote}> ”</div>
+                    <div className={styles.quote}>”</div>
                     <div className={styles.descript1}> {description}</div>
                     <div className={styles.descript2}> {text}
                     </div>
                     <div className={styles.reviewStar}>
                         <div>Reviews</div>
                         <div style={{ height:38 ,width:290}} className={styles.stars}> <Image src={stars}/></div>
+                        <button className='swiper-button-prev'></button>
+                        <button className='swiper-button-next'></button>
                     </div>
 
 

@@ -8,7 +8,7 @@ import Slider from "../components/Review/Slider.js";
 
 export default function Home() {
     return (
-        <div >
+        < >
             <Header/>
             <HelpCommerceBlock/>
             <Featured/>
@@ -16,6 +16,6 @@ export default function Home() {
             <Slider/>
             <FindOut/>
             <Footer/>
-        </div>
+        </>
     )
 }

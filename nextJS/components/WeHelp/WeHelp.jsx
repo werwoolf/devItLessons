@@ -7,7 +7,6 @@ import people from "../../public/images/WeHelp/peopleImage.png";
 import rocket from "../../public/images/WeHelp/rocketImage.png";
 
 const WeHelp = () => {
-    console.log(rocket)
     return (
         <div className={styles.mainContainer}>
             <div className={styles.container1}>
@@ -45,19 +44,20 @@ const WeHelp = () => {
 
                     </div>
 
-                    <div className={styles.section2}>
+                    <div className={styles.sectionContainer}>
+                        <div className={styles.section2}>
 
-                        <div className={styles.descript1}>Solutions for different e-business tasks+</div>
-                        <div className={styles.descript2}>Our apps help solving multiple tasks for improving Shopify
-                            online stores
+                            <div className={styles.descript1}>Solutions for different e-business tasks+</div>
+                            <div className={styles.descript2}>Our apps help solving multiple tasks for improving Shopify
+                                online stores
+                            </div>
+
                         </div>
 
+                        <div className={styles.section3}>
+                            <div><Image src={rocket}/></div>
+                        </div>
                     </div>
-
-                    <div className={styles.section3}>
-                        <div><Image src={rocket}/></div>
-                    </div>
-
                 </div>
             </div>
 

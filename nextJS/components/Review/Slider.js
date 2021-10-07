@@ -13,7 +13,10 @@ SwiperCore.use([Navigation]);
 const Slider = () => {
     return (
         <Swiper
-            navigation={true}
+            navigation={{
+                prevEl:'.swiper-button-prev',
+                nextEl:'.swiper-button-next'
+            }}
             slidesPerView={1}
             spaceBetween={5}
         >

@@ -5,7 +5,7 @@
 
 .imagePeople {
   width: 50%;
-  margin: auto auto 0;
+  margin: auto auto 0 auto;
 }
 
 .rightBlock {
@@ -13,16 +13,14 @@
 
   .contentBlock {
     height: 413px;
-    margin: 299px 79px auto auto;
-
-    position: relative;
+    margin: 125px 79px auto auto;
 
     .quote {
       font-family: ABeeZee;
       font-style: normal;
       font-weight: normal;
       font-size: 7.5rem;
-      line-height: 142px;
+      line-height: 70px;
       text-align: center;
       letter-spacing: 0.1em;
       text-transform: lowercase;
@@ -56,9 +54,7 @@
     }
 
     .reviewStar {
-
       display: flex;
-
       margin-top: 32px;
 
       .stars {
@@ -77,10 +73,6 @@
         text-transform: capitalize;
         color: #FFFFFF;
       }
-
-
     }
-
   }
-
 }
