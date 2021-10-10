@@ -20,7 +20,7 @@ const WeHelp = () => {
                     <div className={styles.sectionContainer}>
                         <div className={styles.section1}>
                             <span className={styles.countYears}>7</span>
-                            <div>Years expertise</div>
+                            <div className={styles.descript1}>Years expertise</div>
                         </div>
                         <div className={styles.section2}>
                             <div className={styles.descript1}>Great applications with striking features</div>
@@ -67,16 +67,22 @@ const WeHelp = () => {
                         <div className={styles.primaryText}>5000+</div>
                         <div className={styles.descript}>Active Merchants</div>
                     </div>
-                    <div className={styles.section2}>
-                        <div className={styles.primaryText}>190+</div>
-                        <div className={styles.descript}>Countries</div>
-                    </div>
-                    <div className={styles.section3}>
-                        <div className={styles.descript1}>Boost sales with minimum efforts</div>
-                        <div className={styles.descript2}>User-friendly design, simple navigation,
-                            automated processes, and affordable prices
+
+                    <div className={styles.sectionContainer}>
+
+                        <div className={styles.section2}>
+                            <div className={styles.primaryText}>190+</div>
+                            <div className={styles.descript}>Countries</div>
                         </div>
+                        <div className={styles.section3}>
+                            <div className={styles.descript1}>Boost sales with minimum efforts</div>
+                            <div className={styles.descript2}>User-friendly design, simple navigation,
+                                automated processes, and affordable prices
+                            </div>
+                        </div>
+
                     </div>
+
 
                 </div>
                 <div className={styles.peopleImage}>

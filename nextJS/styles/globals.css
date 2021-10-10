@@ -68,7 +68,12 @@ a {
     border-color: transparent transparent transparent #ffdd00
 }
 
-
+.button-prev{
+    width: 20px;
+}
+.button-next{
+    width: 20px;
+}
 
 
 @media (max-width: 1500px) {

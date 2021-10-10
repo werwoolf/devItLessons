@@ -23,3 +23,16 @@
   color: #FFC20A;
 }
 
+.mobileSlider{
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .container{
+    display: none;
+  }
+
+  .mobileSlider{
+    display: flex;
+  }
+}

@@ -14,7 +14,7 @@
   text-transform: capitalize;
   color: #FFFFFF;
   max-width: 50%;
-  z-index: 2;
+  //z-index: 2;
 }
 
 .textBlock {
@@ -48,10 +48,88 @@
   }
 }
 
+.connectTypeBlockMobile {
+  display: none;
+}
+
 .mainImage {
   position: absolute;
   width: 70%;
   z-index: -1;
   top: 0;
   right: 0;
+}
+
+.mainImageMobile {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    padding-top: 120px;
+  }
+
+  .mainImage {
+    display: none;
+  }
+
+  .mainImageMobile {
+    display: block;
+  }
+
+  .mainTextBlock, .textBlock {
+    max-width: 100%;
+  }
+
+  .connectTypeBlockMobile {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      width: 90%;
+      height: 41px;
+      margin-bottom: 15px;
+
+    }
+
+    .goToAppLink {
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
+      text-align: center;
+      letter-spacing: 0.03em;
+      text-transform: capitalize;
+
+      color: #232746;
+
+      background: #FFC612;
+      border: 2px solid #FFC20A;
+      box-sizing: border-box;
+      border-radius: 10px;
+    }
+
+    .bookACallLink {
+      border: 1px solid #FFFFFF;
+      box-sizing: border-box;
+      border-radius: 10px;
+
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      letter-spacing: 0.03em;
+      text-transform: capitalize;
+
+      color: #FFFFFF;
+    }
+
+  }
 }
