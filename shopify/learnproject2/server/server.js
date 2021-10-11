@@ -22,12 +22,9 @@ Shopify.Context.initialize({
   HOST_NAME: process.env.HOST.replace(/https:\/\//, ""),
   API_VERSION: ApiVersion.October20,
   IS_EMBEDDED_APP: true,
-  // This should be replaced with your preferred storage strategy
   SESSION_STORAGE: new Shopify.Session.MemorySessionStorage(),
 });
 
-// Storing the currently active shops in memory will force them to re-login when your server restarts. You should
-// persist this object in your app.
 const ACTIVE_SHOPIFY_SHOPS = {};
 
 app.prepare().then(async () => {
