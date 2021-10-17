@@ -14,6 +14,7 @@ import {
   Loading,
   Frame
 } from '@shopify/polaris';
+import {useHistory} from "react-router-dom";
 
 const GET_PRODUCT_LIST = gql`
   query getProducts($first: Int, $last: Int, $after: String, $before: String){
@@ -60,13 +61,14 @@ mutation Delete($id:ID!) {
 }`
 
 function Index() {
-  const [loadProducts, {loading, error, data, refetch}] = useLazyQuery(GET_PRODUCT_LIST,);
-  const [mutateFunction, {loading: loadDelete, error: Delete, data: dataDelete}] = useMutation(DELETE_PRODUCT);
+  const [loadProducts, {loading, error, data}] = useLazyQuery(GET_PRODUCT_LIST);
+  const [mutateFunction, {loading: loadDelete, error: errorDelete, data: dataDelete}] = useMutation(DELETE_PRODUCT);
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [sortValue, setSortValue] = useState('DATE_MODIFIED_DESC');
   const [taggedWith, setTaggedWith] = useState('');
   const [queryValue, setQueryValue] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     loadProducts({
@@ -76,23 +78,28 @@ function Index() {
     });
     console.log('update')
     setSelectedItems([])
-  }, [loadProducts, dataDelete])
-
+  }, [loadProducts])
 
   const handleTaggedWithChange = useCallback(
     (value) => setTaggedWith(value),
     [],
   );
   const handleQueryValueChange = useCallback(
-    (value) => setQueryValue(value),
+    (value) =>{
+      setQueryValue(value)
+      console.log(history)
+    } ,
     [],
   );
   const handleTaggedWithRemove = useCallback(() => setTaggedWith(null), []);
+
   const handleQueryValueRemove = useCallback(() => setQueryValue(null), []);
+
   const handleClearAll = useCallback(() => {
     handleTaggedWithRemove();
     handleQueryValueRemove();
   }, [handleQueryValueRemove, handleTaggedWithRemove]);
+
   const handlePreviousPage = useCallback(() => {
     loadProducts({
       variables: {
@@ -101,7 +108,8 @@ function Index() {
       }
     })
     setSelectedItems([])
-  }, [data, loadProducts])
+  }, [data, loadProducts]);
+
   const handleNextPage = useCallback(() => {
     loadProducts({
       variables: {
@@ -110,12 +118,15 @@ function Index() {
       }
     });
     setSelectedItems([])
-  }, [data, loadProducts])
+  }, [data, loadProducts]);
 
-  const handleDeleteProduct = useCallback(async () => {
-    selectedItems.forEach(item => mutateFunction({variables: {id: item}}));
-    data = await refetch({first:5})
-  }, [selectedItems, mutateFunction])
+  const handleDeleteProduct = useCallback(() => {
+    selectedItems.forEach(item => mutateFunction({
+      variables: {id: item},
+      refetchQueries: [{query: GET_PRODUCT_LIST,variables:{ first: 5}}]
+    }));
+    setSelectedItems([])
+  }, [selectedItems, mutateFunction]);
 
   const resourceName = {
     singular: 'product',
