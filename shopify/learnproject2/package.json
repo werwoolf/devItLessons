@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development nodemon ./server/index.js --watch ./server/index.js",
-    "build": "NEXT_TELEMETRY_DISABLED=1 next build",
+    "build": "webpack",
     "start": "cross-env NODE_ENV=production node ./server/index.js"
   },
   "repository": {
@@ -37,7 +37,6 @@
     "koa-router": "^10.0.0",
     "koa-session": "^6.1.0",
     "lodash": "^4.17.21",
-    "next": "^10.0.4",
     "next-env": "^1.1.0",
     "node-fetch": "^2.6.1",
     "query-string": "^7.0.1",

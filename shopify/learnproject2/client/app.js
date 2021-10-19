@@ -1,13 +1,13 @@
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
-import App from "next/app";
-import { AppProvider } from "@shopify/polaris";
-import { Provider as AppBridgeProvider, useAppBridge } from "@shopify/app-bridge-react";
-import { authenticatedFetch } from "@shopify/app-bridge-utils";
-import { Redirect } from "@shopify/app-bridge/actions";
+import {ApolloProvider} from "react-apollo";
+import {AppProvider} from "@shopify/polaris";
+import {Provider as AppBridgeProvider, useAppBridge} from "@shopify/app-bridge-react";
+import {authenticatedFetch} from "@shopify/app-bridge-utils";
+import {Redirect} from "@shopify/app-bridge/actions";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
-import RoutePropagator from "../components/RoutePropagator.js";
+import RoutePropagator from "./components/RoutePropagator.js";
+import {withRouter} from "react-router-dom";
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
@@ -31,7 +31,8 @@ function userLoggedInFetch(app) {
   };
 }
 
-function MyProvider(props) {
+const App = ({...rest}) => {
+  console.log(rest);
   const app = useAppBridge();
 
   const client = new ApolloClient({
@@ -41,39 +42,23 @@ function MyProvider(props) {
     },
   });
 
-  const Component = props.Component;
-
   return (
     <ApolloProvider client={client}>
-      <Component {...props} />
+      <AppProvider i18n={translations}>
+        <AppBridgeProvider
+          config={{
+            apiKey: "b8b45cf29f48ed14675b63f56cc2f8ee",
+            host: host, // TODO: host from query params
+            forceRedirect: true,
+          }}
+        >
+          <RoutePropagator/>
+
+          REACT ROUTER SHOULD BE HERE
+        </AppBridgeProvider>
+      </AppProvider>
     </ApolloProvider>
   );
 }
 
-class MyApp extends App {
-  render() {
-    const { Component, pageProps, host } = this.props;
-    return (
-      <AppProvider i18n={translations}>
-        <AppBridgeProvider
-          config={{
-            apiKey: API_KEY,
-            host: host,
-            forceRedirect: true,
-          }}
-        >
-          <RoutePropagator />
-          <MyProvider Component={Component} {...pageProps} />
-        </AppBridgeProvider>
-      </AppProvider>
-    );
-  }
-}
-
-MyApp.getInitialProps = async ({ ctx }) => {
-  return {
-    host: ctx.query.host,
-  };
-};
-
-export default MyApp;
+export default withRouter(App);

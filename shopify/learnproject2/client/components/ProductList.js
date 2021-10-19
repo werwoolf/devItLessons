@@ -17,42 +17,34 @@ import {GET_PRODUCT_LIST, DELETE_PRODUCT, createQueryVariables} from '../graphFi
 import {useMemoizedQuery} from "../hooks/useMemoizedQuery.js";
 import {withRouter} from "next/router.js";
 import pick from "lodash/pick";
-import debounce from "lodash/debounce.js";
+import debounce from "lodash/debounce";
 
 function ProductList({router}) {
   const [loadProducts, {
     loading: isLoadingProducts,
     data
-  }] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "network-only"});
+  }] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "no-cache"});
   const [deleteProducts, {loading: isDeletingProducts}] = useMutation(DELETE_PRODUCT);
-
   const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [isLoadingProducts, isDeletingProducts]);
-
   const [selectedItems, setSelectedItems] = useState([]);
   const [sortValue, setSortValue] = useState('DATE_MODIFIED_DESC');
   const [taggedWith, setTaggedWith] = useState('');
   const [search, setSearch] = useState(router.query.search);
 
   const handleLoadProducts = useCallback((params = {}) => {
+    console.log('load')
     params = {
       search,
       ...params
     };
+    // loadProducts({variables: createQueryVariables(params)});
 
-    if (params.before) {
-      params.last = 5
-    } else {
-      params.first = 5
-    }
-
-    loadProducts({variables: createQueryVariables(params)});
-
-    router.push({query: pick(params, ['after', 'before', 'search'])});
+    router.push({pathname: '/products', query: pick(params, ['after', 'before', 'search'])});
   }, [loadProducts, search])
 
   useEffect(() => {
     const {before = null, after = null, search = null} = router.query;
-
+    console.log('effect');
     loadProducts({
       variables: createQueryVariables({before, after, search})
     });
@@ -63,23 +55,26 @@ function ProductList({router}) {
     [],
   );
 
-  const debouncedLoadProducts = debounce(
+  const debouncedLoadProducts = useCallback(debounce(
     (params) => handleLoadProducts(params),
-    1000
-  );
+    1500,
+  ), [handleLoadProducts]);
 
   const handleQueryValueChange = useCallback(
     (value) => {
       setSearch(value);
-
       debouncedLoadProducts({search: value});
     },
-    [handleLoadProducts]
+    [debouncedLoadProducts]
   );
 
   const handleTaggedWithRemove = useCallback(() => setTaggedWith(null), []);
 
-  const handleQueryValueRemove = useCallback(() => setSearch(null), []);
+  const handleQueryValueRemove = useCallback(() => {
+    setSearch('')
+    handleLoadProducts()
+    setSelectedItems([])
+  }, [setSearch]);
 
   const handleClearAll = useCallback(() => {
     handleTaggedWithRemove();
@@ -107,7 +102,7 @@ function ProductList({router}) {
 
     await Promise.all(
       selectedItems.map(item => deleteProducts({
-        params: {id: item}
+        variables: {id: item}
       }))
     );
 
@@ -168,8 +163,7 @@ function ProductList({router}) {
     ]
     : [];
 
-  const filterControl = (
-    <Filters
+  const filterControl = (<Filters
       queryValue={search}
       filters={filters}
       appliedFilters={appliedFilters}
@@ -180,8 +174,7 @@ function ProductList({router}) {
       <div style={{paddingLeft: '8px'}}>
         <Button onClick={() => console.log('New filter saved')}>Save</Button>
       </div>
-    </Filters>
-  );
+    </Filters>)
 
   return (
     <Frame>

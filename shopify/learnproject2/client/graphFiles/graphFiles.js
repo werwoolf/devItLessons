@@ -7,10 +7,8 @@ export const createQueryVariables = ({limit = 5, before = null, after = null, se
         variables.before = before;
         variables.last = limit;
 
-    } else if(after){
+    } else {
         variables.after = after;
-        variables.first = limit;
-    }else {
         variables.first = limit;
     }
 
