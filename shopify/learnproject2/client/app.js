@@ -1,4 +1,5 @@
 import ApolloClient from "apollo-boost";
+import React from "react";
 import {ApolloProvider} from "react-apollo";
 import {AppProvider} from "@shopify/polaris";
 import {Provider as AppBridgeProvider, useAppBridge} from "@shopify/app-bridge-react";
@@ -32,9 +33,7 @@ function userLoggedInFetch(app) {
 }
 
 const App = ({...rest}) => {
-  console.log(rest);
   const app = useAppBridge();
-
   const client = new ApolloClient({
     fetch: userLoggedInFetch(app),
     fetchOptions: {
@@ -58,7 +57,7 @@ const App = ({...rest}) => {
         </AppBridgeProvider>
       </AppProvider>
     </ApolloProvider>
-  );
+  )
 }
 
 export default withRouter(App);

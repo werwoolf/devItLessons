@@ -6,9 +6,10 @@ import Shopify, {ApiVersion} from "@shopify/shopify-api";
 import Koa from "koa";
 import Router from "koa-router";
 import {createReadStream} from 'fs';
+import serve from 'koa-static';
 
 dotenv.config();
-const port = parseInt(process.env.PORT, 10) || 8081;
+const port = parseInt(process.env.PORT, 10) || 8082;
 const dev = process.env.NODE_ENV !== "production";
 
 Shopify.Context.initialize({
@@ -22,7 +23,6 @@ Shopify.Context.initialize({
 });
 
 const ACTIVE_SHOPIFY_SHOPS = {};
-
 
 const server = new Koa();
 const router = new Router();
@@ -56,6 +56,8 @@ server.use(
   })
 );
 
+server.use(serve('./static'));
+
 router.post("/webhooks", async (ctx) => {
   try {
     await Shopify.Webhooks.Registry.process(ctx.req, ctx.res);
@@ -76,7 +78,6 @@ router.post(
 router.get("(.*)", async (ctx) => {
   const shop = ctx.query.shop;
 
-  // This shop hasn't been seen yet, go through OAuth to create a session
   if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
     ctx.redirect(`/auth?shop=${shop}`);
   } else {
@@ -87,6 +88,7 @@ router.get("(.*)", async (ctx) => {
 
 server.use(router.allowedMethods());
 server.use(router.routes());
+
 server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });
