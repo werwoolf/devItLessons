@@ -1,14 +1,15 @@
-import ApolloClient from "apollo-boost";
 import React from "react";
-import {ApolloProvider} from "react-apollo";
-import {AppProvider} from "@shopify/polaris";
-import {Provider as AppBridgeProvider, useAppBridge} from "@shopify/app-bridge-react";
-import {authenticatedFetch} from "@shopify/app-bridge-utils";
-import {Redirect} from "@shopify/app-bridge/actions";
-import "@shopify/polaris/dist/styles.css";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+import { AppProvider } from "@shopify/polaris";
+import { useAppBridge } from "@shopify/app-bridge-react";
+import { authenticatedFetch } from "@shopify/app-bridge-utils";
+import { Redirect } from "@shopify/app-bridge/actions";
 import translations from "@shopify/polaris/locales/en.json";
 import RoutePropagator from "./components/RoutePropagator.js";
-import {withRouter} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import ProductList from "./components/ProductList";
+import "@shopify/polaris/dist/styles.css";
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
@@ -32,7 +33,7 @@ function userLoggedInFetch(app) {
   };
 }
 
-const App = ({...rest}) => {
+const App = ({ ...rest }) => {
   const app = useAppBridge();
   const client = new ApolloClient({
     fetch: userLoggedInFetch(app),
@@ -42,22 +43,16 @@ const App = ({...rest}) => {
   });
 
   return (
-    <ApolloProvider client={client}>
-      <AppProvider i18n={translations}>
-        <AppBridgeProvider
-          config={{
-            apiKey: "b8b45cf29f48ed14675b63f56cc2f8ee",
-            host: host, // TODO: host from query params
-            forceRedirect: true,
-          }}
-        >
-          <RoutePropagator/>
+    <Router>
+      <ApolloProvider client={client}>
+        <AppProvider i18n={translations}>
+          <RoutePropagator />
+          ssssuka
+          <ProductList />
+        </AppProvider>
+      </ApolloProvider>
+    </Router>
+  );
+};
 
-          REACT ROUTER SHOULD BE HERE
-        </AppBridgeProvider>
-      </AppProvider>
-    </ApolloProvider>
-  )
-}
-
-export default withRouter(App);
+export default App;

@@ -1,16 +1,18 @@
 import "@babel/polyfill";
 import dotenv from "dotenv";
 import "isomorphic-fetch";
-import createShopifyAuth, {verifyRequest} from "@shopify/koa-shopify-auth";
-import Shopify, {ApiVersion} from "@shopify/shopify-api";
+import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
+import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import Router from "koa-router";
-import {createReadStream} from 'fs';
-import serve from 'koa-static';
+import serve from "koa-static";
 
 dotenv.config();
-const port = parseInt(process.env.PORT, 10) || 8082;
+const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== "production";
+const ACTIVE_SHOPIFY_SHOPS = {};
+const server = new Koa();
+const router = new Router();
 
 Shopify.Context.initialize({
   API_KEY: process.env.SHOPIFY_API_KEY,
@@ -22,16 +24,12 @@ Shopify.Context.initialize({
   SESSION_STORAGE: new Shopify.Session.MemorySessionStorage(),
 });
 
-const ACTIVE_SHOPIFY_SHOPS = {};
-
-const server = new Koa();
-const router = new Router();
 server.keys = [Shopify.Context.API_SECRET_KEY];
 server.use(
   createShopifyAuth({
     async afterAuth(ctx) {
       // Access token and shop available in ctx.state.shopify
-      const {shop, accessToken, scope} = ctx.state.shopify;
+      const { shop, accessToken, scope } = ctx.state.shopify;
       const host = ctx.query.host;
       ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
@@ -56,7 +54,7 @@ server.use(
   })
 );
 
-server.use(serve('./static'));
+server.use(serve(__dirname + "/../static"));
 
 router.post("/webhooks", async (ctx) => {
   try {
@@ -69,26 +67,14 @@ router.post("/webhooks", async (ctx) => {
 
 router.post(
   "/graphql",
-  verifyRequest({returnHeader: true}),
+  verifyRequest({ returnHeader: true }),
   async (ctx, next) => {
     await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
   }
 );
 
-router.get("(.*)", async (ctx) => {
-  const shop = ctx.query.shop;
-
-  if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
-    ctx.redirect(`/auth?shop=${shop}`);
-  } else {
-    ctx.type = 'html';
-    ctx.body = createReadStream(__dirname + '/../static/index.html');
-  }
-});
-
 server.use(router.allowedMethods());
 server.use(router.routes());
-
 server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });

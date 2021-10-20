@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useMutation} from 'react-apollo';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useMutation } from "react-apollo";
 import {
   Card,
   ResourceList,
@@ -11,59 +11,74 @@ import {
   Button,
   Filters,
   Loading,
-  Frame
-} from '@shopify/polaris';
-import {GET_PRODUCT_LIST, DELETE_PRODUCT, createQueryVariables} from '../graphFiles/graphFiles.js';
-import {useMemoizedQuery} from "../hooks/useMemoizedQuery.js";
-import {withRouter} from "next/router.js";
+  Frame,
+} from "@shopify/polaris";
+import {
+  GET_PRODUCT_LIST,
+  DELETE_PRODUCT,
+  createQueryVariables,
+} from "../graphFiles/graphFiles.js";
+import { useMemoizedQuery } from "../hooks/useMemoizedQuery.js";
+import { withRouter } from "react-router-dom";
 import pick from "lodash/pick";
 import debounce from "lodash/debounce";
 
-function ProductList({router}) {
-  const [loadProducts, {
-    loading: isLoadingProducts,
-    data
-  }] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "no-cache"});
-  const [deleteProducts, {loading: isDeletingProducts}] = useMutation(DELETE_PRODUCT);
-  const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [isLoadingProducts, isDeletingProducts]);
+function ProductList({ router }) {
+  const [
+    loadProducts,
+    { loading: isLoadingProducts, data },
+  ] = useMemoizedQuery(GET_PRODUCT_LIST, { fetchPolicy: "no-cache" });
+  const [deleteProducts, { loading: isDeletingProducts }] = useMutation(
+    DELETE_PRODUCT
+  );
+  const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [
+    isLoadingProducts,
+    isDeletingProducts,
+  ]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [sortValue, setSortValue] = useState('DATE_MODIFIED_DESC');
-  const [taggedWith, setTaggedWith] = useState('');
+  const [sortValue, setSortValue] = useState("DATE_MODIFIED_DESC");
+  const [taggedWith, setTaggedWith] = useState("");
   const [search, setSearch] = useState(router.query.search);
 
-  const handleLoadProducts = useCallback((params = {}) => {
-    console.log('load')
-    params = {
-      search,
-      ...params
-    };
-    // loadProducts({variables: createQueryVariables(params)});
+  const handleLoadProducts = useCallback(
+    (params = {}) => {
+      console.log("load");
+      params = {
+        search,
+        ...params,
+      };
+      // loadProducts({variables: createQueryVariables(params)});
 
-    router.push({pathname: '/products', query: pick(params, ['after', 'before', 'search'])});
-  }, [loadProducts, search])
+      router.push({
+        pathname: "/products",
+        query: pick(params, ["after", "before", "search"]),
+      });
+    },
+    [loadProducts, search]
+  );
 
   useEffect(() => {
-    const {before = null, after = null, search = null} = router.query;
-    console.log('effect');
+    const { before = null, after = null, search = null } = router.query;
+    console.log("effect");
     loadProducts({
-      variables: createQueryVariables({before, after, search})
+      variables: createQueryVariables({ before, after, search }),
     });
-  }, [])
+  }, []);
 
   const handleTaggedWithChange = useCallback(
     (value) => setTaggedWith(value),
-    [],
+    []
   );
 
-  const debouncedLoadProducts = useCallback(debounce(
-    (params) => handleLoadProducts(params),
-    1500,
-  ), [handleLoadProducts]);
+  const debouncedLoadProducts = useCallback(
+    debounce((params) => handleLoadProducts(params), 1500),
+    [handleLoadProducts]
+  );
 
   const handleQueryValueChange = useCallback(
     (value) => {
       setSearch(value);
-      debouncedLoadProducts({search: value});
+      debouncedLoadProducts({ search: value });
     },
     [debouncedLoadProducts]
   );
@@ -71,9 +86,9 @@ function ProductList({router}) {
   const handleTaggedWithRemove = useCallback(() => setTaggedWith(null), []);
 
   const handleQueryValueRemove = useCallback(() => {
-    setSearch('')
-    handleLoadProducts()
-    setSelectedItems([])
+    setSearch("");
+    handleLoadProducts();
+    setSelectedItems([]);
   }, [setSearch]);
 
   const handleClearAll = useCallback(() => {
@@ -83,63 +98,65 @@ function ProductList({router}) {
 
   const handlePreviousPage = useCallback(() => {
     handleLoadProducts({
-      before: data.products.edges[0].cursor
-    })
+      before: data.products.edges[0].cursor,
+    });
 
-    setSelectedItems([])
+    setSelectedItems([]);
   }, [data, handleLoadProducts]);
 
   const handleNextPage = useCallback(() => {
     handleLoadProducts({
-      after: data.products.edges[data.products.edges.length - 1].cursor
+      after: data.products.edges[data.products.edges.length - 1].cursor,
     });
 
-    setSelectedItems([])
+    setSelectedItems([]);
   }, [data, search, handleLoadProducts]);
 
   const handleDeleteProduct = useCallback(async () => {
     setSelectedItems([]);
 
     await Promise.all(
-      selectedItems.map(item => deleteProducts({
-        variables: {id: item}
-      }))
+      selectedItems.map((item) =>
+        deleteProducts({
+          variables: { id: item },
+        })
+      )
     );
 
     handleLoadProducts();
   }, [selectedItems, deleteProducts]);
 
   const resourceName = {
-    singular: 'product',
-    plural: 'products',
+    singular: "product",
+    plural: "products",
   };
 
   const promotedBulkActions = [
     {
-      content: 'Edit customers',
-      onAction: () => console.log('Todo: implement bulk edit'),
+      content: "Edit customers",
+      onAction: () => console.log("Todo: implement bulk edit"),
     },
   ];
 
   const bulkActions = [
     {
-      content: 'Add tagssss',
-      onAction: () => console.log('Todo: implement bulk add tags'),
+      content: "Add tagssss",
+      onAction: () => console.log("Todo: implement bulk add tags"),
     },
     {
-      content: 'Remove tags',
-      onAction: () => console.log('Todo: implement bulk remove tags'),
+      content: "Remove tags",
+      onAction: () => console.log("Todo: implement bulk remove tags"),
     },
     {
-      content: 'Delete product',
+      content: "Delete product",
       onAction: handleDeleteProduct,
     },
   ];
 
   const filters = [
     {
-      key: 'taggedWith3',
-      label: 'Tagged with',
+      key: "taggedWith3",
+      label: "Tagged with",
       filter: (
         <TextField
           label="Tagged with"
@@ -155,15 +172,16 @@ function ProductList({router}) {
 
   const appliedFilters = !isEmpty(taggedWith)
     ? [
-      {
-        key: 'taggedWith3',
-        label: disambiguateLabel('taggedWith3', taggedWith),
-        onRemove: handleTaggedWithRemove,
-      },
-    ]
+        {
+          key: "taggedWith3",
+          label: disambiguateLabel("taggedWith3", taggedWith),
+          onRemove: handleTaggedWithRemove,
+        },
+      ]
     : [];
 
-  const filterControl = (<Filters
+  const filterControl = (
+    <Filters
       queryValue={search}
       filters={filters}
       appliedFilters={appliedFilters}
@@ -171,16 +189,15 @@ function ProductList({router}) {
       onQueryClear={handleQueryValueRemove}
       onClearAll={handleClearAll}
     >
-      <div style={{paddingLeft: '8px'}}>
-        <Button onClick={() => console.log('New filter saved')}>Save</Button>
+      <div style={{ paddingLeft: "8px" }}>
+        <Button onClick={() => console.log("New filter saved")}>Save</Button>
       </div>
-    </Filters>)
+    </Filters>
+  );
 
   return (
     <Frame>
-      {loading && (
-        <Loading/>
-      )}
+      {loading && <Loading />}
 
       {data && (
         <Card>
@@ -196,8 +213,8 @@ function ProductList({router}) {
             sortValue={sortValue}
             idForItem={(item) => item.node.id}
             sortOptions={[
-              {label: 'Newest update', value: 'DATE_MODIFIED_DESC'},
-              {label: 'Oldest update', value: 'DATE_MODIFIED_ASC'},
+              { label: "Newest update", value: "DATE_MODIFIED_DESC" },
+              { label: "Oldest update", value: "DATE_MODIFIED_ASC" },
             ]}
             onSortChange={(selected) => {
               setSortValue(selected);
@@ -217,12 +234,20 @@ function ProductList({router}) {
   );
 
   function renderItem(item) {
-    const {id, title, latestOrderUrl} = item.node;
-    const {amount: maxPrice, currencyCode: currencyMaxPrice} = item.node.priceRangeV2.maxVariantPrice;
-    const {amount: minPrice, currencyCode: currencyMinPrice} = item.node.priceRangeV2.minVariantPrice;
-    const media = <Thumbnail source={''} customer size="medium" name={title} alt={''}/>;
+    const { id, title, latestOrderUrl } = item.node;
+    const {
+      amount: maxPrice,
+      currencyCode: currencyMaxPrice,
+    } = item.node.priceRangeV2.maxVariantPrice;
+    const {
+      amount: minPrice,
+      currencyCode: currencyMinPrice,
+    } = item.node.priceRangeV2.minVariantPrice;
+    const media = (
+      <Thumbnail source={""} customer size="medium" name={title} alt={""} />
+    );
     const shortcutActions = latestOrderUrl
-      ? [{content: 'View latest order', url: latestOrderUrl}]
+      ? [{ content: "View latest order", url: latestOrderUrl }]
       : null;
     return (
       <ResourceItem
@@ -234,7 +259,11 @@ function ProductList({router}) {
       >
         <h3>
           <TextStyle variation="strong">{title}</TextStyle>
-          <TextStyle variation="normal"> {minPrice}{currencyMinPrice}</TextStyle>
+          <TextStyle variation="normal">
+            {" "}
+            {minPrice}
+            {currencyMinPrice}
+          </TextStyle>
         </h3>
       </ResourceItem>
     );
@@ -242,7 +271,7 @@ function ProductList({router}) {
 
   function disambiguateLabel(key, value) {
     switch (key) {
-      case 'taggedWith3':
+      case "taggedWith3":
         return `Tagged with ${value}`;
       default:
         return value;
@@ -253,9 +282,9 @@ function ProductList({router}) {
     if (Array.isArray(value)) {
       return value.length === 0;
     } else {
-      return value === '' || value == null;
+      return value === "" || value == null;
     }
   }
 }
 
-export default withRouter(ProductList)
+export default withRouter(ProductList);

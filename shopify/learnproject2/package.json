@@ -1,13 +1,12 @@
 {
-  "type": "module",
   "name": "shopify-app-node",
   "version": "1.0.0",
   "description": "Shopify's node app for CLI tool",
   "scripts": {
     "test": "jest",
-    "dev": "cross-env NODE_ENV=development nodemon ./server/index.js --watch ./server",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch ./server",
     "build": "webpack",
-    "start": "cross-env NODE_ENV=production node ./server/index.js"
+    "start": "cross-env NODE_ENV=production node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -24,10 +23,12 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.12.11",
     "@babel/register": "^7.12.10",
+    "@shopify/app-bridge": "^2.0.4",
     "@shopify/app-bridge-react": "^2.0.2",
     "@shopify/app-bridge-utils": "^2.0.2",
     "@shopify/koa-shopify-auth": "^4.1.2",
     "@shopify/polaris": "^6.2.0",
+    "@shopify/shopify-api": "^1.4.2",
     "apollo-boost": "^0.4.9",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
