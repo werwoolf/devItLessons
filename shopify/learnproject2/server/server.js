@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
+import {createReadStream} from 'fs';
 import Koa from "koa";
 import Router from "koa-router";
 import serve from "koa-static";
@@ -72,6 +73,18 @@ router.post(
     await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
   }
 );
+
+router.get("(.*)", async (ctx) => {
+  const shop = ctx.query.shop;
+
+  // This shop hasn't been seen yet, go through OAuth to create a session
+  if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
+    ctx.redirect(`/auth?shop=${shop}`);
+  } else {
+    ctx.type = 'html';
+    ctx.body = createReadStream(__dirname + '/../static/index.html');
+  }
+});
 
 server.use(router.allowedMethods());
 server.use(router.routes());

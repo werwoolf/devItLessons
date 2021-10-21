@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useMutation } from "react-apollo";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useMutation} from "react-apollo";
 import {
   Card,
   ResourceList,
@@ -17,18 +17,19 @@ import {
   GET_PRODUCT_LIST,
   DELETE_PRODUCT,
   createQueryVariables,
-} from "../graphFiles/graphFiles.js";
-import { useMemoizedQuery } from "../hooks/useMemoizedQuery.js";
-import { withRouter } from "react-router-dom";
+} from "../graphFiles/graphqlRequestProducts.js";
+import {useMemoizedQuery} from "../hooks/useMemoizedQuery.js";
+import {Link, withRouter} from "react-router-dom";
 import pick from "lodash/pick";
 import debounce from "lodash/debounce";
+import qs from "query-string";
 
-function ProductList({ router }) {
+function ProductList({location, history}) {
   const [
     loadProducts,
-    { loading: isLoadingProducts, data },
-  ] = useMemoizedQuery(GET_PRODUCT_LIST, { fetchPolicy: "no-cache" });
-  const [deleteProducts, { loading: isDeletingProducts }] = useMutation(
+    {loading: isLoadingProducts, data},
+  ] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "no-cache"});
+  const [deleteProducts, {loading: isDeletingProducts}] = useMutation(
     DELETE_PRODUCT
   );
   const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [
@@ -38,30 +39,30 @@ function ProductList({ router }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [sortValue, setSortValue] = useState("DATE_MODIFIED_DESC");
   const [taggedWith, setTaggedWith] = useState("");
-  const [search, setSearch] = useState(router.query.search);
+  const [search, setSearch] = useState(qs.parse(location.search).search);
 
   const handleLoadProducts = useCallback(
     (params = {}) => {
-      console.log("load");
       params = {
         search,
         ...params,
       };
-      // loadProducts({variables: createQueryVariables(params)});
 
-      router.push({
-        pathname: "/products",
-        query: pick(params, ["after", "before", "search"]),
+      history.push({
+        path: '/products',
+        search: qs.stringify(pick(params, ["after", "before", "search"])),
       });
+
+      loadProducts({variables: createQueryVariables(params)});
     },
     [loadProducts, search]
   );
 
   useEffect(() => {
-    const { before = null, after = null, search = null } = router.query;
-    console.log("effect");
+    const {before = null, after = null, search = null} = qs.parse(location.search);
+    console.log(before)
     loadProducts({
-      variables: createQueryVariables({ before, after, search }),
+      variables: createQueryVariables({before, after, search}),
     });
   }, []);
 
@@ -78,7 +79,7 @@ function ProductList({ router }) {
   const handleQueryValueChange = useCallback(
     (value) => {
       setSearch(value);
-      debouncedLoadProducts({ search: value });
+      debouncedLoadProducts({search: value});
     },
     [debouncedLoadProducts]
   );
@@ -118,7 +119,7 @@ function ProductList({ router }) {
     await Promise.all(
       selectedItems.map((item) =>
         deleteProducts({
-          variables: { id: item },
+          variables: {id: item},
         })
       )
     );
@@ -172,12 +173,12 @@ function ProductList({ router }) {
 
   const appliedFilters = !isEmpty(taggedWith)
     ? [
-        {
-          key: "taggedWith3",
-          label: disambiguateLabel("taggedWith3", taggedWith),
-          onRemove: handleTaggedWithRemove,
-        },
-      ]
+      {
+        key: "taggedWith3",
+        label: disambiguateLabel("taggedWith3", taggedWith),
+        onRemove: handleTaggedWithRemove,
+      },
+    ]
     : [];
 
   const filterControl = (
@@ -189,7 +190,7 @@ function ProductList({ router }) {
       onQueryClear={handleQueryValueRemove}
       onClearAll={handleClearAll}
     >
-      <div style={{ paddingLeft: "8px" }}>
+      <div style={{paddingLeft: "8px"}}>
         <Button onClick={() => console.log("New filter saved")}>Save</Button>
       </div>
     </Filters>
@@ -197,7 +198,7 @@ function ProductList({ router }) {
 
   return (
     <Frame>
-      {loading && <Loading />}
+      {loading && <Loading/>}
 
       {data && (
         <Card>
@@ -213,8 +214,8 @@ function ProductList({ router }) {
             sortValue={sortValue}
             idForItem={(item) => item.node.id}
             sortOptions={[
-              { label: "Newest update", value: "DATE_MODIFIED_DESC" },
-              { label: "Oldest update", value: "DATE_MODIFIED_ASC" },
+              {label: "Newest update", value: "DATE_MODIFIED_DESC"},
+              {label: "Oldest update", value: "DATE_MODIFIED_ASC"},
             ]}
             onSortChange={(selected) => {
               setSortValue(selected);
@@ -230,11 +231,12 @@ function ProductList({ router }) {
           />
         </Card>
       )}
+      <Link to="/products/create">create product</Link>
     </Frame>
   );
 
   function renderItem(item) {
-    const { id, title, latestOrderUrl } = item.node;
+    const {id, title, latestOrderUrl} = item.node;
     const {
       amount: maxPrice,
       currencyCode: currencyMaxPrice,
@@ -244,10 +246,10 @@ function ProductList({ router }) {
       currencyCode: currencyMinPrice,
     } = item.node.priceRangeV2.minVariantPrice;
     const media = (
-      <Thumbnail source={""} customer size="medium" name={title} alt={""} />
+      <Thumbnail source={""} customer size="medium" name={title} alt={""}/>
     );
     const shortcutActions = latestOrderUrl
-      ? [{ content: "View latest order", url: latestOrderUrl }]
+      ? [{content: "View latest order", url: latestOrderUrl}]
       : null;
     return (
       <ResourceItem

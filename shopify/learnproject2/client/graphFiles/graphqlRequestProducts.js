@@ -1,22 +1,25 @@
 import gql from "graphql-tag";
 
 export const createQueryVariables = ({limit = 5, before = null, after = null, search = null} = {}) => {
-    const variables = {};
+  const variables = {};
 
-    if (before) {
-        variables.before = before;
-        variables.last = limit;
+  if (search) {
+    variables.query = search;
+  }
 
-    } else {
-        variables.after = after;
-        variables.first = limit;
-    }
+  if (before) {
+    variables.before = before;
+    variables.last = limit;
+    return variables
+  } else if (after) {
+    variables.after = after;
+    variables.first = limit;
+    return variables
+  }
 
-    if(search){
-        variables.query = search;
-    }
+  variables.first = limit;
 
-    return variables;
+  return variables;
 }
 
 export const GET_PRODUCT_LIST = gql`
@@ -59,6 +62,14 @@ mutation Delete($id:ID!) {
   productDelete(input: {id: $id}) {
   userErrors {
       message
+    }
+  }
+}`
+export const CREATE_PRODUCT = gql`
+mutation Create ($title: String!, $price: Money!){
+   productCreate(input: {title: $title, variants: {price: $price }}) {
+    product {
+      bodyHtml
     }
   }
 }`

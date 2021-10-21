@@ -3,7 +3,6 @@ import {useLazyQuery} from 'react-apollo';
 
 export function useMemoizedQuery(query, options,) {
   let cachedData = useRef(undefined)
-  console.log('memo')
   const [action, queryResult, ...rest] = useLazyQuery(query, options)
 
   if (
