@@ -57,6 +57,19 @@ query getProducts($first: Int, $last: Int, $after: String, $before: String, $que
 }
 `
 
+export const  GET_PRODUCT =  gql`
+query getProduct($id: ID!){
+product(id: $id) {
+    title
+    priceRangeV2 {
+      minVariantPrice {
+        amount
+      }
+    }
+  }
+}
+`
+
 export const DELETE_PRODUCT = gql`
 mutation Delete($id:ID!) {
   productDelete(input: {id: $id}) {
@@ -65,6 +78,7 @@ mutation Delete($id:ID!) {
     }
   }
 }`
+
 export const CREATE_PRODUCT = gql`
 mutation Create ($title: String!, $price: Money!){
    productCreate(input: {title: $title, variants: {price: $price }}) {
@@ -73,3 +87,4 @@ mutation Create ($title: String!, $price: Money!){
     }
   }
 }`
+

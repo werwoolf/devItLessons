@@ -23,6 +23,7 @@ import {Link, withRouter} from "react-router-dom";
 import pick from "lodash/pick";
 import debounce from "lodash/debounce";
 import qs from "query-string";
+import last from 'lodash/last.js'
 
 function ProductList({location, history}) {
   const [
@@ -40,7 +41,7 @@ function ProductList({location, history}) {
   const [sortValue, setSortValue] = useState("DATE_MODIFIED_DESC");
   const [taggedWith, setTaggedWith] = useState("");
   const [search, setSearch] = useState(qs.parse(location.search).search);
-
+  console.log(selectedItems)
   const handleLoadProducts = useCallback(
     (params = {}) => {
       params = {
@@ -134,8 +135,9 @@ function ProductList({location, history}) {
 
   const promotedBulkActions = [
     {
-      content: "Edit customers",
-      onAction: () => console.log("Todo: implement bulk edit"),
+      content: "Edit product",
+      onAction: () => {
+        history.push(`products/edit/${last(selectedItems[0].split('/'))}`)},
     },
   ];
 
@@ -232,6 +234,7 @@ function ProductList({location, history}) {
         </Card>
       )}
       <Link to="/products/create">create product</Link>
+      {/*<Link to="/products/edit">redact product</Link>*/}
     </Frame>
   );
 

@@ -7,6 +7,7 @@ import ApolloProvider from "./providers/ApolloProvider.js";
 
 import "@shopify/polaris/dist/styles.css";
 import CreateProduct from "./components/CreateProduct.js";
+import EditProduct from "./components/EditProduct.js";
 
 const App = () => (
   <Router basename={"/"}>
@@ -16,10 +17,10 @@ const App = () => (
         <Switch>
 
           <Route exact={true} path="/products"> <ProductList/> </Route>
-          <Route  path="/products/create"> <CreateProduct/> </Route>
+          <Route path="/products/create"> <CreateProduct/> </Route>
+          <Route path="/products/edit/:id"> <EditProduct/> </Route>
 
         </Switch>
-
         <Link to="/products">My products</Link>
       </ApolloProvider>
     </PolarisProvider>
