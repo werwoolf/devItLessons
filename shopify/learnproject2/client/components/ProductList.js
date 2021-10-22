@@ -1,6 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {useMutation} from "react-apollo";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useMutation } from "react-apollo";
 import {
+  Page,
   Card,
   ResourceList,
   TextStyle,
@@ -18,19 +19,19 @@ import {
   DELETE_PRODUCT,
   createQueryVariables,
 } from "../graphFiles/graphqlRequestProducts.js";
-import {useMemoizedQuery} from "../hooks/useMemoizedQuery.js";
-import {Link, withRouter} from "react-router-dom";
+import { useMemoizedQuery } from "../hooks/useMemoizedQuery.js";
+import { withRouter } from "react-router-dom";
 import pick from "lodash/pick";
 import debounce from "lodash/debounce";
 import qs from "query-string";
-import last from 'lodash/last.js'
+import last from "lodash/last.js";
 
-function ProductList({location, history}) {
+function ProductList({ location, history }) {
   const [
     loadProducts,
-    {loading: isLoadingProducts, data},
-  ] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "no-cache"});
-  const [deleteProducts, {loading: isDeletingProducts}] = useMutation(
+    { loading: isLoadingProducts, data },
+  ] = useMemoizedQuery(GET_PRODUCT_LIST, { fetchPolicy: "no-cache" });
+  const [deleteProducts, { loading: isDeletingProducts }] = useMutation(
     DELETE_PRODUCT
   );
   const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [
@@ -38,32 +39,41 @@ function ProductList({location, history}) {
     isDeletingProducts,
   ]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [sortValue, setSortValue] = useState("DATE_MODIFIED_DESC");
+  const [sortValue, setSortValue] = useState(
+    qs.parse(location.search).sortValue || "TITLE"
+  );
   const [taggedWith, setTaggedWith] = useState("");
   const [search, setSearch] = useState(qs.parse(location.search).search);
-  console.log(selectedItems)
   const handleLoadProducts = useCallback(
     (params = {}) => {
       params = {
         search,
         ...params,
       };
-
+      console.log(params);
+      console.log(sortValue);
       history.push({
-        path: '/products',
-        search: qs.stringify(pick(params, ["after", "before", "search"])),
+        path: "/products",
+        search: qs.stringify(
+          pick(params, ["after", "before", "search", "sortValue"])
+        ),
       });
 
-      loadProducts({variables: createQueryVariables(params)});
+      loadProducts({ variables: createQueryVariables(params) });
     },
-    [loadProducts, search]
+    [loadProducts, search, sortValue, setSortValue]
   );
 
   useEffect(() => {
-    const {before = null, after = null, search = null} = qs.parse(location.search);
-    console.log(before)
+    const {
+      before = null,
+      after = null,
+      search = null,
+      sortValue = "TITLE",
+    } = qs.parse(location.search);
+
     loadProducts({
-      variables: createQueryVariables({before, after, search}),
+      variables: createQueryVariables({ before, after, search, sortValue }),
     });
   }, []);
 
@@ -80,7 +90,7 @@ function ProductList({location, history}) {
   const handleQueryValueChange = useCallback(
     (value) => {
       setSearch(value);
-      debouncedLoadProducts({search: value});
+      debouncedLoadProducts({ search: value });
     },
     [debouncedLoadProducts]
   );
@@ -101,18 +111,20 @@ function ProductList({location, history}) {
   const handlePreviousPage = useCallback(() => {
     handleLoadProducts({
       before: data.products.edges[0].cursor,
+      sortValue,
     });
 
     setSelectedItems([]);
-  }, [data, handleLoadProducts]);
+  }, [data, handleLoadProducts, sortValue]);
 
   const handleNextPage = useCallback(() => {
     handleLoadProducts({
       after: data.products.edges[data.products.edges.length - 1].cursor,
+      sortValue,
     });
 
     setSelectedItems([]);
-  }, [data, search, handleLoadProducts]);
+  }, [data, handleLoadProducts, sortValue]);
 
   const handleDeleteProduct = useCallback(async () => {
     setSelectedItems([]);
@@ -120,7 +132,7 @@ function ProductList({location, history}) {
     await Promise.all(
       selectedItems.map((item) =>
         deleteProducts({
-          variables: {id: item},
+          variables: { id: item },
         })
       )
     );
@@ -137,18 +149,15 @@ function ProductList({location, history}) {
     {
       content: "Edit product",
       onAction: () => {
-        history.push(`products/edit/${last(selectedItems[0].split('/'))}`)},
+        history.push(`products/edit/${last(selectedItems[0].split("/"))}`);
+      },
     },
   ];
 
   const bulkActions = [
     {
-      content: "Add tagssss",
-      onAction: () => console.log("Todo: implement bulk add tags"),
-    },
-    {
-      content: "Remove tags",
-      onAction: () => console.log("Todo: implement bulk remove tags"),
+      content: "Add new product",
+      onAction: () => console.log("add  product"),
     },
     {
       content: "Delete product",
@@ -175,12 +184,12 @@ function ProductList({location, history}) {
 
   const appliedFilters = !isEmpty(taggedWith)
     ? [
-      {
-        key: "taggedWith3",
-        label: disambiguateLabel("taggedWith3", taggedWith),
-        onRemove: handleTaggedWithRemove,
-      },
-    ]
+        {
+          key: "taggedWith3",
+          label: disambiguateLabel("taggedWith3", taggedWith),
+          onRemove: handleTaggedWithRemove,
+        },
+      ]
     : [];
 
   const filterControl = (
@@ -192,7 +201,7 @@ function ProductList({location, history}) {
       onQueryClear={handleQueryValueRemove}
       onClearAll={handleClearAll}
     >
-      <div style={{paddingLeft: "8px"}}>
+      <div style={{ paddingLeft: "8px" }}>
         <Button onClick={() => console.log("New filter saved")}>Save</Button>
       </div>
     </Filters>
@@ -200,46 +209,57 @@ function ProductList({location, history}) {
 
   return (
     <Frame>
-      {loading && <Loading/>}
+      {loading && <Loading />}
 
       {data && (
-        <Card>
-          <ResourceList
-            loading={loading}
-            resourceName={resourceName}
-            items={data.products.edges}
-            renderItem={renderItem}
-            selectedItems={selectedItems}
-            onSelectionChange={setSelectedItems}
-            promotedBulkActions={promotedBulkActions}
-            bulkActions={bulkActions}
-            sortValue={sortValue}
-            idForItem={(item) => item.node.id}
-            sortOptions={[
-              {label: "Newest update", value: "DATE_MODIFIED_DESC"},
-              {label: "Oldest update", value: "DATE_MODIFIED_ASC"},
-            ]}
-            onSortChange={(selected) => {
-              setSortValue(selected);
-              console.log(`Sort option changed to ${selected}.`);
-            }}
-            filterControl={filterControl}
-          />
-          <Pagination
-            hasPrevious={data.products.pageInfo.hasPreviousPage}
-            onPrevious={handlePreviousPage}
-            hasNext={data.products.pageInfo.hasNextPage}
-            onNext={handleNextPage}
-          />
-        </Card>
+        <Page
+          primaryAction={{
+            onAction: () => history.push(`/products/create`),
+            content: "Add new product",
+          }}
+        >
+          <Card>
+            <ResourceList
+              loading={loading}
+              resourceName={resourceName}
+              items={data.products.edges}
+              renderItem={renderItem}
+              selectedItems={selectedItems}
+              onSelectionChange={setSelectedItems}
+              promotedBulkActions={promotedBulkActions}
+              bulkActions={bulkActions}
+              sortValue={sortValue}
+              idForItem={(item) => item.node.id}
+              sortOptions={[
+                { label: "title", value: "TITLE" },
+                // {label: "title reverse", value: {value:'TITLE', reverse: true}},
+                { label: "product type", value: "PRODUCT_TYPE" },
+                { label: "inventory total", value: "INVENTORY_TOTAL" },
+                { label: "created", value: "CREATED_AT" },
+                { label: "id", value: "ID" },
+                { label: "relevance", value: "RELEVANCE" },
+              ]}
+              onSortChange={(selected) => {
+                setSortValue(selected);
+                console.log("selected", selected);
+                handleLoadProducts({ sortValue: selected });
+              }}
+              filterControl={filterControl}
+            />
+            <Pagination
+              hasPrevious={data.products.pageInfo.hasPreviousPage}
+              onPrevious={handlePreviousPage}
+              hasNext={data.products.pageInfo.hasNextPage}
+              onNext={handleNextPage}
+            />
+          </Card>
+        </Page>
       )}
-      <Link to="/products/create">create product</Link>
-      {/*<Link to="/products/edit">redact product</Link>*/}
     </Frame>
   );
 
   function renderItem(item) {
-    const {id, title, latestOrderUrl} = item.node;
+    const { id, title, latestOrderUrl } = item.node;
     const {
       amount: maxPrice,
       currencyCode: currencyMaxPrice,
@@ -249,10 +269,10 @@ function ProductList({location, history}) {
       currencyCode: currencyMinPrice,
     } = item.node.priceRangeV2.minVariantPrice;
     const media = (
-      <Thumbnail source={""} customer size="medium" name={title} alt={""}/>
+      <Thumbnail source={""} customer size="medium" name={title} alt={""} />
     );
     const shortcutActions = latestOrderUrl
-      ? [{content: "View latest order", url: latestOrderUrl}]
+      ? [{ content: "View latest order", url: latestOrderUrl }]
       : null;
     return (
       <ResourceItem

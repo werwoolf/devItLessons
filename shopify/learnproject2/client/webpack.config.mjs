@@ -6,15 +6,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default  {
-  entry: './client/index.js',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'static'),
+    path: path.resolve(__dirname, './../server/static'),
     filename: '[hash].bundle.js',
     clean:true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'client', 'index.html')
+      template: path.resolve(__dirname, 'src', 'index.html')
     })
   ],
   module: {

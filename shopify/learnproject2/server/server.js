@@ -55,7 +55,7 @@ server.use(
   })
 );
 
-server.use(serve(__dirname + "/../static"));
+server.use(serve(__dirname + "/static"));
 
 router.post("/webhooks", async (ctx) => {
   try {
@@ -82,7 +82,7 @@ router.get("(.*)", async (ctx) => {
     ctx.redirect(`/auth?shop=${shop}`);
   } else {
     ctx.type = 'html';
-    ctx.body = createReadStream(__dirname + '/../static/index.html');
+    ctx.body = createReadStream(__dirname + '/static/index.html');
   }
 });
 
