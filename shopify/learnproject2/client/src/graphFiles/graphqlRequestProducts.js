@@ -1,19 +1,14 @@
 import gql from "graphql-tag";
+import {readSortValue} from "../helpers/readSortValue.js";
 
-export const createQueryVariables = ({
-  limit = 5,
-  before = null,
-  after = null,
-  search = null,
-  sortValue = null,
-} = {}) => {
-  const variables = {};
+export const createQueryVariables = (
+  {limit = 5, before = null, after = null, search = null, sortValue = 'TITLE'} = {}) => {
+
+  const sortParams = readSortValue(sortValue)
+  const variables = {...sortParams};
 
   if (search) {
     variables.query = search;
-  }
-  if (sortValue) {
-    variables.sortKey = sortValue;
   }
   if (before) {
     variables.before = before;
@@ -37,6 +32,7 @@ export const GET_PRODUCT_LIST = gql`
     $before: String
     $query: String
     $sortKey: ProductSortKeys!
+    $reverse: Boolean!
   ) {
     products(
       first: $first
@@ -45,6 +41,7 @@ export const GET_PRODUCT_LIST = gql`
       before: $before
       query: $query
       sortKey: $sortKey
+      reverse: $reverse
     ) {
       pageInfo {
         hasNextPage

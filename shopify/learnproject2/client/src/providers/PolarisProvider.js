@@ -7,11 +7,10 @@ import qs from "query-string";
 
 const PolarisProvider = ({ location, children }) => {
   const { host } = useMemo(() => qs.parse(location.search), [location.search]);
-
   return (
     <Provider
       config={{
-        apiKey: "b8b45cf29f48ed14675b63f56cc2f8ee",
+        apiKey: "70908b7a4acc791eb4905564e8bd965e",
         host,
         forceRedirect: true,
         Polaris: {

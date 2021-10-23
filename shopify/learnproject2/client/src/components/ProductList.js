@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useMutation } from "react-apollo";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useMutation} from "react-apollo";
 import {
   Page,
   Card,
@@ -19,19 +19,19 @@ import {
   DELETE_PRODUCT,
   createQueryVariables,
 } from "../graphFiles/graphqlRequestProducts.js";
-import { useMemoizedQuery } from "../hooks/useMemoizedQuery.js";
-import { withRouter } from "react-router-dom";
+import {useMemoizedQuery} from "../hooks/useMemoizedQuery.js";
+import {withRouter} from "react-router-dom";
 import pick from "lodash/pick";
 import debounce from "lodash/debounce";
 import qs from "query-string";
 import last from "lodash/last.js";
 
-function ProductList({ location, history }) {
+function ProductList({location, history}) {
   const [
     loadProducts,
-    { loading: isLoadingProducts, data },
-  ] = useMemoizedQuery(GET_PRODUCT_LIST, { fetchPolicy: "no-cache" });
-  const [deleteProducts, { loading: isDeletingProducts }] = useMutation(
+    {loading: isLoadingProducts, data},
+  ] = useMemoizedQuery(GET_PRODUCT_LIST, {fetchPolicy: "no-cache"});
+  const [deleteProducts, {loading: isDeletingProducts}] = useMutation(
     DELETE_PRODUCT
   );
   const loading = useMemo(() => isLoadingProducts || isDeletingProducts, [
@@ -39,29 +39,26 @@ function ProductList({ location, history }) {
     isDeletingProducts,
   ]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [sortValue, setSortValue] = useState(
-    qs.parse(location.search).sortValue || "TITLE"
-  );
+  const [sortValue, setSortValue] = useState(qs.parse(location.search).sortValue || "TITLE");
   const [taggedWith, setTaggedWith] = useState("");
   const [search, setSearch] = useState(qs.parse(location.search).search);
+
   const handleLoadProducts = useCallback(
     (params = {}) => {
       params = {
         search,
         ...params,
       };
-      console.log(params);
-      console.log(sortValue);
+
       history.push({
         path: "/products",
         search: qs.stringify(
           pick(params, ["after", "before", "search", "sortValue"])
         ),
       });
-
-      loadProducts({ variables: createQueryVariables(params) });
+      loadProducts({variables: createQueryVariables(params)});
     },
-    [loadProducts, search, sortValue, setSortValue]
+    [loadProducts, search]
   );
 
   useEffect(() => {
@@ -69,11 +66,11 @@ function ProductList({ location, history }) {
       before = null,
       after = null,
       search = null,
-      sortValue = "TITLE",
+      sortValue = 'TITLE',
     } = qs.parse(location.search);
 
     loadProducts({
-      variables: createQueryVariables({ before, after, search, sortValue }),
+      variables: createQueryVariables({before, after, search, sortValue}),
     });
   }, []);
 
@@ -90,7 +87,7 @@ function ProductList({ location, history }) {
   const handleQueryValueChange = useCallback(
     (value) => {
       setSearch(value);
-      debouncedLoadProducts({ search: value });
+      debouncedLoadProducts({search: value});
     },
     [debouncedLoadProducts]
   );
@@ -132,7 +129,7 @@ function ProductList({ location, history }) {
     await Promise.all(
       selectedItems.map((item) =>
         deleteProducts({
-          variables: { id: item },
+          variables: {id: item},
         })
       )
     );
@@ -184,12 +181,12 @@ function ProductList({ location, history }) {
 
   const appliedFilters = !isEmpty(taggedWith)
     ? [
-        {
-          key: "taggedWith3",
-          label: disambiguateLabel("taggedWith3", taggedWith),
-          onRemove: handleTaggedWithRemove,
-        },
-      ]
+      {
+        key: "taggedWith3",
+        label: disambiguateLabel("taggedWith3", taggedWith),
+        onRemove: handleTaggedWithRemove,
+      },
+    ]
     : [];
 
   const filterControl = (
@@ -201,7 +198,7 @@ function ProductList({ location, history }) {
       onQueryClear={handleQueryValueRemove}
       onClearAll={handleClearAll}
     >
-      <div style={{ paddingLeft: "8px" }}>
+      <div style={{paddingLeft: "8px"}}>
         <Button onClick={() => console.log("New filter saved")}>Save</Button>
       </div>
     </Filters>
@@ -209,7 +206,7 @@ function ProductList({ location, history }) {
 
   return (
     <Frame>
-      {loading && <Loading />}
+      {loading && <Loading/>}
 
       {data && (
         <Page
@@ -231,18 +228,22 @@ function ProductList({ location, history }) {
               sortValue={sortValue}
               idForItem={(item) => item.node.id}
               sortOptions={[
-                { label: "title", value: "TITLE" },
-                // {label: "title reverse", value: {value:'TITLE', reverse: true}},
-                { label: "product type", value: "PRODUCT_TYPE" },
-                { label: "inventory total", value: "INVENTORY_TOTAL" },
-                { label: "created", value: "CREATED_AT" },
-                { label: "id", value: "ID" },
-                { label: "relevance", value: "RELEVANCE" },
+                {label: "Product title A–Z", value: "TITLE"},
+                {label: "Product title Z–A", value: "TITLE.reverse"},
+                {label: "Created (oldest first)", value: "CREATED_AT"},
+                {label: "Created (newest first)", value: "CREATED_AT.reverse"},
+                {label: "Updated (oldest first)", value: "UPDATED_AT"},
+                {label: "Updated (newest first)", value: "UPDATED_AT.reverse"},
+                {label: "Low inventory", value: "INVENTORY_TOTAL"},
+                {label: "High inventory", value: "INVENTORY_TOTAL.reverse"},
+                {label: "Product type A–Z", value: "PRODUCT_TYPE"},
+                {label: "Product type Z–A", value: "PRODUCT_TYPE.reverse"},
+                {label: "Vendor A–Z", value: "VENDOR"},
+                {label: "Vendor Z–A", value: "VENDOR.reverse"},
               ]}
-              onSortChange={(selected) => {
+              onSortChange={selected => {
                 setSortValue(selected);
-                console.log("selected", selected);
-                handleLoadProducts({ sortValue: selected });
+                handleLoadProducts({sortValue: selected});
               }}
               filterControl={filterControl}
             />
@@ -259,7 +260,7 @@ function ProductList({ location, history }) {
   );
 
   function renderItem(item) {
-    const { id, title, latestOrderUrl } = item.node;
+    const {id, title, latestOrderUrl} = item.node;
     const {
       amount: maxPrice,
       currencyCode: currencyMaxPrice,
@@ -269,10 +270,10 @@ function ProductList({ location, history }) {
       currencyCode: currencyMinPrice,
     } = item.node.priceRangeV2.minVariantPrice;
     const media = (
-      <Thumbnail source={""} customer size="medium" name={title} alt={""} />
+      <Thumbnail source={""} customer size="medium" name={title} alt={""}/>
     );
     const shortcutActions = latestOrderUrl
-      ? [{ content: "View latest order", url: latestOrderUrl }]
+      ? [{content: "View latest order", url: latestOrderUrl}]
       : null;
     return (
       <ResourceItem

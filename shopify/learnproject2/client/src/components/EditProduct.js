@@ -101,7 +101,10 @@ const EditProduct = ({ match, history }) => {
       {loading && <Loading />}
       {stateSaveBar && ContextSaveBar}
       {data && (
-        <Page>
+        <Page primaryAction={{
+          onAction: () => history.push(`/products`),
+          content: "Back to products",
+        }}>
           <TextField
             label="Product title"
             value={newProductValue.title}

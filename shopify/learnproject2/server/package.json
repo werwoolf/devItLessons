@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch ./server",
-    "start": "cross-env NODE_ENV=production node server/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon ./index.js ",
+    "start": "cross-env NODE_ENV=production node ./index.js"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +32,7 @@
     "@babel/preset-stage-3": "^7.0.0",
     "babel-jest": "26.6.3",
     "babel-register": "^6.26.0",
+    "dotenv": "^10.0.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.5",
     "exports-loader": "^3.0.0",
