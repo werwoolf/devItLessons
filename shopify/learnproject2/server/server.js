@@ -28,62 +28,62 @@ Shopify.Context.initialize({
 
 server.keys = [Shopify.Context.API_SECRET_KEY];
 
-// server.use(ctx => myCustomShopifyAuth(ctx, {
-//   async afterAuth(ctx) {
-//     console.log('console in after auth', ctx)
-//     // Access token and shop available in ctx.state.shopify
-//     const {shop, accessToken, scope} = ctx.state.shopify;
-//     const host = ctx.query.host;
-//     ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-//     const response = await Shopify.Webhooks.Registry.register({
-//       shop,
-//       accessToken,
-//       path: "/webhooks",
-//       topic: "APP_UNINSTALLED",
-//       webhookHandler: async (topic, shop, body) =>
-//         delete ACTIVE_SHOPIFY_SHOPS[shop],
-//     });
+server.use((ctx, next) => myCustomShopifyAuth(ctx, next, {
+  async afterAuth(ctx, next) {
+
+    const {shop, accessToken, scope} = ctx.state.shopify;
+    const host = ctx.query.host;
+    ACTIVE_SHOPIFY_SHOPS[shop] = scope;
+    console.log(accessToken, 'token')
+    console.log(shop, 'shop')
+    console.log(scope, 'scope')
+    const response = await Shopify.Webhooks.Registry.register({
+      shop,
+      accessToken,
+      path: "/webhooks",
+      topic: "APP_UNINSTALLED",
+      webhookHandler: async (topic, shop, body) =>
+        delete ACTIVE_SHOPIFY_SHOPS[shop],
+    });
+
+    if (!response.success) {
+      console.log(
+        `Failed to register APP_UNINSTALLED webhook: ${response.result}`
+      );
+    }
+    ctx.redirect(`/?shop=${shop}&host=${host}`);
+  },
+}))
+;
+
+// server.use(
+//   createShopifyAuth({
+//     async afterAuth(ctx) {
+//       console.log('aft auth', ctx)
+//       // Access token and shop available in ctx.state.shopify
+//       const {shop, accessToken, scope} = ctx.state.shopify;
+//       const host = ctx.query.host;
+//       ACTIVE_SHOPIFY_SHOPS[shop] = scope;
+//       const response = await Shopify.Webhooks.Registry.register({
+//         shop,
+//         accessToken,
+//         path: "/webhooks",
+//         topic: "APP_UNINSTALLED",
+//         webhookHandler: async (topic, shop, body) =>
+//           delete ACTIVE_SHOPIFY_SHOPS[shop],
+//       });
 //
-//     if (!response.success) {
-//       console.log(
-//         `Failed to register APP_UNINSTALLED webhook: ${response.result}`
-//       );
-//     }
+//       if (!response.success) {
+//         console.log(
+//           `Failed to register APP_UNINSTALLED webhook: ${response.result}`
+//         );
+//       }
 //
-//     // Redirect to app with shop parameter upon auth
-//     ctx.redirect(`/?shop=${shop}&host=${host}`);
-//   },
-// }))
-// ;
-
-server.use(
-  createShopifyAuth({
-    async afterAuth(ctx) {
-      console.log('aft auth', ctx)
-      // Access token and shop available in ctx.state.shopify
-      const {shop, accessToken, scope} = ctx.state.shopify;
-      const host = ctx.query.host;
-      ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-      const response = await Shopify.Webhooks.Registry.register({
-        shop,
-        accessToken,
-        path: "/webhooks",
-        topic: "APP_UNINSTALLED",
-        webhookHandler: async (topic, shop, body) =>
-          delete ACTIVE_SHOPIFY_SHOPS[shop],
-      });
-
-      if (!response.success) {
-        console.log(
-          `Failed to register APP_UNINSTALLED webhook: ${response.result}`
-        );
-      }
-
-      // Redirect to app with shop parameter upon auth
-      ctx.redirect(`/?shop=${shop}&host=${host}`);
-    },
-  })
-);
+//       // Redirect to app with shop parameter upon auth
+//       ctx.redirect(`/?shop=${shop}&host=${host}`);
+//     },
+//   })
+// );
 
 
 server.use(serve(__dirname + "/static"));
@@ -108,12 +108,14 @@ router.post(
 router.get("(.*)", async (ctx) => {
   const shop = ctx.query.shop;
 
-  // This shop hasn't been seen yet, go through OAuth to create a session
   if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
+
     ctx.redirect(`/auth?shop=${shop}`);
   } else {
+
     ctx.type = 'html';
     ctx.body = createReadStream(__dirname + '/static/index.html');
+    console.log(ctx.type)
   }
 });
 
