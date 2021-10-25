@@ -34,9 +34,9 @@ server.use((ctx, next) => myCustomShopifyAuth(ctx, next, {
     const {shop, accessToken, scope} = ctx.state.shopify;
     const host = ctx.query.host;
     ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-    console.log(accessToken, 'token')
-    console.log(shop, 'shop')
-    console.log(scope, 'scope')
+    // console.log(accessToken, 'token')
+    // console.log(shop, 'shop')
+    // console.log(scope, 'scope')
     const response = await Shopify.Webhooks.Registry.register({
       shop,
       accessToken,
@@ -54,7 +54,6 @@ server.use((ctx, next) => myCustomShopifyAuth(ctx, next, {
     ctx.redirect(`/?shop=${shop}&host=${host}`);
   },
 }))
-;
 
 // server.use(
 //   createShopifyAuth({
@@ -107,15 +106,13 @@ router.post(
 
 router.get("(.*)", async (ctx) => {
   const shop = ctx.query.shop;
-
   if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
-
+    console.log('redirect')
     ctx.redirect(`/auth?shop=${shop}`);
   } else {
-
+    console.log('return html')
     ctx.type = 'html';
     ctx.body = createReadStream(__dirname + '/static/index.html');
-    console.log(ctx.type)
   }
 });
 
