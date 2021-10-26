@@ -1,22 +1,17 @@
-import * as qs from "querystring";
-import pick from "lodash/pick";
-import axios from "axios"
+import axios from "axios";
 import dotenv from "dotenv";
-import ACTIVE_SHOPIFY_SHOPS from './server.js';
-
+import {ACTIVE_SHOPIFY_SHOPS} from './server.js';
 
 dotenv.config();
 
-export const myCustomShopifyAuth = async (ctx, next, afterAuth) => {
+export const myCustomShopifyAuth = async (ctx, next) => {
     try {
-        const {shop, code, hmac} = pick(qs.parse(ctx.request.url.split('?')[1]), 'shop', 'code',) || ctx.query;
-
-        ctx.state.shopify = {'shop': shop};
-
-        if (shop && !code && !hmac) {
+        const {shop, hmac} = ctx.query;
+        const code = ctx.query.code || ACTIVE_SHOPIFY_SHOPS[shop];
+        ctx.state.shop = shop
+        if (shop && !ACTIVE_SHOPIFY_SHOPS[shop] && !code) {
             return ctx.redirect(`https://${shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=read_products,write_orders,read_customers&redirect_uri=${process.env.HOST}/auth/callback&state=shjbkhghjl,op&grant_options[]=per-user`)
         }
-
         if (code) {
             const resp = await axios.post(`https://${shop}/admin/oauth/access_token`,
                 {
@@ -26,9 +21,10 @@ export const myCustomShopifyAuth = async (ctx, next, afterAuth) => {
                 })
 
             const {scope, access_token} = resp.data
+            const host = ctx.query.host;
+            ACTIVE_SHOPIFY_SHOPS[shop] = access_token;
 
-            ctx.state.shopify.accessToken = access_token
-            ctx.state.shopify.scope = scope
+            ctx.redirect(`/?shop=${shop}&host=${host}`);
         }
     } catch (e) {
         console.log('error is :::::', e.message)

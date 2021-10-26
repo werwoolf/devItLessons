@@ -7,12 +7,16 @@ import Koa from "koa";
 import Router from "koa-router";
 import serve from "koa-static";
 import {myCustomShopifyAuth} from "./myCustomShopifyAuth.js";
+import jwt from 'jsonwebtoken';
+import bodyParser from 'koa-bodyparser';
+import axios from "axios";
 
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== "production";
 export const ACTIVE_SHOPIFY_SHOPS = {};
+
 const server = new Koa();
 const router = new Router();
 
@@ -27,48 +31,12 @@ Shopify.Context.initialize({
 });
 
 server.keys = [Shopify.Context.API_SECRET_KEY];
+server.use(bodyParser())
 
-server.use((ctx, next) => myCustomShopifyAuth(ctx, next,
-  async (ctx, next) => {
-    const {shop, accessToken} = ctx.state.shopify;
-    const host = ctx.query.host;
-    ACTIVE_SHOPIFY_SHOPS[shop] = accessToken;
-
-    ctx.redirect(`/?shop=${shop}&host=${host}`);
-  },
-))
-
-// server.use(
-//   createShopifyAuth({
-//     async afterAuth(ctx) {
-//       console.log('aft auth', ctx)
-//       // Access token and shop available in ctx.state.shopify
-//       const {shop, accessToken, scope} = ctx.state.shopify;
-//       const host = ctx.query.host;
-//       ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-//       const response = await Shopify.Webhooks.Registry.register({
-//         shop,
-//         accessToken,
-//         path: "/webhooks",
-//         topic: "APP_UNINSTALLED",
-//         webhookHandler: async (topic, shop, body) =>
-//           delete ACTIVE_SHOPIFY_SHOPS[shop],
-//       });
-//
-//       if (!response.success) {
-//         console.log(
-//           `Failed to register APP_UNINSTALLED webhook: ${response.result}`
-//         );
-//       }
-//
-//       // Redirect to app with shop parameter upon auth
-//       ctx.redirect(`/?shop=${shop}&host=${host}`);
-//     },
-//   })
-// );
-
+server.use(myCustomShopifyAuth)
 
 server.use(serve(__dirname + "/static"));
+
 
 router.post("/webhooks", async (ctx) => {
   try {
@@ -81,13 +49,35 @@ router.post("/webhooks", async (ctx) => {
 
 router.post("/graphql",
   async (ctx, next) => {
-  // TODO: get auth header and parse jwt to receive shop from jwt
-    //
-    // await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+    try {
+      console.log(ctx.query, 'QUERY')
+      let shop = ctx.request.url.split('.')[0]
+      for (let activeShop in ACTIVE_SHOPIFY_SHOPS) {
+        shop = activeShop
+      }
 
-    // TODO: make request with raw axios
+      const authToken = ctx.request.headers.authorization.split(' ')[1]
+      const headers = jwt.verify(authToken, process.env.SHOPIFY_API_SECRET);
 
+      const accessToken = ACTIVE_SHOPIFY_SHOPS[shop];
 
+      console.log(accessToken)
+
+      const response = await axios.post(
+        'https://qwertytestst1re2.myshopify.com/admin/api/2021-10/graphql.json',
+        ctx.request.body,
+        {
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            ...headers
+          }
+        })
+      // console.log(response, 'response')
+      ctx.body = response.data;
+    } catch (e) {
+      console.log('ERROR 12333', e.message)
+    }
+    await next()
   }
 );
 
@@ -105,9 +95,11 @@ router.get("(.*)", async (ctx) => {
   }
 });
 
+
 server.use(router.allowedMethods());
 server.use(router.routes());
 server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });
+
 
