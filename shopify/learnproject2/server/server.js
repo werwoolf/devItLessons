@@ -1,7 +1,6 @@
 import "@babel/polyfill";
 import dotenv from "dotenv";
 import "isomorphic-fetch";
-import createShopifyAuth, {verifyRequest} from "@shopify/koa-shopify-auth";
 import Shopify, {ApiVersion} from "@shopify/shopify-api";
 import {createReadStream} from 'fs';
 import Koa from "koa";
@@ -9,10 +8,11 @@ import Router from "koa-router";
 import serve from "koa-static";
 import {myCustomShopifyAuth} from "./myCustomShopifyAuth.js";
 
+
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== "production";
-const ACTIVE_SHOPIFY_SHOPS = {};
+export const ACTIVE_SHOPIFY_SHOPS = {};
 const server = new Koa();
 const router = new Router();
 
@@ -28,32 +28,15 @@ Shopify.Context.initialize({
 
 server.keys = [Shopify.Context.API_SECRET_KEY];
 
-server.use((ctx, next) => myCustomShopifyAuth(ctx, next, {
-  async afterAuth(ctx, next) {
-
-    const {shop, accessToken, scope} = ctx.state.shopify;
+server.use((ctx, next) => myCustomShopifyAuth(ctx, next,
+  async (ctx, next) => {
+    const {shop, accessToken} = ctx.state.shopify;
     const host = ctx.query.host;
-    ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-    // console.log(accessToken, 'token')
-    // console.log(shop, 'shop')
-    // console.log(scope, 'scope')
-    const response = await Shopify.Webhooks.Registry.register({
-      shop,
-      accessToken,
-      path: "/webhooks",
-      topic: "APP_UNINSTALLED",
-      webhookHandler: async (topic, shop, body) =>
-        delete ACTIVE_SHOPIFY_SHOPS[shop],
-    });
+    ACTIVE_SHOPIFY_SHOPS[shop] = accessToken;
 
-    if (!response.success) {
-      console.log(
-        `Failed to register APP_UNINSTALLED webhook: ${response.result}`
-      );
-    }
     ctx.redirect(`/?shop=${shop}&host=${host}`);
   },
-}))
+))
 
 // server.use(
 //   createShopifyAuth({
@@ -96,11 +79,15 @@ router.post("/webhooks", async (ctx) => {
   }
 });
 
-router.post(
-  "/graphql",
-  verifyRequest({returnHeader: true}),
+router.post("/graphql",
   async (ctx, next) => {
-    await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+  // TODO: get auth header and parse jwt to receive shop from jwt
+    //
+    // await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+
+    // TODO: make request with raw axios
+
+
   }
 );
 
@@ -109,10 +96,12 @@ router.get("(.*)", async (ctx) => {
   if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
     console.log('redirect')
     ctx.redirect(`/auth?shop=${shop}`);
+
   } else {
     console.log('return html')
     ctx.type = 'html';
     ctx.body = createReadStream(__dirname + '/static/index.html');
+
   }
 });
 
@@ -122,6 +111,3 @@ server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });
 
-server.on('error', err => {
-  log.error('server error', err)
-});
