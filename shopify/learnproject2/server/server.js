@@ -50,8 +50,8 @@ router.post("/webhooks", async (ctx) => {
 router.post("/graphql",
   async (ctx, next) => {
     try {
-      console.log(ctx.query, 'QUERY')
-      let shop = ctx.request.url.split('.')[0]
+      console.log(ctx.state, 'QUERY')
+      let {shop} = ctx.query
       for (let activeShop in ACTIVE_SHOPIFY_SHOPS) {
         shop = activeShop
       }
@@ -68,11 +68,9 @@ router.post("/graphql",
         ctx.request.body,
         {
           headers: {
-            'X-Shopify-Access-Token': accessToken,
-            ...headers
+            'X-Shopify-Access-Token': accessToken
           }
         })
-      // console.log(response, 'response')
       ctx.body = response.data;
     } catch (e) {
       console.log('ERROR 12333', e.message)

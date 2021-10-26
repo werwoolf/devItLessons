@@ -7,12 +7,13 @@ dotenv.config();
 export const myCustomShopifyAuth = async (ctx, next) => {
     try {
         const {shop, hmac} = ctx.query;
-        const code = ctx.query.code || ACTIVE_SHOPIFY_SHOPS[shop];
-        ctx.state.shop = shop
+        const code = ctx.query.code;
+
         if (shop && !ACTIVE_SHOPIFY_SHOPS[shop] && !code) {
-            return ctx.redirect(`https://${shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=read_products,write_orders,read_customers&redirect_uri=${process.env.HOST}/auth/callback&state=shjbkhghjl,op&grant_options[]=per-user`)
+            return ctx.redirect(`https://${shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=read_products,write_orders,read_customers,read_products&redirect_uri=${process.env.HOST}/auth/callback&state=shjbkhghjl,op&grant_options[]=per-user`)
         }
         if (code) {
+            console.log(code, 'CODE')
             const resp = await axios.post(`https://${shop}/admin/oauth/access_token`,
                 {
                     client_id: '70908b7a4acc791eb4905564e8bd965e',
@@ -26,6 +27,8 @@ export const myCustomShopifyAuth = async (ctx, next) => {
 
             ctx.redirect(`/?shop=${shop}&host=${host}`);
         }
+
+
     } catch (e) {
         console.log('error is :::::', e.message)
     }
