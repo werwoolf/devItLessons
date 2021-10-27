@@ -26,6 +26,7 @@
     "koa-router": "^10.0.0",
     "koa-session": "^6.1.0",
     "koa-static": "^5.0.0",
+    "mongoose": "^6.0.12",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
